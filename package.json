@@ -1,0 +1,28 @@
+{
+  "name": "mathapp",
+  "version": "1.0.0",
+  "description": "TFG DAW",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon backend/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daVinciManuel/MathApp.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/daVinciManuel/MathApp/issues"
+  },
+  "homepage": "https://github.com/daVinciManuel/MathApp#readme",
+  "dependencies": {
+    "express": "^5.1.0",
+    "mysql2": "^3.15.0",
+    "nodemon": "^3.1.10",
+    "sequelize": "^6.37.7"
+  }
+}

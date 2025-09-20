@@ -1,0 +1,16 @@
+{
+  "execMap": {
+    "js": "node"
+  },
+  "env": {
+    "DB_NAME": "lollipop",
+    "DB_USER": "root",
+    "DB_PASS": "rootroot",
+    "DB_HOST": "localhost"
+  },
+  "watch": [
+    "backend/server.js"
+
+  ],
+  "ext": "js,json"
+}
