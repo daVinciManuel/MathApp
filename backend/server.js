@@ -1,5 +1,5 @@
 import express from 'express'
-import {sequelize} from "./db/con.js"
+import { sequelize } from "./db/conexion.js"
 import User from './models/Users.js'
 
 const app = express()
