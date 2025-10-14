@@ -6,6 +6,7 @@ import { verifyToken } from "../middleware/verifyToken.js";
 
 const router = express.Router();
 
+// REGISTRO
 router.post("/register", async (req, res) => {
     try{
 
@@ -26,6 +27,7 @@ router.post("/register", async (req, res) => {
     }
 });
 
+// si LOGIN OK then CREA y ENVIA JWON WEB TOKEN (JWT)
 router.post("/login", async (req,res) => {
     try {
         const { email,pass } = req.body;
@@ -44,6 +46,8 @@ router.post("/login", async (req,res) => {
     }
 });
 
+// aplica MIDDLEWARE 'verifyToken'
+// si no verifica token, no ejecuta la funcion flecha
 router.get("/profile", verifyToken, async (req,res) => {
     try{
         const user = await User.findByPk(req.userId, {
