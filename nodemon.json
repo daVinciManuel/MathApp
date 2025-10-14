@@ -6,10 +6,12 @@
     "DB_NAME": "lollipop",
     "DB_USER": "root",
     "DB_PASS": "rootroot",
-    "DB_HOST": "localhost"
+    "DB_HOST": "localhost",
+    "JWT_SAL": "asherejeajaeje"
   },
   "watch": [
-    "backend/server.js"
+    "backend/server.js",
+    "backend/routes/auth.js"
 
   ],
   "ext": "js,json"
