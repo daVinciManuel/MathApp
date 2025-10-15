@@ -9,9 +9,6 @@ app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.use("/api/auth", authRoutes)
 app.use("/api/game", gameRoutes)
-app.use("/", (req, res) => {
-    res.send("Welcome to Math App API")
-})
 
 // sequelize.sync()
     // .then(() =>{
