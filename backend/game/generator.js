@@ -1,0 +1,2 @@
+//ESTE ES UN PUTO GENERADOR DE JUEGOS, NO UN API
+const num = 1;

@@ -9,12 +9,14 @@ app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.use("/api/auth", authRoutes)
 app.use("/api/game", gameRoutes)
+app.use("/", (req, res) => {
+    res.send("Welcome to Math App API")
+})
 
-
-sequelize.sync()
-    .then(() =>{
+// sequelize.sync()
+    // .then(() =>{
         app.listen(5000,() => {
             console.log('Server is running on http://localhost:5000')
         })
-    })
-    .catch((err) => console.log("Error creating DB: " + err))
+    // })
+    // .catch((err) => console.log("Error creating DB: " + err))
