@@ -11,8 +11,10 @@ const Login = () => {
             {/* pass */}
             <label htmlFor="pass">Contrase&ntilde;a:</label><br />
             <input type="text" name="user" id="user" /><br /><br />
-
-            <button>Entrar</button>
+            
+            <Link to={"/home"}>
+                <button>Entrar</button>
+            </Link>
         </div>
         <Link to={"/"}>
             <button>Welcome page</button>
