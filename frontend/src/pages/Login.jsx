@@ -2,7 +2,7 @@ import { Link } from "react-router-dom"
 const Login = () => {
     return (
         <main>
-        <h1>Inicie sesion</h1>
+        <h1>Inicie sesión</h1>
         <div>
             {/* user  */}
             <label htmlFor="user">Usuario:</label><br />
