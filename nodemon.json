@@ -11,8 +11,9 @@
   },
   "watch": [
     "backend/server.js",
-    "backend/routes/auth.js"
-
+    "backend/routes/auth.js",
+    "backend/routes/game.js",
+    "backend/game/generator.js"
   ],
   "ext": "js,json"
 }
