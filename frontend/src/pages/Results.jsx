@@ -32,13 +32,13 @@ const Results = () => {
 
   if (accuracy >= 80) {
     message = "¡Excelente! 🎉";
-    image = "https://i.imgur.com/y8q6zDL.png"; // por ejemplo: trofeo / check verde
+    image = "/img/amazing.png";
   } else if (accuracy >= 50) {
     message = "¡Bien hecho! 👍";
-    image = "https://i.imgur.com/ek0f4DM.png"; // carita sonriente
+    image = "/img/buen-trabajo.png";
   } else {
     message = "Sigue practicando 💪";
-    image = "https://i.imgur.com/RQFZtHz.png"; // carita triste o icono de mejora
+    image = "/img/puedes-mejorar.png";
   }
 
   return (
@@ -55,11 +55,8 @@ const Results = () => {
         <p>Duración: <strong>{duration}s</strong></p>
       </div>
 
-      <Link
-        to="/menu"
-        style={{ position: "absolute", bottom: "20px", right: "20px" }}
-      >
-        <button>Volver al menú 🔁</button>
+      <Link to="/game">
+        <button>Volver a jugar</button>
       </Link>
     </main>
   );
