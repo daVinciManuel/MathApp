@@ -3,6 +3,7 @@ import express from "express";
 import { conn } from "./db/conexion.js";
 import authRoutes from "./routes/auth.js";
 import gameRoutes from "./routes/game.js";
+dotenv.config();
 
 dotenv.config();
 const app = express();

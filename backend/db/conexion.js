@@ -3,7 +3,7 @@ import fs from "fs";
 import { Sequelize } from "sequelize";
 dotenv.config();
 
-export const conn = new Sequelize(
+export const sequelize = new Sequelize(
   process.env.DB_NAME,
   process.env.DB_USER,
   process.env.DB_PASS,
@@ -21,7 +21,7 @@ export const conn = new Sequelize(
   }
 );
 
-conn
+sequelize
   .authenticate()
   .then(() => console.log("MySQL conneted OK."))
   .catch((err) => console.log("MySQL connection error: " + err));
