@@ -10,6 +10,13 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(
+  cors({
+    origin: "*", // or '*' for all origins
+    credentials: false, // if you use cookies
+  })
+);
+
 app.use("/api/auth", authRoutes);
 app.use("/api/game", gameRoutes);
 app.get("/", (req, res) => {
