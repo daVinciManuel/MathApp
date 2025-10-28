@@ -12,6 +12,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/api/auth", authRoutes);
 app.use("/api/game", gameRoutes);
+app.get("/", (req, res) => {
+  res.send(
+    "<center><h1>Welcome to the Naomat API :D</h1></center><p>Hello world!</p>"
+  );
+});
 
 conn
   .sync()
