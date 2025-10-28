@@ -22,26 +22,63 @@ const Game = () => {
 };
 
 export default Game;*/
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "./css/general.css";
 import "./css/game.css";
 
 const Game = () => {
-  const [a] = useState(3);
-  const [b] = useState(8);
+  const [a, setA] = useState(0);
+  const [b, setB] = useState(0);
   const [answer, setAnswer] = useState("");
+  const [correct, setCorrect] = useState(0);
+  const [total, setTotal] = useState(0);
+  const [startTime, setStartTime] = useState(null);
+
   const navigate = useNavigate();
 
+  // Genera una operación nueva
+  const newOperation = () => {
+    const x = Math.floor(Math.random() * 10) + 1;
+    const y = Math.floor(Math.random() * 10) + 1;
+    setA(x);
+    setB(y);
+    setAnswer("");
+  };
+
+  // Inicia el juego al cargar
+  useEffect(() => {
+    newOperation();
+    setStartTime(Date.now());
+  }, []);
+
   const handleNext = () => {
-    navigate("/results");
+    const result = a + b;
+    const isCorrect = parseInt(answer) === result;
+
+    setTotal(total + 1);
+    if (isCorrect) setCorrect(correct + 1);
+
+    // después de 5 operaciones -> ir a resultados
+    if (total + 1 >= 5) {
+      const duration = Math.floor((Date.now() - startTime) / 1000);
+      const accuracy = Math.round(((correct + (isCorrect ? 1 : 0)) / (total + 1)) * 100);
+
+      navigate("/results", { state: { accuracy, duration } });
+    } else {
+      newOperation();
+    }
   };
 
   return (
     <main id="game">
       <div className="progress-bar">
-        <div className="progress"></div>
+        <div
+          className="progress"
+          style={{ width: `${((total / 5) * 100)}%` }}
+        ></div>
       </div>
+
       <div className="operation">{a} + {b}</div>
       <p>Result:</p>
       <input
