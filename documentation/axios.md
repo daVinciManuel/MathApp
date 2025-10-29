@@ -36,6 +36,19 @@ fetchGame(2,'suma')
 fetchGame(2,'suma', true)
 ```
 
+---
+
+##### Ejemplo:
+
+Hay un ejemplo de uso en **frontend/src/axios/fetchGame.example.js**  
+Puedes ejecutarlo así
+
+```
+npm run axios
+```
+
+---
+
 ### Paso 1. - import
 
 ```
@@ -72,7 +85,7 @@ La respuesta es un array de objetos.
 puedes llamar al numero 1 del ejemplo 1 así:
 
 ```
-const gameData = await fetchGame(1,'suma');
+const gameData = await fetchGame(1,'resta');
 num1 = gameData[0].num1;
 
 ```
