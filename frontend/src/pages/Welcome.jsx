@@ -1,7 +1,4 @@
 import { Link } from "react-router-dom";
-import fetchGame from "../components/fetchGame";
-
-console.log(fetchGame());
 
 const Welcome = () => {
   return (
