@@ -7,10 +7,10 @@ import Ejercicio from "../components/Ejercicio";
 import "./css/game.css";
 import "./css/general.css";
 
+var correctAnswers = 0;
+var startTime = null;
 const Game = () => {
   const [indice, setIndice] = useState(0);
-  const [correct, setCorrect] = useState(1);
-  const [startTime, setStartTime] = useState(null);
   const [ejercicios, setEjercicios] = useState();
   const [loading, setLoading] = useState(true);
 
@@ -22,7 +22,6 @@ const Game = () => {
     axios
       .get(`http://localhost:5000/api/game/n${nivel}/${operacion}`)
       .then((res) => {
-        console.log(res.data);
         let data = res.data;
         setEjercicios(data);
       })
@@ -32,18 +31,15 @@ const Game = () => {
       .finally(() => {
         setLoading(false);
       });
-    setStartTime(Date.now());
+    startTime = Date.now();
   }, []);
   const handleRespuesta = (isCorrect) => {
-    if (isCorrect) setCorrect((prev) => prev + 1);
+    // if (isCorrect) setCorrect(correct + 1);
+    if (isCorrect) correctAnswers += 1;
 
     if (indice + 1 >= ejercicios.length) {
       const duration = Math.floor((Date.now() - startTime) / 1000);
-      console.log("correctos:");
-      console.log(correct);
-      console.log("ejercicios.length");
-      console.log(ejercicios.length);
-      const accuracy = Math.round((correct / ejercicios.length) * 100);
+      const accuracy = Math.round((correctAnswers / ejercicios.length) * 100);
       navigate("/results", { state: { accuracy, duration } });
     } else {
       setIndice((prev) => prev + 1);

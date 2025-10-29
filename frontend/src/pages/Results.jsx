@@ -55,8 +55,9 @@ const Results = () => {
         <p>Duración: <strong>{duration}s</strong></p>
       </div>
 
-      <Link to="/game">
-        <button>Volver a jugar</button>
+	  <br/>
+      <Link to="/login">
+        <button>Iniciar sesi&oacute;n</button>
       </Link>
     </main>
   );

@@ -4,7 +4,6 @@ const Ejercicio = ({ ejercicio, onRespuesta }) => {
 
   const handleSubmit = () => {
     const isCorrect = parseInt(answer) === ejercicio.result;
-    console.log(isCorrect);
     onRespuesta(isCorrect);
     setAnswer("");
   };
