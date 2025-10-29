@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node backend/server.js"
+    "dev": "node backend/server.js",
+    "axios": "node frontend/src/components/fetchGame.js"
   },
   "repository": {
     "type": "git",
