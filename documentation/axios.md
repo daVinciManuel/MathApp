@@ -12,7 +12,7 @@ Puedes hacer tus propias funciones ahí. Se recomienda 1 función por archivo.
 
 ---
 
-## Cómo usar **_fetchGame.js_**
+## Cómo usar **fetchGame.js**
 
 ### Paso 0. - Servidor
 
