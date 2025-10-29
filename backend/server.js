@@ -1,3 +1,4 @@
+import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 import { conn } from "./db/conexion.js";
@@ -10,8 +11,19 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
 app.use("/api/auth", authRoutes);
 app.use("/api/game", gameRoutes);
+
+app.use(
+  cors({
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: false,
+  })
+);
+
 app.get("/", (req, res) => {
   res.send(
     "<center><h1>Welcome to the Naomat API :D</h1></center><p>Hello world!</p>"
