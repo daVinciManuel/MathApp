@@ -1,27 +1,3 @@
-/*import { Link } from "react-router-dom";
-import "./css/general.css";
-import "./css/game.css";
-
-const Game = () => {
-  return (
-    <main id="game">
-        <Link to="/home">
-            <a>🏠️</a>
-        </Link>
-        <h1>Juego</h1>
-        <input type="number" placeholder="Tu respuesta" />
-        <br /><br />
-        <button>Siguiente</button>
-
-        <br /><br />
-        <Link to="/results">
-            <a className="btn">Finalizar Juego</a>
-        </Link>
-    </main>
-  );
-};
-
-export default Game;*/
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -33,7 +9,7 @@ import "./css/general.css";
 
 const Game = () => {
   const [indice, setIndice] = useState(0);
-  const [correct, setCorrect] = useState(0);
+  const [correct, setCorrect] = useState(1);
   const [startTime, setStartTime] = useState(null);
   const [ejercicios, setEjercicios] = useState();
   const [loading, setLoading] = useState(true);
@@ -42,8 +18,7 @@ const Game = () => {
 
   // Inicia el juego al cargar
   useEffect(() => {
-    setLoading(true);
-    let [nivel, operacion] = ["1", "division"];
+    let [nivel, operacion] = ["1", "multiplicacion"];
     axios
       .get(`http://localhost:5000/api/game/n${nivel}/${operacion}`)
       .then((res) => {
@@ -59,12 +34,15 @@ const Game = () => {
       });
     setStartTime(Date.now());
   }, []);
-
   const handleRespuesta = (isCorrect) => {
     if (isCorrect) setCorrect((prev) => prev + 1);
 
     if (indice + 1 >= ejercicios.length) {
       const duration = Math.floor((Date.now() - startTime) / 1000);
+      console.log("correctos:");
+      console.log(correct);
+      console.log("ejercicios.length");
+      console.log(ejercicios.length);
       const accuracy = Math.round((correct / ejercicios.length) * 100);
       navigate("/results", { state: { accuracy, duration } });
     } else {
