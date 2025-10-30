@@ -20,15 +20,14 @@ const Game = () => {
   useEffect(() => {
     let [nivel, operacion] = ["1", "multiplicacion"];
     axios
-      .get(`https://mathapp-ug8r.onrender.com/api/game/n${nivel}/${operacion}`)
+      .get(`http://localhost:5000/api/game/n${nivel}/${operacion}`)
       .then((res) => {
         let data = res.data;
         setEjercicios(data);
+        setLoading(false);
       })
       .catch((err) => {
         console.log("Error fetching game: " + err);
-      })
-      .finally(() => {
         setLoading(false);
       });
     startTime = Date.now();

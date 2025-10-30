@@ -34,7 +34,8 @@ const Registro = () => {
 
     try {
       const res = await axios.post(
-        "https://mathapp-ug8r.onrender.com/api/auth/register",
+        "http://localhost:5000/api/auth/register",
+        // "https://mathapp-ug8r.onrender.com/api/auth/register",
         urlEncoded,
         {
           headers: {
@@ -104,7 +105,7 @@ const Registro = () => {
       </div>
       <br />
       <br />
-      {message ? <span>{message}</span> : <span>''</span>}
+      {message ? <span>{message}</span> : <span></span>}
       <p>
         <i>Ya est&aacute; tiene una cuenta?</i>
       </p>
