@@ -14,7 +14,7 @@ export const conn = new Sequelize(
     dialectOptions: {
       ssl: {
         require: true,
-        rejectUnauthorized: true,
+        rejectUnauthorized: false,
         ca: fs.readFileSync("./ca.pem").toString(),
       },
     },

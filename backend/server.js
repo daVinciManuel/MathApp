@@ -1,3 +1,4 @@
+// import cookieParser from "cookie-parser";
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
@@ -9,20 +10,20 @@ dotenv.config();
 dotenv.config();
 const app = express();
 
+app.use(cors({ origin: "*", credentials: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 app.use("/api/auth", authRoutes);
 app.use("/api/game", gameRoutes);
 
-app.use(
-  cors({
-    origin: "*",
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: false,
-  })
-);
+// app.use(
+//   cors({
+//     origin: "http://localhost:3000",
+//     methods: ["GET", "POST", "PUT", "DELETE"],
+//     allowedHeaders: ["Content-Type", "Authorization"],
+//     credentials: false,
+//   })
+// );
 
 app.get("/", (req, res) => {
   res.send(
