@@ -34,7 +34,7 @@ const Registro = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/auth/register",
+        "https://mathapp-ug8r.onrender.com/api/auth/register",
         urlEncoded,
         {
           headers: {

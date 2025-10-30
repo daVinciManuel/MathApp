@@ -20,7 +20,7 @@ const Game = () => {
   useEffect(() => {
     let [nivel, operacion] = ["1", "multiplicacion"];
     axios
-      .get(`http://localhost:5000/api/game/n${nivel}/${operacion}`)
+      .get(`https://mathapp-ug8r.onrender.com/api/game/n${nivel}/${operacion}`)
       .then((res) => {
         let data = res.data;
         setEjercicios(data);
