@@ -22,6 +22,13 @@ const Login = () => {
         <Link to="/home">
           <button>Entrar</button>
         </Link>
+
+        <br />
+        <br />
+
+        <Link to="/registro">
+          <button>Crear una cuenta</button>
+        </Link>
       </div>
       <br />
       <br />

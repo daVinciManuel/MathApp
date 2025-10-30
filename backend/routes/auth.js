@@ -9,12 +9,12 @@ const router = express.Router();
 // REGISTRO
 router.post("/register", async (req, res) => {
   try {
-    const { name, fullname, email, age, pass } = req.body;
+    const { name, lastname, email, age, pass } = req.body;
     const hashedPass = await bcrypt.hash(pass, 10);
 
     const newUser = await User.create({
       name,
-      fullname,
+      lastname,
       email,
       age,
       pass: hashedPass,
