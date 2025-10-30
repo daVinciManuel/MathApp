@@ -27,9 +27,10 @@ router.post("/register", async (req, res) => {
 });
 
 // si LOGIN OK then CREA y ENVIA JWON WEB TOKEN (JWT)
+
 router.post(
   "/login",
-  cors({ origin: "http://localhost:3000", credentials: true }),
+  cors({ origin: "https://naomat.netlify.app/", credentials: true }),
   async (req, res) => {
     try {
       const { email, pass } = req.body;
