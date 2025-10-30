@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Loading from "../components/Loading";
 //import fetchGame from "../axios/fetchGame.js";
 import Ejercicio from "../components/Ejercicio";
+import GameMenu from "../components/gameMenu";
 import "./css/game.css";
 import "./css/general.css";
 
@@ -13,27 +14,29 @@ const Game = () => {
   const [indice, setIndice] = useState(0);
   const [ejercicios, setEjercicios] = useState();
   const [loading, setLoading] = useState(true);
+  const [gameOption, setGameOption] = useState();
 
   const navigate = useNavigate();
 
   // Inicia el juego al cargar
   useEffect(() => {
-    let [nivel, operacion] = ["1", "multiplicacion"];
-    axios
-      .get(`http://localhost:5000/api/game/n${nivel}/${operacion}`)
-      .then((res) => {
-        let data = res.data;
-        setEjercicios(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.log("Error fetching game: " + err);
-        setLoading(false);
-      });
-    startTime = Date.now();
-  }, []);
+    if (gameOption) {
+      let [nivel, operacion] = gameOption;
+      axios
+        .get(`http://localhost:5000/api/game/n${nivel}/${operacion}`)
+        .then((res) => {
+          let data = res.data;
+          setEjercicios(data);
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.log("Error fetching game: " + err);
+          setLoading(false);
+        });
+      startTime = Date.now();
+    }
+  }, [gameOption]);
   const handleRespuesta = (isCorrect) => {
-    // if (isCorrect) setCorrect(correct + 1);
     if (isCorrect) correctAnswers += 1;
 
     if (indice + 1 >= ejercicios.length) {
@@ -46,9 +49,15 @@ const Game = () => {
     }
   };
 
+  const handleOption = (nivel, operacion) => {
+    setGameOption([nivel, operacion]);
+  };
+
   return (
     <main id="game">
-      {loading ? (
+      {!gameOption ? (
+        <GameMenu onSelected={handleOption} />
+      ) : loading ? (
         <>
           <Loading />
         </>

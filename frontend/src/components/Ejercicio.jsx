@@ -18,7 +18,10 @@ const Ejercicio = ({ ejercicio, onRespuesta }) => {
   return (
     <>
       <div className="operation">
-        {ejercicio.num1} {signo} {ejercicio.num2}
+        {ejercicio.num1} {signo}
+        {ejercicio.num2 < 0
+          ? " (" + ejercicio.num2 + ")"
+          : " " + ejercicio.num2}
       </div>
       <p>Resultado:</p>
       <input
