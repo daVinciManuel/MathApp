@@ -30,7 +30,7 @@ router.post("/register", async (req, res) => {
 
 router.post(
   "/login",
-  cors({ origin: "https://naomat.netlify.app/", credentials: true }),
+  cors({ origin: "https://naomat.netlify.app", credentials: true }),
   async (req, res) => {
     try {
       const { email, pass } = req.body;
