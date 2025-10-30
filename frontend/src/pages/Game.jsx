@@ -7,7 +7,7 @@ import Ejercicio from "../components/Ejercicio";
 import "./css/game.css";
 import "./css/general.css";
 
-var correctAnswers = 0;
+let correctAnswers = 0;
 var startTime = null;
 const Game = () => {
   const [indice, setIndice] = useState(0);
@@ -24,7 +24,7 @@ const Game = () => {
       .then((res) => {
         let data = res.data;
         setEjercicios(data);
-        setLoading(false);
+        // setLoading(false);
       })
       .catch((err) => {
         console.log("Error fetching game: " + err);
@@ -39,6 +39,7 @@ const Game = () => {
     if (indice + 1 >= ejercicios.length) {
       const duration = Math.floor((Date.now() - startTime) / 1000);
       const accuracy = Math.round((correctAnswers / ejercicios.length) * 100);
+      correctAnswers = 0;
       navigate("/results", { state: { accuracy, duration } });
     } else {
       setIndice((prev) => prev + 1);
