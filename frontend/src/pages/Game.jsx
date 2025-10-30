@@ -24,7 +24,7 @@ const Game = () => {
       .then((res) => {
         let data = res.data;
         setEjercicios(data);
-        // setLoading(false);
+        setLoading(false);
       })
       .catch((err) => {
         console.log("Error fetching game: " + err);
