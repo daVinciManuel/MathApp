@@ -1,9 +1,17 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const navigate = useNavigate();
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/api/auth/profile", { withCredentials: true })
+      .then(() => {
+        navigate("/home");
+      })
+      .catch(() => {});
+  });
   //   Datos formulario
   const [formData, setFormData] = useState({
     email: "",

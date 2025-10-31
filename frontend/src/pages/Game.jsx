@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Loading from "../components/Loading";
 //import fetchGame from "../axios/fetchGame.js";
+import AppHeader from "../components/AppHeader";
 import Ejercicio from "../components/Ejercicio";
 import GameMenu from "../components/gameMenu";
 import "./css/game.css";
@@ -27,11 +28,15 @@ const Game = () => {
         .then((res) => {
           let data = res.data;
           setEjercicios(data);
-          setLoading(false);
+          setTimeout(() => {
+            setLoading(false);
+          }, 400);
         })
         .catch((err) => {
           console.log("Error fetching game: " + err);
-          setLoading(false);
+          setTimeout(() => {
+            setLoading(false);
+          }, 400);
         });
       startTime = Date.now();
     }
@@ -54,29 +59,33 @@ const Game = () => {
   };
 
   return (
-    <main id="game">
-      {!gameOption ? (
-        <GameMenu onSelected={handleOption} />
-      ) : loading ? (
-        <>
-          <Loading />
-        </>
-      ) : (
-        <>
-          <div className="progress-bar">
-            <div
-              className="progress"
-              style={{ width: `${(indice / ejercicios.length) * 100}%` }}
-            ></div>
-          </div>
+    <>
+      <AppHeader />
 
-          <Ejercicio
-            ejercicio={ejercicios[indice]}
-            onRespuesta={handleRespuesta}
-          />
-        </>
-      )}
-    </main>
+      <main id="game">
+        {!gameOption ? (
+          <GameMenu onSelected={handleOption} />
+        ) : loading ? (
+          <>
+            <Loading />
+          </>
+        ) : (
+          <>
+            <div className="progress-bar">
+              <div
+                className="progress"
+                style={{ width: `${(indice / ejercicios.length) * 100}%` }}
+              ></div>
+            </div>
+
+            <Ejercicio
+              ejercicio={ejercicios[indice]}
+              onRespuesta={handleRespuesta}
+            />
+          </>
+        )}
+      </main>
+    </>
   );
 };
 

@@ -18,11 +18,15 @@ const Results = () => {
 };
 
 export default Results;*/
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import AppHeader from "../components/AppHeader";
 import "./css/general.css";
 import "./css/results.css";
 
 const Results = () => {
+  const [isLogged, setIsLogged] = useState(false);
   const location = useLocation();
   const { accuracy = 0, duration = 0 } = location.state || {};
 
@@ -41,25 +45,49 @@ const Results = () => {
     image = "/img/puedes-mejorar.png";
   }
 
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/api/auth/profile", { withCredentials: true })
+      .then(() => {
+        setIsLogged(true);
+      })
+      .catch(() => {
+        setIsLogged(false);
+      });
+  }, []);
+
   return (
-    <main id="results">
-      <img
-        src={image}
-        alt="Resultado"
-        style={{ width: "150px", marginBottom: "15px" }}
-      />
-      <h2>{message}</h2>
+    <>
+      <AppHeader />
+      <main id="results">
+        <img
+          src={image}
+          alt="Resultado"
+          style={{ width: "150px", marginBottom: "15px" }}
+        />
+        <h2>{message}</h2>
 
-      <div className="stats">
-        <p>Precisión: <strong>{accuracy}%</strong></p>
-        <p>Duración: <strong>{duration}s</strong></p>
-      </div>
+        <div className="stats">
+          <p>
+            Precisión: <strong>{accuracy}%</strong>
+          </p>
+          <p>
+            Duración: <strong>{duration}s</strong>
+          </p>
+        </div>
 
-	  <br/>
-      <Link to="/login">
-        <button>Iniciar sesi&oacute;n</button>
-      </Link>
-    </main>
+        <br />
+        {isLogged ? (
+          <Link to="/home">
+            <button>Men&uacute; de Inicio</button>
+          </Link>
+        ) : (
+          <Link to="/login">
+            <button>Iniciar sesi&oacute;n</button>
+          </Link>
+        )}
+      </main>
+    </>
   );
 };
 

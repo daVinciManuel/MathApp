@@ -48,7 +48,7 @@ router.post("/login", async (req, res) => {
       httpOnly: true,
       // uncomment the following line in production with HTTPS
       //secure: true, // only over HTTPS
-      sameSite: "strict",
+      sameSite: "lax",
       maxAge: 4 * 60 * 60 * 1000, // 4 hours
     });
 
@@ -73,6 +73,16 @@ router.get("/profile", verifyToken, async (req, res) => {
   } catch (e) {
     res.status(500).json({ error: e.message });
   }
+});
+
+router.post("/logout", (req, res) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+    sameSite: "lax",
+    // make it true for HTTPS:
+    secure: false,
+  });
+  return res.status(200).json({ message: "Logout ok" });
 });
 
 export default router;
