@@ -5,7 +5,7 @@ import Loading from "../components/Loading";
 //import fetchGame from "../axios/fetchGame.js";
 import AppHeader from "../components/AppHeader";
 import Ejercicio from "../components/Ejercicio";
-import GameMenu from "../components/gameMenu";
+import GameMenu from "../components/GameMenu";
 import "./css/game.css";
 import "./css/general.css";
 
