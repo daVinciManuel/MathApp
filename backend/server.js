@@ -13,6 +13,7 @@ const allowedOrigins = [
   "http://localhost:3000",
   "http://localhost:3001",
   "https://mathapp-ug8r.onrender.com",
+  'https://naomathalloween.netlify.app/'
 ];
 
 app.use(
