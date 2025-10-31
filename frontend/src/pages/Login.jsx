@@ -1,8 +1,12 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import "./css/ghostAnimation.css";
+import ghost from "/img/ghost-move.png";
 
 const Login = () => {
+  const [showGhost, setShowGhost] = useState(false);
+
   const navigate = useNavigate();
   useEffect(() => {
     axios
@@ -27,6 +31,7 @@ const Login = () => {
       ...formData,
       [e.target.name]: e.target.value,
     });
+    setShowGhost(!showGhost);
   };
   // ----------- enviar la peticion ------------------
   const handleSubmit = async (e) => {
@@ -79,6 +84,11 @@ const Login = () => {
             id="pass"
             onChange={handleChange}
           />
+          <div className="ghost-container">
+            {showGhost && (
+              <img className="ghost" src={ghost} alt="Ghost flying" />
+            )}
+          </div>
           <br />
           <br />
 
