@@ -104,9 +104,9 @@ const Registro = () => {
       </div>
       <br />
       <br />
-      {message ? <span>{message}</span> : <span>''</span>}
+      <p className="message">{message}</p>
       <p>
-        <i>Ya est&aacute; tiene una cuenta?</i>
+        <i>¿Ya tienes una cuenta?</i>
       </p>
       <Link to="/login">
         <button>Inicie sesi&oacute;n</button>

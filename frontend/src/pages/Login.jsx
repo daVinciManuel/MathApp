@@ -1,28 +1,32 @@
 import axios from "axios";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import "./css/general.css";
 
 const Login = () => {
   const navigate = useNavigate();
-  //   Datos formulario
+  
+  // Datos formulario
   const [formData, setFormData] = useState({
     email: "",
     pass: "",
   });
-  //   Mensaje de respuesta del servidor
-  const [message, setMessage] = useState("");
-  // ---------- ------- ------------------------------
 
-  // --------- guarda los datos del formulario en cada cambio
+  // Mensaje de respuesta del servidor
+  const [message, setMessage] = useState("");
+  
+  // Guarda los datos del formulario en cada cambio
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
   };
-  // ----------- enviar la peticion ------------------
+
+  // Enviar la peticion al backend
   const handleSubmit = async (e) => {
     e.preventDefault();
+ console.log("Formulario enviado ✅");
     const urlEncoded = new URLSearchParams();
     for (const key in formData) {
       urlEncoded.append(key, formData[key]);
@@ -39,56 +43,47 @@ const Login = () => {
           withCredentials: true,
         }
       );
+
+      const userData = res.data.user;
+      if (res.status === 200 && userData) {
+        localStorage.setItem("user", JSON.stringify(userData));
+        navigate("/dashboard");
+      }
+
       setMessage(res.data.message);
-      if (res.status === 200) {
+      /*if (res.status === 200) {
         navigate("/home");
       }
-      console.log(res);
+      console.log(res);*/
     } catch (err) {
       console.log(err);
       setMessage(err.response.data.message);
     }
   };
+
   return (
-    <main>
+    <main id="login">
       <h1>Inicie sesión</h1>
       <div>
         <form onSubmit={handleSubmit}>
-          {/* user  */}
-          <label htmlFor="email">Email:</label>
-          <br />
-          <input type="text" name="email" id="email" onChange={handleChange} />
-          <br />
-          <br />
+          {/* email  */}
+          <label htmlFor="email">Email:</label><br/>
+          <input type="text" name="email" id="email" onChange={handleChange} required/><br/><br/>
 
           {/* pass */}
-          <label htmlFor="pass">Contrase&ntilde;a:</label>
-          <br />
-          <input
-            type="password"
-            name="pass"
-            id="pass"
-            onChange={handleChange}
-          />
-          <br />
-          <br />
+          <label htmlFor="pass">Contrase&ntilde;a:</label><br/>
+          <input type="password" name="pass" id="pass" onChange={handleChange} required/><br/><br/>
 
           <button>Entrar</button>
         </form>
 
-        <br />
-        <br />
-
-        {message ? <span>{message}</span> : <span>''</span>}
-        <br />
-        <br />
+        <p className="message">{message}</p><br/><br/>
 
         <Link to="/registro">
           <button>Crear una cuenta</button>
         </Link>
       </div>
-      <br />
-      <br />
+      <br/><br/>
       <Link to="/">
         <button>Inicio</button>
       </Link>
