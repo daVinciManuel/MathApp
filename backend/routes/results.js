@@ -4,7 +4,7 @@ import {
   saveResult, 
   //getUserResults, 
   //getUserStats 
-} from "../controllers/results.js";
+} from "../controllers/resultsController.js";
 
 const router = express.Router();
 
