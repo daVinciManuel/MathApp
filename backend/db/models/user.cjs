@@ -13,7 +13,8 @@ module.exports = (sequelize, DataTypes) => {
     lastname: { type: DataTypes.STRING(50) },
     email: { type: DataTypes.STRING(50), allowNull: false, unique: true },
     age: { type: DataTypes.INTEGER },
-    pass: { type: DataTypes.STRING, allowNull: false }
+    pass: { type: DataTypes.STRING, allowNull: false },
+    rol: { type: DataTypes.STRING, allowNull: false, defaultValue: 'student' }
   }, {
     sequelize,
     modelName: 'User',
