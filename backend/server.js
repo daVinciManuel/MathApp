@@ -2,9 +2,13 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
-import { conn } from "./db/conexion.js";
+// import { conn } from "./db/conexion.js";
 import authRoutes from "./routes/auth.js";
 import gameRoutes from "./routes/game.js";
+// ---------------- db ----------------
+import pkg from "./db/models/index.cjs";
+const { sequelize } = pkg
+// ------------------------------------
 dotenv.config();
 
 const app = express();
@@ -37,11 +41,26 @@ app.get("/", (req, res) => {
   );
 });
 
-conn
-  .sync()
-  .then(() => {
+async function startServer() {
+  try {
+    await sequelize.sync();
+    console.log('DB connected');
+
     app.listen(5000, () => {
       console.log("Server is running on http://localhost:5000");
     });
-  })
-  .catch((err) => console.log("Error creating DB: " + err));
+
+  } catch (err) {
+    console.log('DB connection error:', err)
+  }
+}
+startServer()
+
+// conn
+//   .sync()
+//   .then(() => {
+//     app.listen(5000, () => {
+//       console.log("Server is running on http://localhost:5000");
+//     });
+//   })
+//   .catch((err) => console.log("Error creating DB: " + err));
