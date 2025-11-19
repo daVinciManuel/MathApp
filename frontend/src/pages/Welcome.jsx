@@ -1,15 +1,20 @@
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
+import AppHeader from "../components/AppHeader";
 const Welcome = () => {
-    return (
-        <main>
-            <h1>Welcome!</h1>
-            <Link to={"/login"}>
-            <button>Login</button>
-            </Link>
+  return (
+    <>
+      <AppHeader />
+      <main>
+        <h1>¡¡ Bienvenido a Naomat !!</h1>
+        <Link to="/game">
+          <button>Prueba una partida</button>
+        </Link>
+        <Link to="/login">
+          <button>Login</button>
+        </Link>
+      </main>
+    </>
+  );
+};
 
-            {/* Esto es un comentario */}
-        </main>
-    )
-}
-
-export default Welcome
+export default Welcome;

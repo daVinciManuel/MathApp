@@ -1,0 +1,26 @@
+#results {
+  text-align: center;
+}
+
+#results h1 {
+  margin-bottom: 10px;
+}
+
+#results .stats {
+  border: 2px solid #7af77a;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 20px 0;
+  display: inline-block;
+}
+
+#results .stats p {
+  margin: 5px 0;
+  font-size: 1.2rem;
+}
+
+#results h2 {
+  font-size: 1.8rem;
+  color: #7af77a;
+  margin-top: 20px;
+}
