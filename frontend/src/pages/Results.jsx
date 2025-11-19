@@ -115,6 +115,7 @@ import "./css/general.css";
 import "./css/results.css";
 
 const Results = () => {
+  const [isLogged, setIsLogged] = useState(false);
   const location = useLocation();
   const { accuracy = 0, duration = 0 } = location.state || {};
 
@@ -141,13 +142,16 @@ const Results = () => {
     const getAIMessage = async () => {
       try {
         // Aquí llamamos al endpoint de tu backend
-        const response = await fetch("http://localhost:5000/api/generate-message", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({ accuracy, duration })
-        });
+        const response = await fetch(
+          "http://localhost:5000/api/generate-message",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ accuracy, duration }),
+          }
+        );
 
         const data = await response.json();
         setAiMessage(data.message);
@@ -175,18 +179,17 @@ const Results = () => {
         const response = await fetch("http://localhost:5000/api/results/save", {
           method: "POST",
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
             userId,
             accuracy,
-            duration
-          })
+            duration,
+          }),
         });
 
         const data = await response.json();
         console.log("Resultado guardado:", data);
-
       } catch (error) {
         console.error("Error guardando resultado:", error);
       }
@@ -207,22 +210,30 @@ const Results = () => {
 
       {image && (
         <img
-        src={image}
-        alt="Resultado"
-        style={{ width: "150px", marginBottom: "15px" }}
+          src={image}
+          alt="Resultado"
+          style={{ width: "150px", marginBottom: "15px" }}
         />
       )}
 
       <h2>{message}</h2>
-      
-      <p className="ai-message" style={{ marginTop: "10px", fontStyle: "italic" }}>
+
+      <p
+        className="ai-message"
+        style={{ marginTop: "10px", fontStyle: "italic" }}
+      >
         {aiMessage}
       </p>
 
       <div className="stats">
-        <p>Precisión: <strong>{accuracy}%</strong></p>
-        <p>Duración: <strong>{duration}s</strong></p>
-      </div><br/>
+        <p>
+          Precisión: <strong>{accuracy}%</strong>
+        </p>
+        <p>
+          Duración: <strong>{duration}s</strong>
+        </p>
+      </div>
+      <br />
 
       <Link to="/login">
         <button>Iniciar sesión</button>

@@ -4,8 +4,10 @@ import { Link, useNavigate } from "react-router-dom";
 import "./css/general.css";
 
 const Login = () => {
+  const [showGhost, setShowGhost] = useState(false);
+
   const navigate = useNavigate();
-  
+
   // Datos formulario
   const [formData, setFormData] = useState({
     email: "",
@@ -14,13 +16,14 @@ const Login = () => {
 
   // Mensaje de respuesta del servidor
   const [message, setMessage] = useState("");
-  
+
   // Guarda los datos del formulario en cada cambio
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
+    setShowGhost(!showGhost);
   };
 
   // Enviar la peticion al backend
@@ -34,9 +37,10 @@ const Login = () => {
     try {
       const res = await axios.post(
         "http://localhost:5000/api/auth/login",
+        // "https://mathapp-ug8r.onrender.com/api/auth/login",
         urlEncoded,
         {
-          headers: {"Content-Type": "application/x-www-form-urlencoded"},
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
           withCredentials: true,
         }
       );
@@ -74,23 +78,44 @@ const Login = () => {
       <div>
         <form onSubmit={handleSubmit}>
           {/* email  */}
-          <label htmlFor="email">Email:</label><br/>
-          <input type="text" name="email" id="email" onChange={handleChange} required/><br/><br/>
+          <label htmlFor="email">Email:</label>
+          <br />
+          <input
+            type="text"
+            name="email"
+            id="email"
+            onChange={handleChange}
+            required
+          />
+          <br />
+          <br />
 
           {/* pass */}
-          <label htmlFor="pass">Contrase&ntilde;a:</label><br/>
-          <input type="password" name="pass" id="pass" onChange={handleChange} required/><br/><br/>
+          <label htmlFor="pass">Contrase&ntilde;a:</label>
+          <br />
+          <input
+            type="password"
+            name="pass"
+            id="pass"
+            onChange={handleChange}
+            required
+          />
+          <br />
+          <br />
 
           <button>Entrar</button>
         </form>
 
-        <p className="message">{message}</p><br/><br/>
+        <p className="message">{message}</p>
+        <br />
+        <br />
 
         <Link to="/registro">
           <button>Crear una cuenta</button>
         </Link>
       </div>
-      <br/><br/>
+      <br />
+      <br />
       <Link to="/">
         <button>Inicio</button>
       </Link>

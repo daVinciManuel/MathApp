@@ -1,0 +1,50 @@
+/* Limpia los estilos por defecto */
+.game-menu {
+  list-style: none;
+  padding: 0;
+  margin: 2rem auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Estilo base de los botones del menú */
+.game-menu li {
+  background: linear-gradient(180deg, #4c5fe0 0%, #6a7cff 100%);
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  width: 220px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Hover con un toque brillante */
+.game-menu li:hover {
+  background: linear-gradient(180deg, #ffdd57 0%, #ffd83a 100%);
+  color: #1a1a1a;
+  border-color: #fff176;
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 6px 15px rgba(255, 255, 255, 0.2);
+}
+
+/* Al hacer click (efecto "presionado") */
+.game-menu li:active {
+  transform: scale(0.98);
+}
+
+/* Menú de operaciones (azul eléctrico) */
+.menu-operaciones li {
+  background: linear-gradient(180deg, #5768e0 0%, #7389ff 100%);
+}
+
+/* Menú de niveles (verde azulado, para variar un poco) */
+.menu-niveles li {
+  background: linear-gradient(180deg, #1eaab7 0%, #22c6c8 100%);
+}
