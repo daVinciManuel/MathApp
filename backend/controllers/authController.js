@@ -1,9 +1,8 @@
-
+import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { Sequelize } from "sequelize";
 import pkg from "../db/models/index.cjs";
 const { User } = pkg;
-import bcrypt from "bcrypt";
-import { Sequelize } from "sequelize";
 
 // --------- Register User ------------
 export async function registerUser(req, res) {
@@ -17,13 +16,15 @@ export async function registerUser(req, res) {
       email,
       age,
       pass: hashedPass,
-      rol
+      role,
     });
 
-    return res.status(201).json({ message: "Usuario stored succesfully.", user: newUser });
+    return res
+      .status(201)
+      .json({ message: "Usuario stored succesfully.", user: newUser });
   } catch (e) {
     if (e instanceof Sequelize.UniqueConstraintError) {
-      return res.status(400).json({ error: 'User already exists.' })
+      return res.status(400).json({ error: "User already exists." });
     }
     return res.status(500).json({ error: e.message });
   }
@@ -55,7 +56,10 @@ export async function loginUser(req, res) {
       maxAge: 4 * 60 * 60 * 1000, // 4 hours
     });
 
-    return res.status(200).json({ message: "login ok" });
+    const { pass: pwd, ...userWithoutPassword } = user;
+    return res
+      .status(200)
+      .json({ message: "login ok", user: userWithoutPassword });
   } catch (e) {
     return res.status(500).json({ error: e.message });
   }
