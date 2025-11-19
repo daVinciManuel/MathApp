@@ -7,7 +7,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "node backend/server.js",
-    "axios": "node frontend/src/axios/fetchGame.example.js"
+    "axios": "node frontend/src/axios/fetchGame.example.js",
+    "mig:gen": "npx sequelize-cli migration:generate --name",
+    "mig:up": "npx sequelize-cli db:migrate",
+    "mig:down": "npx sequelize-cli db:migrate:undo"
   },
   "repository": {
     "type": "git",
@@ -31,6 +34,6 @@
     "sequelize": "^6.37.7"
   },
   "devDependencies": {
-    "sequelize-cli": "^6.6.3"
+    "sequelize-cli": "^6.6.2"
   }
 }
