@@ -26,7 +26,6 @@ const Login = () => {
   // Enviar la peticion al backend
   const handleSubmit = async (e) => {
     e.preventDefault();
- console.log("Formulario enviado ✅");
     const urlEncoded = new URLSearchParams();
     for (const key in formData) {
       urlEncoded.append(key, formData[key]);
@@ -37,24 +36,32 @@ const Login = () => {
         "http://localhost:5000/api/auth/login",
         urlEncoded,
         {
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
+          headers: {"Content-Type": "application/x-www-form-urlencoded"},
           withCredentials: true,
         }
       );
 
-      const userData = res.data.user;
+      /*const userData = res.data.user;
       if (res.status === 200 && userData) {
         localStorage.setItem("user", JSON.stringify(userData));
         navigate("/dashboard");
-      }
+      }*/
 
       setMessage(res.data.message);
-      /*if (res.status === 200) {
-        navigate("/home");
+
+      if (res.status === 200 && res.data.user) {
+        // Guardar usuario y rol
+        localStorage.setItem("user", JSON.stringify(res.data.user));
+        localStorage.setItem("role", res.data.user.role); // "student" o "teacher"
+
+        // Redirigir según rol
+        if (res.data.user.role === "teacher") {
+          navigate("/profile/teacher");
+        } else {
+          navigate("/profile/student");
+        }
       }
-      console.log(res);*/
+      console.log(res);
     } catch (err) {
       console.log(err);
       setMessage(err.response.data.message);

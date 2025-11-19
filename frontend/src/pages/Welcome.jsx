@@ -3,6 +3,8 @@ const Welcome = () => {
   return (
     <main>
       <h1>¡¡ Bienvenido a Naomat !!</h1>
+      <img src="../public/img/logo1.png"/>
+      
       <Link to="/game">
         <button>Prueba una partida</button>
       </Link>

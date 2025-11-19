@@ -1,18 +1,35 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import "./css/general.css";
 import "./css/menu.css";
 
 const Menu = () => {
   const [tab, setTab] = useState("juegos");
+  const navigate = useNavigate();
+
+  const goToProfile = () => {
+    const role = localStorage.getItem("role"); // recupera el rol guardado en login
+    if (role === "teacher") {
+      navigate("/profile/teacher");
+    } else if (role === "student") {
+      navigate("/profile/student");
+    } else {
+      alert("Rol no definido");
+    }
+  };
 
   return (
     <main id="menu">
       <Link to="/home">
-        <a>🏠️</a>
+        <button>🏠️</button>
       </Link>
 
       <h1>Menú</h1>
+
+      {/* Botón para ir al perfil */}
+      <button onClick={goToProfile} className="btn" style={{ marginBottom: "20px" }}>
+        Mi perfil
+      </button>
 
       <nav className="tabs">
         <a onClick={() => setTab("juegos")} className={tab === "juegos" ? "active" : ""}>Juegos</a>
@@ -23,7 +40,7 @@ const Menu = () => {
       <section className="tab-content">
         {tab === "juegos" && (
           <div>
-            <p>Tipo de ejercicios (sumas, restas, fracciones...)</p>
+            <p>Tipo de ejercicios</p>
             <Link to="/game">
               <a className="btn">Ir al juego</a>
             </Link>

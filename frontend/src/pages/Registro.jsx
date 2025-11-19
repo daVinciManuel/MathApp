@@ -3,8 +3,8 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 
 const Registro = () => {
-  // ---------- estados ------------------------------
-  //   Datos formulario
+  // Estados
+  // Datos formulario
   const [formData, setFormData] = useState({
     name: "",
     lastname: "",
@@ -12,11 +12,10 @@ const Registro = () => {
     age: "",
     pass: "",
   });
-  //   Mensaje de respuesta del servidor
+  // Mensaje de respuesta del servidor
   const [message, setMessage] = useState("");
-  // ---------- ------- ------------------------------
 
-  // --------- guarda los datos del formulario en cada cambio
+  // Guarda los datos del formulario en cada cambio
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -24,7 +23,7 @@ const Registro = () => {
     });
   };
 
-  // envia los datos al servidor
+  // Envia los datos al servidor
   const handleSubmit = async (e) => {
     e.preventDefault();
     const urlEncoded = new URLSearchParams();

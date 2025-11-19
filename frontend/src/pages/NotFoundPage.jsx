@@ -2,12 +2,12 @@ import { Link } from "react-router-dom";
 
 const NotFoundPage = () => {
     return (
-        <div>
-            <h1>Page Not Found. ❌</h1>
+        <main>
+            <h1>Página no encontrada. ❌</h1>
             <Link to={"/"}>
-                <button>Go Back to Homepage</button>
+                <button>Volver al Inicio</button>
             </Link>
-        </div>
+        </main>
     )
 }
 export default NotFoundPage;
