@@ -7,7 +7,7 @@ const { User } = pkg;
 // --------- Register User ------------
 export async function registerUser(req, res) {
   try {
-    const { name, lastname, email, age, pass, rol } = req.body;
+    const { name, lastname, email, age, pass, role } = req.body;
     const hashedPass = await bcrypt.hash(pass, 10);
 
     const newUser = await User.create({
