@@ -22,4 +22,32 @@ const ProfileStudent = () => {
   );
 };
 
+/*const ProfileStudent = () => {
+  const [tab, setTab] = useState("progreso");
+
+  return (
+    <div>
+      <div className="tabs">
+        <a
+          onClick={() => setTab("progreso")}
+          className={tab === "progreso" ? "active" : ""}
+        >
+          Ejercicios en Progreso
+        </a>
+        <a
+          onClick={() => setTab("historial")}
+          className={tab === "historial" ? "active" : ""}
+        >
+          Historial de Partidas
+        </a>
+      </div>
+
+      <div className="tab-content">
+        {tab === "progreso" && <EjerciciosEnProgreso />}
+        {tab === "historial" && <HistorialPartidas />}
+      </div>
+    </div>
+  );
+};*/
+
 export default ProfileStudent;

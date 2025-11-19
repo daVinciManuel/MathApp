@@ -35,6 +35,7 @@ const Menu = () => {
         <a onClick={() => setTab("juegos")} className={tab === "juegos" ? "active" : ""}>Juegos</a>
         <a onClick={() => setTab("ranking")} className={tab === "ranking" ? "active" : ""}>Ranking General</a>
         <a onClick={() => setTab("progreso")} className={tab === "progreso" ? "active" : ""}>Ejercicios en Progreso</a>
+        <a onClick={() => setTab("historial")} className={tab === "historial" ? "active" : ""}>Historial de Partidas</a>
       </nav>
 
       <section className="tab-content">
@@ -49,6 +50,9 @@ const Menu = () => {
         {tab === "ranking" && <p>Ranking de jugadores con sus puntuaciones.</p>}
         {tab === "progreso" && <p>Ejercicios que has dejado a medias o en curso.</p>}
       </section>
+      
+      {tab === "progreso" && <EjerciciosEnProgreso />}
+      {tab === "historial" && <History />}
     </main>
   );
 };

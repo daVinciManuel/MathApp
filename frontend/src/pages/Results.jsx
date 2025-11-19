@@ -1,5 +1,6 @@
-/*
-PONER EN EL BACKEND (Node.js / Express):
+/* CÓDIGO BACKEND API OPEN AI
+
+EN backend/routes/openai.js:
 import express from "express";
 import OpenAI from "openai";
 
@@ -25,7 +26,88 @@ router.post("/generate-message", async (req, res) => {
   }
 });
 
-export default router;*/
+export default router;
+
+
+EN server.js:
+import openaiRoutes from "./routes/openai.js";
+app.use("/api", openaiRoutes);*/
+
+/*************************************************************/
+
+/* CÓDIGO BACKEND HTTP REQUEST
+
+EN backend/models/Result.js:
+import { DataTypes } from "sequelize";
+import { conn } from "../db/conexion.js";
+
+const Result = conn.define("Result", {
+  accuracy: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  },
+  duration: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  },
+  userId: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  }
+});
+
+export default Result;
+
+EN backend/routes/results.js:
+import express from "express";
+import Result from "../models/Result.js";
+
+const router = express.Router();
+
+router.post("/save", async (req, res) => {
+  const { userId, accuracy, duration } = req.body;
+
+  try {
+    const result = await Result.create({
+      userId,
+      accuracy,
+      duration
+    });
+
+    res.json({
+      message: "Resultado guardado correctamente",
+      result
+    });
+
+  } catch (error) {
+    console.error("Error guardando resultado:", error);
+    res.status(500).json({ error: "No se pudo guardar el resultado" });
+  }
+});
+
+// Obtener todas las partidas de un usuario
+router.get("/user/:id", async (req, res) => {
+  const userId = req.params.id;
+
+  try {
+    const results = await Result.findAll({
+      where: { userId },
+      order: [["createdAt", "DESC"]] // las más recientes primero
+    });
+
+    res.json(results);
+
+  } catch (error) {
+    console.error("Error obteniendo historial:", error);
+    res.status(500).json({ error: "No se pudo obtener el historial" });
+  }
+});
+
+export default router;
+
+EN server.js:
+import resultsRoutes from "./routes/results.js";
+app.use("/api/results", resultsRoutes);*/
 
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
@@ -59,7 +141,7 @@ const Results = () => {
     const getAIMessage = async () => {
       try {
         // Aquí llamamos al endpoint de tu backend
-        const response = await fetch("http://localhost:3000/api/generate-message", {
+        const response = await fetch("http://localhost:5000/api/generate-message", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
@@ -76,6 +158,41 @@ const Results = () => {
     };
 
     getAIMessage();
+  }, [accuracy, duration]);
+
+  // Guardar resultados en backend
+  useEffect(() => {
+    const saveResults = async () => {
+      const user = JSON.parse(localStorage.getItem("user"));
+      const userId = user?.id;
+
+      if (!userId) {
+        console.warn("No hay usuario logueado. No se guardará el resultado.");
+        return;
+      }
+
+      try {
+        const response = await fetch("http://localhost:5000/api/results/save", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            userId,
+            accuracy,
+            duration
+          })
+        });
+
+        const data = await response.json();
+        console.log("Resultado guardado:", data);
+
+      } catch (error) {
+        console.error("Error guardando resultado:", error);
+      }
+    };
+
+    saveResults();
   }, [accuracy, duration]);
 
   return (
