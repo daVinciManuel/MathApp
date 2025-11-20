@@ -60,8 +60,6 @@ const Game = () => {
 
   return (
     <>
-      <AppHeader />
-
       <main id="game">
         {!gameOption ? (
           <GameMenu onSelected={handleOption} />

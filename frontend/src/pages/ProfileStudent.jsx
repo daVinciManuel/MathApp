@@ -6,19 +6,21 @@ const ProfileStudent = () => {
   const [section, setSection] = useState("history");
 
   return (
-    <main id="profile-student">
-      <h1>Perfil Alumno</h1>
+    <>
+      <main id="profile-student">
+        <h1>Perfil Alumno</h1>
 
-      <nav>
-        <button onClick={() => setSection("history")}>Historial</button>
-        <button onClick={() => setSection("editProfile")}>Cambiar datos</button>
-      </nav>
+        <nav>
+          <button onClick={() => setSection("history")}>Historial</button>
+          <button onClick={() => setSection("editProfile")}>Cambiar datos</button>
+        </nav>
 
-      <section>
-        {section === "history" && <History />}
-        {section === "editProfile" && <EditProfileForm />}
-      </section>
-    </main>
+        <section>
+          {section === "history" && <History />}
+          {section === "editProfile" && <EditProfileForm />}
+        </section>
+      </main>
+    </>
   );
 };
 

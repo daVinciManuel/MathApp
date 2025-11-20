@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import "./css/header.css";
 import LogoutButton from "./LogoutButton";
 
-function AppHeader() {
+function AppHeader({ navigate }) {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
@@ -20,6 +20,9 @@ function AppHeader() {
 
   return (
     <header className="app-header">
+      <img src="/img/logo.png" width='80px'
+        onClick={() => navigate('/')}
+      />
       {user ? (
         <>
           <div className="user-info">
@@ -33,9 +36,9 @@ function AppHeader() {
         </>
       ) : (
         <>
-          <Link to="/Login">
-            <button>Iniciar sesi&oacute;n</button>
-          </Link>
+
+          <button onClick={() => navigate("/profile/student")}>Perfil</button>
+          <button onClick={() => navigate('/login')}>Iniciar sesi&oacute;n</button>
         </>
       )}
     </header>

@@ -12,6 +12,10 @@ function LogoutButton({ onLogout }) {
         { withCredentials: true }
       );
       onLogout(); // limpiar estado del usuario en React
+      // eliminar info de localStorage
+      localStorage.removeItem('role');
+      localStorage.removeItem('user');
+
       navigate("/");
     } catch (err) {
       console.error("Error al cerrar sesión:", err);
