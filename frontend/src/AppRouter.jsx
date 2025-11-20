@@ -10,6 +10,7 @@ import Results from "./pages/Results.jsx";
 import Welcome from "./pages/Welcome.jsx";
 import Layout from "./Layout.jsx";
 import Dashboard from './pages/Dashboard.jsx';
+import NewGame from './pages/NewGame.jsx';
 
 // Nuevos perfiles
 import ProfileStudent from "./pages/ProfileStudent.jsx";
@@ -29,6 +30,7 @@ const router = createBrowserRouter([
       { path: "menu", element: <Menu /> },
       { path: "results", element: <Results /> },
       { path: "dashboard", element: <Dashboard /> },
+      { path: "newGame", element: <NewGame /> },
       { path: "*", element: <NotFoundPage /> },
     ]
   },

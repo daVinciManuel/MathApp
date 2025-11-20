@@ -26,15 +26,9 @@ const Dashboard = () => {
       <div className="dashboard-buttons">
         {user.role === "teacher" ? (
           <>
-            <Link to="/mygames">
-              <button>🎮 Mis juegos</button>
-            </Link>
-            <Link to="/newgame">
-              <button>➕ Crear nuevo juego</button>
-            </Link>
-            <Link to="/profile">
-              <button>👤 Perfil</button>
-            </Link>
+            <button onClick={() => { navigate('/myGames') }}>🎮 Mis juegos</button>
+            <button onClick={() => { navigate('/newGame') }}>➕ Crear nuevo juego</button>
+            <button onClick={() => { navigate('/profile/teacher') }}>👤 Perfil</button>
           </>
         ) : (
           <>
