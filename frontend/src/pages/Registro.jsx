@@ -1,20 +1,22 @@
 import axios from "axios";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import Modal from "../components/Modal";
 
 const Registro = () => {
   // Estados
   // Datos formulario
+
   const [formData, setFormData] = useState({
     name: "",
     lastname: "",
     email: "",
     age: "",
     pass: "",
+    role: ""
   });
   // Mensaje de respuesta del servidor
   const [message, setMessage] = useState("");
-
+  const [showModal, setShowModal] = useState(false);
   // Guarda los datos del formulario en cada cambio
   const handleChange = (e) => {
     setFormData({
@@ -47,6 +49,7 @@ const Registro = () => {
       setMessage(err.message);
       if (err.response.data.error === "Validation error")
         setMessage("Usuario no diponible");
+      setShowModal(true);
     }
   };
 
@@ -82,6 +85,17 @@ const Registro = () => {
           />
           <br />
           <br />
+          Rol:
+          <br />
+          <label style={{ cursor: 'pointer' }}>
+            <input type="radio" name="role" value='teacher' onChange={handleChange} style={{ cursor: 'pointer' }} /> Profesor
+          </label>
+          <br />
+          <label style={{ cursor: 'pointer' }}>
+            <input type="radio" name="role" value='student' onChange={handleChange} style={{ cursor: 'pointer' }} /> Estudiante
+          </label>
+          <br />
+          <br />
           <label htmlFor="user">Correo electr&oacute;nico:</label>
           <br />
           <input type="text" name="email" id="user" onChange={handleChange} />
@@ -104,15 +118,11 @@ const Registro = () => {
       </div>
       <br />
       <br />
-      <p className="message">{message}</p>
-      <p>
-        <i>¿Ya tienes una cuenta?</i>
-      </p>
-      <Link to="/login">
-        <button>Inicie sesi&oacute;n</button>
-      </Link>
+      <Modal
+        isOpen={showModal}
+        message={message}
+        onClose={() => { setShowModal(false) }} />
     </main>
   );
 };
-
 export default Registro;

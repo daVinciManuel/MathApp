@@ -1,9 +1,12 @@
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/authContext";
 import "./css/logoutButton.css";
 
-function LogoutButton({ onLogout }) {
+function LogoutButton() {
+  const { setUser } = useAuth();
   const navigate = useNavigate();
+
   const handleLogout = async () => {
     try {
       await axios.post(
@@ -11,11 +14,12 @@ function LogoutButton({ onLogout }) {
         {},
         { withCredentials: true }
       );
-      onLogout(); // limpiar estado del usuario en React
       // eliminar info de localStorage
       localStorage.removeItem('role');
       localStorage.removeItem('user');
 
+      // elimina info del estado
+      setUser(null);
       navigate("/");
     } catch (err) {
       console.error("Error al cerrar sesión:", err);

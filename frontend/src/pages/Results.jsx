@@ -112,6 +112,7 @@ app.use("/api/results", resultsRoutes);*/
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useAuth } from "../context/authContext";
 import "./css/general.css";
 import "./css/results.css";
 
@@ -124,6 +125,8 @@ const Results = () => {
   const [message, setMessage] = useState("");
   const [image, setImage] = useState("");
 
+  const { user } = useAuth();
+  const userId = user.id ?? false;
   useEffect(() => {
     axios
       .get("http://localhost:5000/api/auth/profile", { withCredentials: true })
@@ -135,7 +138,6 @@ const Results = () => {
       });
   }, []);
 
-  console.log(isLogged);
   // Mensaje según porcentaje
   useEffect(() => {
     if (accuracy >= 80) {
@@ -169,7 +171,6 @@ const Results = () => {
         const data = await response.json();
         setAiMessage(data.message);
       } catch (error) {
-        console.error(error);
         setAiMessage("No pude generar un mensaje ahora 😢");
       }
     };
@@ -180,9 +181,6 @@ const Results = () => {
   // Guardar resultados en backend
   useEffect(() => {
     const saveResults = async () => {
-      const user = JSON.parse(localStorage.getItem("user"));
-      const userId = user?.id;
-
       if (!userId) {
         console.warn("No hay usuario logueado. No se guardará el resultado.");
         return;
@@ -203,29 +201,21 @@ const Results = () => {
             withCredentials: true,
           }
         )
-        .then((response) => {
-          console.log(response);
-          console.log("Resultado guardado:", response);
-        })
+        // .then((response) => {
+        // console.log("Resultado guardado:", response);
+        // })
         .catch((error) => {
           console.error("Error guardando resultado:", error);
         });
     };
 
-    if (isLogged) {
+    if (userId) {
       saveResults();
     }
-  }, [isLogged, accuracy, duration]);
+  }, [userId, accuracy, duration]);
 
   return (
     <main id="results">
-      <Link to="/home">
-        <button>🏠️</button>
-      </Link>
-
-      <Link to="/menu">
-        <button className="btn">Menú</button>
-      </Link>
 
       {image && (
         <img
@@ -254,10 +244,15 @@ const Results = () => {
       </div>
       <br />
 
-      {!isLogged && (
+      {!isLogged ? (
         <Link to="/login">
           <button>Iniciar sesión</button>
         </Link>
+      ) : (
+        <Link to="/">
+          <button>🏠️ inicio</button>
+        </Link>
+
       )}
     </main>
   );

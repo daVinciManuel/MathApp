@@ -38,28 +38,12 @@ const Dashboard = () => {
           </>
         ) : (
           <>
-            <Link to="/game">
-              <button>🧩 Practicar</button>
-            </Link>
-            <Link to="/history">
-              <button>📜 Historial</button>
-            </Link>
-            <Link to="/profile">
-              <button>👤 Perfil</button>
-            </Link>
+            <button onClick={() => { navigate('/game') }}>🧩 Practicar</button>
+            <button onClick={() => { navigate('/profile/student') }}>👤 Perfil</button>
           </>
         )}
       </div>
 
-      <button
-        className="logout"
-        onClick={() => {
-          localStorage.removeItem("user");
-          navigate("/login");
-        }}
-      >
-        Cerrar sesión
-      </button>
     </main>
   );
 };

@@ -1,48 +1,39 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import "./css/header.css";
 import LogoutButton from "./LogoutButton";
 
-function AppHeader({ navigate }) {
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    axios
-      .get("http://localhost:5000/api/auth/profile", { withCredentials: true })
-      .then((res) => {
-        setUser(res.data);
-      })
-      .catch(() => {
-        setUser(null); // not logged in
-      });
-  }, []);
-
+function AppHeader({ navigate, user, currentPath }) {
+  console.log(currentPath)
   return (
-    <header className="app-header">
+    <header className="app-header" style={gridContainer}>
       <img src="/img/logo.png" width='80px'
         onClick={() => navigate('/')}
       />
       {user ? (
         <>
+          {currentPath !== '/profile/student' &&
+            currentPath !== '/profile/teacher' && (
+              <button onClick={() => navigate("/profile/student")}>Perfil</button>
+            )}
           <div className="user-info">
-            Usuario: <strong>{user.name}</strong>
+            Usuario: <strong style={{ textTransform: 'capitalize' }}>{user.name} {user.lastname}</strong>
           </div>
-          <LogoutButton
-            onLogout={() => {
-              setUser(null);
-            }}
-          />
+          <LogoutButton />
         </>
       ) : (
-        <>
 
-          <button onClick={() => navigate("/profile/student")}>Perfil</button>
-          <button onClick={() => navigate('/login')}>Iniciar sesi&oacute;n</button>
-        </>
-      )}
+        // si la ruta no es /login muestra el boton login
+        currentPath !== '/login' &&
+        <button onClick={() => navigate('/login')}>Iniciar sesi&oacute;n</button>
+      )
+      }
     </header>
   );
 }
 
 export default AppHeader;
+
+const gridContainer = {
+  display: "grid",
+  gridTemplate: "1fr / 100px 1fr 100px",
+  alignItems: "center"
+}

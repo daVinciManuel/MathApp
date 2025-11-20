@@ -6,7 +6,6 @@ import "./css/home.css";
 const Home = () => {
   return (
     <>
-      <AppHeader />
       <main id="home">
         <img src="/img/pinguino.png" alt="NaoMat" />
         <h1>Naomat</h1>

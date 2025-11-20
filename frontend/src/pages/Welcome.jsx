@@ -1,17 +1,12 @@
 import { Link } from "react-router-dom";
 import "./css/welcome.css"
-const Welcome = () => {
+const Welcome = ({ navigate }) => {
   return (
     <main id="welcome">
-      <h1>¡¡ Bienvenido a Naomat !!</h1>
       <img src="/img/logo1.png" />
-
-      <Link to="/game">
-        <button>Prueba una partida</button>
-      </Link>
-      <Link to="/login">
-        <button>Login</button>
-      </Link>
+      <button onClick={() => navigate("/game")}>Prueba una partida</button>
+      <br />
+      <button onClick={() => navigate("/login")}>Login</button>
     </main>
   );
 };

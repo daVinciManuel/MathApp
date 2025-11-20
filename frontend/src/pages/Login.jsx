@@ -2,10 +2,11 @@ import axios from "axios";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./css/general.css";
-
+import { useAuth } from "../context/authContext";
 const Login = () => {
   const [showGhost, setShowGhost] = useState(false);
 
+  const { setUser } = useAuth();
   const navigate = useNavigate();
 
   // Datos formulario
@@ -55,19 +56,19 @@ const Login = () => {
 
       if (res.status === 200 && res.data.user) {
         // Guardar usuario y rol
+        setUser(res.data.user.dataValues);
         localStorage.setItem("user", JSON.stringify(res.data.user.dataValues));
         localStorage.setItem("role", res.data.user.dataValues.role); // "student" o "teacher"
 
+        navigate('/dashboard');
         // Redirigir según rol
-        if (res.data.user.dataValues.role === "teacher") {
-          navigate("/profile/teacher");
-        } else {
-          navigate("/profile/student");
-        }
+        // if (res.data.user.dataValues.role === "teacher") {
+        //   navigate("profile/teacher");
+        // } else {
+        //   navigate("profile/student");
+        // }
       }
-      console.log(res);
     } catch (err) {
-      console.log(err);
       setMessage(err.response.data.message);
     }
   };
@@ -116,9 +117,6 @@ const Login = () => {
       </div>
       <br />
       <br />
-      <Link to="/">
-        <button>Inicio</button>
-      </Link>
     </main>
   );
 };

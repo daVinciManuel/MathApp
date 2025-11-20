@@ -1,13 +1,8 @@
 .app-header {
   color: white;
-  font-weight: 600;
   background: rgba(0, 0, 0, 0.2);
   padding: 0.5rem 1rem;
-  border-radius: 8px;
   font-family: "Poppins", sans-serif;
-
-  display: flex;
-  justify-content: space-between;
 }
 
 .app-header img {
@@ -15,9 +10,9 @@
   cursor: pointer;
 }
 
-.app-header button,
-.app-header button * {
-  margin: unset;
-  padding: unset;
+.app-header button {
+  grid-column: 3;
   line-height: unset;
+  height: fit-content;
+  padding: 0.5rem;
 }

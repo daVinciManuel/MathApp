@@ -1,13 +1,13 @@
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 
 const NotFoundPage = () => {
-    return (
-        <main>
-            <h1>Página no encontrada. ❌</h1>
-            <Link to={"/"}>
-                <button>Volver al Inicio</button>
-            </Link>
-        </main>
-    )
+  const navigate = useNavigate();
+  return (
+    <main>
+      <h1>Página no encontrada. ❌</h1>
+      <button onClick={() => { navigate('/') }}>Volver al Inicio</button>
+      <button onClick={() => { navigate(-1) }}>Volver atr&aacute;s</button>
+    </main>
+  )
 }
 export default NotFoundPage;
