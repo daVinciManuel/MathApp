@@ -6,6 +6,7 @@ import express from "express";
 import authRoutes from "./routes/auth.js";
 import gameRoutes from "./routes/game.js";
 import resultsRoutes from "./routes/results.js";
+import openaiRoutes from "./routes/openai.js";
 // ---------------- db ----------------
 import pkg from "./db/models/index.cjs";
 const { sequelize } = pkg
@@ -36,6 +37,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/auth", authRoutes);
 app.use("/api/game", gameRoutes);
 app.use("/api/results", resultsRoutes);
+app.use("/api/openai", openaiRoutes);
 
 app.get("/", (req, res) => {
   res.send(
