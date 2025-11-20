@@ -14,14 +14,13 @@ body {
   overflow: scroll;
 }
 
-/* main { */
-/*   display: flex; */
-/*   flex-direction: column; */
-/*   align-items: center; */
-/*   justify-content: center; */
-/*   height: 100vh; */
-/*   text-align: center; */
-/* } */
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
 
 /* h1, */
 /* h2, */
