@@ -109,6 +109,7 @@ EN server.js:
 import resultsRoutes from "./routes/results.js";
 app.use("/api/results", resultsRoutes);*/
 
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import "./css/general.css";
@@ -168,7 +169,7 @@ const Results = () => {
   useEffect(() => {
     const saveResults = async () => {
       const user = JSON.parse(localStorage.getItem("user"));
-      const userId = user?.id;
+      const userId = user?.dataValues.id;
 
       if (!userId) {
         console.warn("No hay usuario logueado. No se guardará el resultado.");
@@ -176,20 +177,23 @@ const Results = () => {
       }
 
       try {
-        const response = await fetch("http://localhost:5000/api/results/save", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
+        const response = await axios.post(
+          "http://localhost:5000/api/results/save",
+          {
             userId,
             accuracy,
             duration,
-          }),
-        });
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              withCredentials: true,
+            },
+          }
+        );
 
-        const data = await response.json();
-        console.log("Resultado guardado:", data);
+        console.log(response);
+        console.log("Resultado guardado:", response);
       } catch (error) {
         console.error("Error guardando resultado:", error);
       }
