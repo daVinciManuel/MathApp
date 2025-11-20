@@ -10,7 +10,7 @@ function Layout() {
   const navigate = useNavigate();
   // List of routes where header should be hidden
   const hideHeaderRoutes = ["/"];
-
+  console.log(user)
   const showHeader = !hideHeaderRoutes.includes(location.pathname);
   if (user !== null && location.pathname === '/') {
     navigate('/dashboard')
