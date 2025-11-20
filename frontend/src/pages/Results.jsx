@@ -126,7 +126,10 @@ const Results = () => {
   const [image, setImage] = useState("");
 
   const { user } = useAuth();
-  const userId = user.id ?? false;
+  let userId = false;
+  if (user !== null && user.id !== null) {
+    userId = user.id;
+  }
   useEffect(() => {
     axios
       .get("http://localhost:5000/api/auth/profile", { withCredentials: true })
