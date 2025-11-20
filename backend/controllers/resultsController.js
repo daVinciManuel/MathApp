@@ -7,8 +7,8 @@ export async function saveResult(req, res) {
     const { userId, accuracy, duration } = req.body;
 
     if (!userId || accuracy === undefined || duration === undefined) {
-      return res.status(400).json({ 
-        error: 'Faltan datos requeridos para guardar el resultado' 
+      return res.status(400).json({
+        error: 'Faltan datos requeridos para guardar el resultado'
       });
     }
 
@@ -26,9 +26,9 @@ export async function saveResult(req, res) {
       date: new Date()
     });
 
-    return res.status(201).json({ 
-      message: "Resultado guardado exitosamente", 
-      result: newResult 
+    return res.status(201).json({
+      message: "Resultado guardado exitosamente",
+      result: newResult
     });
 
   } catch (e) {
@@ -44,16 +44,16 @@ export async function getUserResults(req, res) {
 
     const results = await Records.findAll({
       where: { userId },
-      order: [['date', 'DESC']],
+      order: [['createdAt', 'DESC']],
       include: [{
         model: User,
         attributes: ['name', 'lastname', 'email']
       }]
     });
 
-    return res.status(200).json({ 
-      message: "Resultados obtenidos exitosamente", 
-      data: results 
+    return res.status(200).json({
+      message: "Resultados obtenidos exitosamente",
+      data: results
     });
 
   } catch (e) {
