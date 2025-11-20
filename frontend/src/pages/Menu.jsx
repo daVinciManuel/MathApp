@@ -1,5 +1,5 @@
-import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "./css/general.css";
 import "./css/menu.css";
 
@@ -43,7 +43,7 @@ const Menu = () => {
           <div>
             <p>Tipo de ejercicios</p>
             <Link to="/game">
-              <a className="btn">Ir al juego</a>
+              <button className="btn">Ir al juego</button>
             </Link>
           </div>
         )}

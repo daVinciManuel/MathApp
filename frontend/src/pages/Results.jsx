@@ -124,6 +124,18 @@ const Results = () => {
   const [message, setMessage] = useState("");
   const [image, setImage] = useState("");
 
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/api/auth/profile", { withCredentials: true })
+      .then(() => {
+        setIsLogged(true);
+      })
+      .catch(() => {
+        setIsLogged(false);
+      });
+  }, []);
+
+  console.log(isLogged);
   // Mensaje según porcentaje
   useEffect(() => {
     if (accuracy >= 80) {
@@ -176,8 +188,8 @@ const Results = () => {
         return;
       }
 
-      try {
-        const response = await axios.post(
+      await axios
+        .post(
           "http://localhost:5000/api/results/save",
           {
             userId,
@@ -187,20 +199,23 @@ const Results = () => {
           {
             headers: {
               "Content-Type": "application/json",
-              withCredentials: true,
             },
+            withCredentials: true,
           }
-        );
-
-        console.log(response);
-        console.log("Resultado guardado:", response);
-      } catch (error) {
-        console.error("Error guardando resultado:", error);
-      }
+        )
+        .then((response) => {
+          console.log(response);
+          console.log("Resultado guardado:", response);
+        })
+        .catch((error) => {
+          console.error("Error guardando resultado:", error);
+        });
     };
 
-    saveResults();
-  }, [accuracy, duration]);
+    if (isLogged) {
+      saveResults();
+    }
+  }, [isLogged, accuracy, duration]);
 
   return (
     <main id="results">
@@ -239,9 +254,11 @@ const Results = () => {
       </div>
       <br />
 
-      <Link to="/login">
-        <button>Iniciar sesión</button>
-      </Link>
+      {!isLogged && (
+        <Link to="/login">
+          <button>Iniciar sesión</button>
+        </Link>
+      )}
     </main>
   );
 };

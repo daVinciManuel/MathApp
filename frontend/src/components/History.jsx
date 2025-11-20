@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useEffect, useState } from "react";
 
 const History = () => {
@@ -6,20 +7,22 @@ const History = () => {
 
   useEffect(() => {
     const fetchResults = async () => {
-      try {
-        const user = JSON.parse(localStorage.getItem("user"));
-        const userId = user?.id;
+      const user = JSON.parse(localStorage.getItem("user"));
+      const userId = user?.id;
 
-        if (!userId) return;
+      if (!userId) return;
 
-        const response = await fetch(`http://localhost:5000/api/results/user/${userId}`);
-        const data = await response.json();
-        setResults(data);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error obteniendo historial:", error);
-        setLoading(false);
-      }
+      await axios
+        .get(`http://localhost:5000/api/results/user/${userId}`)
+        .then((data) => {
+          console.log(data);
+          setResults(data);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error("Error obteniendo historial:", error);
+          setLoading(false);
+        });
     };
 
     fetchResults();
