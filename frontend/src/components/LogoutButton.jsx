@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/authContext";
 import "./css/logoutButton.css";
 
-function LogoutButton() {
+function LogoutButton(position) {
   const { setUser } = useAuth();
   const navigate = useNavigate();
 
@@ -27,7 +27,7 @@ function LogoutButton() {
   };
 
   return (
-    <button onClick={handleLogout} className="logout-btn">
+    <button onClick={handleLogout} className="logout-btn" style={position.position}>
       Cerrar sesi&oacute;n
     </button>
   );

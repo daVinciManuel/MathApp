@@ -3,6 +3,25 @@ import LogoutButton from "./LogoutButton";
 
 function AppHeader({ navigate, user, currentPath }) {
   console.log(currentPath)
+  const gridContainer = {
+    display: "grid",
+    gap: '1rem',
+    gridTemplate: !user ? "1fr / 100px 1fr 100px" : "1fr / 100px 1fr 100px 100px",
+    alignItems: "center"
+  }
+  const perfilBtnPosition = {
+    gridColumn: 3,
+    gridRow: 1
+  }
+  const logoutBtnPosition = {
+    gridColumn: 4,
+    gridRow: 1
+  }
+  const userInfoPosition = {
+    gridColumn: 2,
+    gridRow: 1
+
+  }
   return (
     <header className="app-header" style={gridContainer}>
       <img src="/img/logo.png" width='80px'
@@ -12,12 +31,12 @@ function AppHeader({ navigate, user, currentPath }) {
         <>
           {currentPath !== '/profile/student' &&
             currentPath !== '/profile/teacher' && (
-              <button onClick={() => navigate("/profile/student")}>Perfil</button>
+              <button onClick={() => navigate("/profile/student")} style={perfilBtnPosition}>Perfil</button>
             )}
-          <div className="user-info">
+          <div className="user-info" style={userInfoPosition}>
             Usuario: <strong style={{ textTransform: 'capitalize' }}>{user.name} {user.lastname}</strong>
           </div>
-          <LogoutButton />
+          <LogoutButton position={logoutBtnPosition} />
         </>
       ) : (
 
@@ -26,14 +45,9 @@ function AppHeader({ navigate, user, currentPath }) {
         <button onClick={() => navigate('/login')}>Iniciar sesi&oacute;n</button>
       )
       }
-    </header>
+    </header >
   );
 }
 
 export default AppHeader;
 
-const gridContainer = {
-  display: "grid",
-  gridTemplate: "1fr / 100px 1fr 100px",
-  alignItems: "center"
-}
