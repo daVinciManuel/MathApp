@@ -14,7 +14,7 @@ export async function generateMotivationalMessage(req, res) {
       });
     }
 
-    console.log(`📤 Generando mensaje corto para: ${accuracy}% en ${duration}s`);
+    console.log(`Generando mensaje corto para: ${accuracy}% en ${duration}s`);
 
     const completion = await groq.chat.completions.create({
       messages: [
@@ -36,7 +36,7 @@ export async function generateMotivationalMessage(req, res) {
 
     const message = completion.choices[0]?.message?.content || "¡Buen trabajo! 💪";
 
-    console.log('✅ Mensaje generado');
+    console.log('Mensaje generado');
 
     return res.status(200).json({ 
       success: true,
@@ -44,7 +44,7 @@ export async function generateMotivationalMessage(req, res) {
     });
 
   } catch (error) {
-    console.error('❌ Error con Groq:', error.message);
+    console.error('Error con Groq:', error.message);
     return res.status(500).json({ 
       success: false,
       error: error.message,
