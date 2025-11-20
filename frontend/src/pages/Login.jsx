@@ -6,9 +6,11 @@ import { useAuth } from "../context/authContext";
 const Login = () => {
   const [showGhost, setShowGhost] = useState(false);
 
-  const { setUser } = useAuth();
+  const { user, setUser } = useAuth();
   const navigate = useNavigate();
-
+  if (user !== null) {
+    navigate('/')
+  }
   // Datos formulario
   const [formData, setFormData] = useState({
     email: "",

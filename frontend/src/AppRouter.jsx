@@ -29,12 +29,12 @@ const router = createBrowserRouter([
       { path: "menu", element: <Menu /> },
       { path: "results", element: <Results /> },
       { path: "dashboard", element: <Dashboard /> },
+      { path: "*", element: <NotFoundPage /> },
     ]
   },
 
   // Rutas de perfiles
 
-  { path: "*", element: <NotFoundPage /> },
 ]);
 
 const AppRouter = () => {
