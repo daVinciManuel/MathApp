@@ -1,17 +1,18 @@
 import express from "express";
-import { verifyToken } from "../middleware/verifyToken.js";
-import { 
-  saveResult, 
+import {
   //getUserResults, 
-  //getUserStats 
+  getUserResults,
+  saveResult
 } from "../controllers/resultsController.js";
+import { verifyToken } from "../middleware/verifyToken.js";
 
 const router = express.Router();
 
 // Guardar resultado (protegida)
 router.post("/save", verifyToken, saveResult);
 
-
+// Muestra resultados de un usuario
+router.get('/user/:id',verifyToken, getUserResults);
 
 
 export default router;

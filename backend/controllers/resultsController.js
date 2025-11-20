@@ -1,6 +1,5 @@
 import pkg from "../db/models/index.cjs";
 const { Records, User } = pkg;
-import { Sequelize } from "sequelize";
 
 // --------- Guardar Resultado ------------
 export async function saveResult(req, res) {
@@ -41,9 +40,9 @@ export async function saveResult(req, res) {
 // --------- Obtener Resultados de un Usuario ------------
 export async function getUserResults(req, res) {
   try {
-    const { userId } = req.params;
+    const { id: userId } = req.params;
 
-    const results = await Result.findAll({
+    const results = await Records.findAll({
       where: { userId },
       order: [['date', 'DESC']],
       include: [{
@@ -54,7 +53,7 @@ export async function getUserResults(req, res) {
 
     return res.status(200).json({ 
       message: "Resultados obtenidos exitosamente", 
-      results 
+      data: results 
     });
 
   } catch (e) {
