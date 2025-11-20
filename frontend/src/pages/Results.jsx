@@ -181,7 +181,7 @@ const Results = () => {
   useEffect(() => {
     const saveResults = async () => {
       const user = JSON.parse(localStorage.getItem("user"));
-      const userId = user?.dataValues.id;
+      const userId = user?.id;
 
       if (!userId) {
         console.warn("No hay usuario logueado. No se guardará el resultado.");

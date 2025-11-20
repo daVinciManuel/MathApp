@@ -9,14 +9,18 @@ const History = () => {
     const fetchResults = async () => {
       const user = JSON.parse(localStorage.getItem("user"));
       const userId = user?.id;
-
+      console.log(`userId: ${userId}`);
       if (!userId) return;
 
       await axios
-        .get(`http://localhost:5000/api/results/user/${userId}`)
+        .get(`http://localhost:5000/api/results/user/${userId}`, {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          }
+        })
         .then((data) => {
-          console.log(data);
-          setResults(data);
+          setResults(data.data.data);
           setLoading(false);
         })
         .catch((error) => {

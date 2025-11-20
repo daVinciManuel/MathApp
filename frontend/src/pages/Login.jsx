@@ -55,11 +55,11 @@ const Login = () => {
 
       if (res.status === 200 && res.data.user) {
         // Guardar usuario y rol
-        localStorage.setItem("user", JSON.stringify(res.data.user));
-        localStorage.setItem("role", res.data.user.role); // "student" o "teacher"
+        localStorage.setItem("user", JSON.stringify(res.data.user.dataValues));
+        localStorage.setItem("role", res.data.user.dataValues.role); // "student" o "teacher"
 
         // Redirigir según rol
-        if (res.data.user.role === "teacher") {
+        if (res.data.user.dataValues.role === "teacher") {
           navigate("/profile/teacher");
         } else {
           navigate("/profile/student");
