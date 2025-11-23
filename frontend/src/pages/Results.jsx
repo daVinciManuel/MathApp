@@ -48,22 +48,36 @@ const Results = () => {
   useEffect(() => {
     const getAIMessage = async () => {
       try {
-        // Aquí llamamos al endpoint de tu backend
-        const response = await fetch(
-          "http://localhost:5000/api/generate-message",
+        const response = await axios.post(
+          "http://localhost:5000/api/openai/generate-message",
           {
-            method: "POST",
+            accuracy,
+            duration
+          },
+          {
             headers: {
-              "Content-Type": "application/json",
+              "Content-Type": "application/json"
             },
-            body: JSON.stringify({ accuracy, duration }),
+            withCredentials: true
           }
         );
 
-        const data = await response.json();
-        setAiMessage(data.message);
+        // Verificar que la respuesta sea exitosa
+        if (response.data.success) {
+          setAiMessage(response.data.message);
+        } else {
+          setAiMessage(response.data.message || "No pude generar un mensaje ahora 😢");
+        }
+
       } catch (error) {
-        setAiMessage("No pude generar un mensaje ahora 😢");
+        console.error("Error al obtener mensaje de IA:", error);
+        
+        // Si hay un mensaje de fallback del servidor
+        if (error.response?.data?.message) {
+          setAiMessage(error.response.data.message);
+        } else {
+          setAiMessage("¡Sigue adelante! Cada intento cuenta. 💪");
+        }
       }
     };
 
@@ -121,7 +135,13 @@ const Results = () => {
 
       <p
         className="ai-message"
-        style={{ marginTop: "10px", fontStyle: "italic" }}
+        style={{ 
+          marginTop: "10px", 
+          fontStyle: "italic",
+          padding: "15px",
+          borderRadius: "8px",
+          lineHeight: "1.6"
+        }}
       >
         {aiMessage}
       </p>
