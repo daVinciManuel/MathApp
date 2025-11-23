@@ -1,7 +1,7 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { useAuth } from "../context/authContext";
+import { useAuth } from "../core/context/authContext";
+import { checkUserAuth, generateAIMessage, saveGameResult } from "../core/services/resultsService";
 import "./css/general.css";
 import "./css/results.css";
 
@@ -20,10 +20,9 @@ const Results = () => {
     userId = user.id;
   }
   useEffect(() => {
-    axios
-      .get("http://localhost:5000/api/auth/profile", { withCredentials: true })
-      .then(() => {
-        setIsLogged(true);
+    checkUserAuth()
+      .then((isAuth) => {
+        setIsLogged(isAuth);
       })
       .catch(() => {
         setIsLogged(false);
@@ -48,20 +47,8 @@ const Results = () => {
   useEffect(() => {
     const getAIMessage = async () => {
       try {
-        // Aquí llamamos al endpoint de tu backend
-        const response = await fetch(
-          "http://localhost:5000/api/generate-message",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ accuracy, duration }),
-          }
-        );
-
-        const data = await response.json();
-        setAiMessage(data.message);
+        const message = await generateAIMessage({ accuracy, duration });
+        setAiMessage(message);
       } catch (error) {
         setAiMessage("No pude generar un mensaje ahora 😢");
       }
@@ -78,27 +65,15 @@ const Results = () => {
         return;
       }
 
-      await axios
-        .post(
-          "http://localhost:5000/api/results/save",
-          {
-            userId,
-            accuracy,
-            duration,
-          },
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-            withCredentials: true,
-          }
-        )
-        // .then((response) => {
-        // console.log("Resultado guardado:", response);
-        // })
-        .catch((error) => {
-          console.error("Error guardando resultado:", error);
+      try {
+        await saveGameResult({
+          userId,
+          accuracy,
+          duration,
         });
+      } catch (error) {
+        console.error("Error guardando resultado:", error);
+      }
     };
 
     if (userId) {

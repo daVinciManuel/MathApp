@@ -1,6 +1,6 @@
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/authContext";
+import { useAuth } from "../core/context/authContext";
+import { logout } from "../core/services/authService";
 import "./css/logoutButton.css";
 
 function LogoutButton(position) {
@@ -9,11 +9,7 @@ function LogoutButton(position) {
 
   const handleLogout = async () => {
     try {
-      await axios.post(
-        "http://localhost:5000/api/auth/logout",
-        {},
-        { withCredentials: true }
-      );
+      await logout();
       // eliminar info de localStorage
       localStorage.removeItem('role');
       localStorage.removeItem('user');

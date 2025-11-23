@@ -1,16 +1,23 @@
-import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Modal from "../components/Modal";
+import { useAuth } from "../core/context/authContext";
+import { login } from "../core/services/authService";
+import { trimObject } from '../core/utils/validations.js';
 import "./css/general.css";
-import { useAuth } from "../context/authContext";
-const Login = () => {
-  const [showGhost, setShowGhost] = useState(false);
 
-  const { user, setUser } = useAuth();
+const Login = () => {
+
+  const [showModal, setShowModal] = useState(false);
+  const { user, refetchUser } = useAuth();
+
   const navigate = useNavigate();
-  if (user !== null) {
-    navigate('/')
-  }
+
+  useEffect(() => {
+    if (user !== null) {
+      navigate('/')
+    }
+  }, [user, navigate])
   // Datos formulario
   const [formData, setFormData] = useState({
     email: "",
@@ -26,57 +33,33 @@ const Login = () => {
       ...formData,
       [e.target.name]: e.target.value,
     });
-    setShowGhost(!showGhost);
   };
 
   // Enviar la peticion al backend
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const urlEncoded = new URLSearchParams();
-    for (const key in formData) {
-      urlEncoded.append(key, formData[key]);
-    }
-
     try {
-      const res = await axios.post(
-        "http://localhost:5000/api/auth/login",
-        // "https://mathapp-ug8r.onrender.com/api/auth/login",
-        urlEncoded,
-        {
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          withCredentials: true,
-        }
-      );
-
-      /*const userData = res.data.user;
-      if (res.status === 200 && userData) {
-        localStorage.setItem("user", JSON.stringify(userData));
-        navigate("/dashboard");
-      }*/
+      const res = await login(trimObject(formData));
 
       setMessage(res.data.message);
 
-      if (res.status === 200 && res.data.user) {
-        // Guardar usuario y rol
-        setUser(res.data.user.dataValues);
-        localStorage.setItem("user", JSON.stringify(res.data.user.dataValues));
-        localStorage.setItem("role", res.data.user.dataValues.role); // "student" o "teacher"
-
+      if (res.status === 200 && res.data.message === 'login ok') {
+        // Fetch user profile via refetchUser so it updates context before redirect
+        await refetchUser();
         navigate('/dashboard');
-        // Redirigir según rol
-        // if (res.data.user.dataValues.role === "teacher") {
-        //   navigate("profile/teacher");
-        // } else {
-        //   navigate("profile/student");
-        // }
       }
     } catch (err) {
-      setMessage(err.response.data.message);
+      setMessage(err.response?.data?.message || err.message || "Error");
+      setShowModal(true);
     }
   };
 
   return (
     <main id="login">
+      <Modal
+        isOpen={showModal}
+        message={message}
+        onClose={() => { setShowModal(false) }} />
       <h1>Inicie sesión</h1>
       <div>
         <form onSubmit={handleSubmit}>
@@ -109,7 +92,6 @@ const Login = () => {
           <button>Entrar</button>
         </form>
 
-        <p className="message">{message}</p>
         <br />
         <br />
 

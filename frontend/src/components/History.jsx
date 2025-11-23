@@ -1,19 +1,20 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useAuth } from "../core/context/authContext";
 
 const History = () => {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { user } = useAuth();
+
 
   useEffect(() => {
     const fetchResults = async () => {
-      const user = JSON.parse(localStorage.getItem("user"));
-      const userId = user?.id;
-      console.log(`userId: ${userId}`);
-      if (!userId) return;
+
+      if (!user.id) return;
 
       await axios
-        .get(`http://localhost:5000/api/results/user/${userId}`, {
+        .get(`http://localhost:5000/api/results/user/${user.id}`, {
           withCredentials: true,
           headers: {
             "Content-Type": "application/json",

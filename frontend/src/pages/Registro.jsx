@@ -1,11 +1,9 @@
-import axios from "axios";
 import { useState } from "react";
 import Modal from "../components/Modal";
+import { register } from "../core/services/authService";
 
 const Registro = () => {
-  // Estados
-  // Datos formulario
-
+  // plantilla del formulario
   const [formData, setFormData] = useState({
     name: "",
     lastname: "",
@@ -28,26 +26,13 @@ const Registro = () => {
   // Envia los datos al servidor
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const urlEncoded = new URLSearchParams();
-    for (const key in formData) {
-      urlEncoded.append(key, formData[key]);
-    }
-
     try {
-      const res = await axios.post(
-        "http://localhost:5000/api/auth/register",
-        // "https://mathapp-ug8r.onrender.com/api/auth/register",
-        urlEncoded,
-        {
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-        }
-      );
+      const res = await register(formData);
       setMessage(res.data.message);
+      setShowModal(true);
     } catch (err) {
       setMessage(err.message);
-      if (err.response.data.error === "Validation error")
+      if (err.response?.data?.error === "Validation error")
         setMessage("Usuario no diponible");
       setShowModal(true);
     }

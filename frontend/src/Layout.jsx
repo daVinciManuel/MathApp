@@ -1,7 +1,6 @@
-// Layout.jsx
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
-import { useAuth } from "./context/authContext";
-import AppHeader from "./components/AppHeader.jsx"; // Your header component
+import AppHeader from "./components/AppHeader.jsx";
+import { useAuth } from "./core/context/authContext";
 import Welcome from "./pages/Welcome.jsx";
 
 function Layout() {

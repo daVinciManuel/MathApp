@@ -31,7 +31,7 @@ function AppHeader({ navigate, user, currentPath }) {
         <>
           {currentPath !== '/profile/student' &&
             currentPath !== '/profile/teacher' && (
-              <button onClick={() => navigate("/profile/student")} style={perfilBtnPosition}>Perfil</button>
+              <button onClick={() => navigate(`/profile/${user.role}`)} style={perfilBtnPosition}>Perfil</button>
             )}
           <div className="user-info" style={userInfoPosition}>
             Usuario: <strong style={{ textTransform: 'capitalize' }}>{user.name} {user.lastname}</strong>

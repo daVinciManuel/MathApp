@@ -1,5 +1,4 @@
-import { Link } from "react-router-dom";
-import "./css/welcome.css"
+import "./css/welcome.css";
 const Welcome = ({ navigate }) => {
   return (
     <main id="welcome">

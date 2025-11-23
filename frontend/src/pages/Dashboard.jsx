@@ -1,22 +1,19 @@
-import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import "./css/general.css";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from '../core/context/authContext';
 import "./css/dashboard.css"; // lo crearemos luego
+import "./css/general.css";
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const [user, setUser] = useState({ name: "", role: "" });
-
+  const { user } = useAuth();
   useEffect(() => {
-    // Leer datos guardados tras el login (ejemplo)
-    const storedUser = JSON.parse(localStorage.getItem("user"));
-
-    if (!storedUser) {
-      navigate("/login");
-      return;
+    if (user === null) {
+      navigate("/");
     }
-    setUser(storedUser);
-  }, [navigate]);
+  }, [user, navigate]);
+
+  if (!user) return null;
 
   return (
     <main id="dashboard">
