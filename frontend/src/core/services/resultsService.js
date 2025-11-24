@@ -32,7 +32,8 @@ export async function checkUserAuth() {
       withCredentials: true,
     });
     return response.status === 200;
-  } catch (err) {
+  } catch (e) {
+    e;
     return false;
   }
 }
