@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>Frontend Architecture Documentation</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="frontend-architecture-documentation">Frontend Architecture Documentation</h1>
+<h2 id="overview">Overview</h2>
+<p>This document explains the refactored frontend structure implemented in the MathApp project, specifically focusing on the new <code>core</code> folder and its subfolders. The goal is to provide clarity on the architectural decisions and future direction.</p>
+<h2 id="current-structure">Current Structure</h2>
+<pre><code>frontend/src/
+├── core/
+│   ├── context/          # React context &amp; state management
+│   ├── services/         # HTTP requests &amp; API logic
+│   └── utils/            # Helper functions &amp; utilities
+├── components/           # Reusable UI components
+├── pages/                # Page-level components (route views)
+└── [Other files]         # App.jsx, Layout.jsx, main.jsx, etc.
+</code></pre>
+<h2 id="why-we-created-the-core-folder">Why We Created the <code>core</code> Folder</h2>
+<p>The <code>core</code> folder serves as a <strong>dedicated namespace for business logic and state management</strong>. By isolating these concerns from UI components, we achieve better separation of concerns and improved maintainability.</p>
+<h3 id="benefits-of-this-structure">Benefits of This Structure</h3>
+<ol>
+<li><strong>Separation of Concerns</strong>: Business logic (HTTP requests, state management) is completely separate from UI presentation logic.</li>
+<li><strong>Reusability</strong>: Services and context can be easily imported and reused across multiple components without tight coupling.</li>
+<li><strong>Testability</strong>: Core logic can be tested independently from UI components.</li>
+<li><strong>Scalability</strong>: As the app grows, it's easier to add new services, contexts, and utilities without cluttering the main <code>src</code> directory.</li>
+<li><strong>Team Clarity</strong>: Developers immediately understand where to find and add business logic.</li>
+</ol>
+<hr>
+<h2 id="core-subfolders-explained">Core Subfolders Explained</h2>
+<h3 id="1-corecontext">1. <code>core/context/</code></h3>
+<p><strong>Purpose</strong>: Centralized React Context for application state management.</p>
+<p><strong>Current Contents</strong>:</p>
+<ul>
+<li><code>authContext.jsx</code> — Manages user authentication state, provides <code>useAuth()</code> hook</li>
+</ul>
+<p><strong>Key Responsibilities</strong>:</p>
+<ul>
+<li>Maintains global state (user data, authentication status)</li>
+<li>Provides hooks for consuming that state throughout the app</li>
+<li>Handles state mutations (<code>setUser</code>, <code>refetchUser</code>)</li>
+</ul>
+<p><strong>Example Usage</strong>:</p>
+<pre><code class="language-jsx"><span class="hljs-keyword">import</span> { useAuth } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;../core/context/authContext&quot;</span>;
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">MyComponent</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">const</span> { user, setUser, refetchUser } = <span class="hljs-title function_">useAuth</span>();
+  <span class="hljs-comment">// Use user state and functions</span>
+}
+</code></pre>
+<p><strong>Future Additions</strong>:</p>
+<ul>
+<li>Potential theme context (dark/light mode)</li>
+<li>User preferences/settings context</li>
+<li>Notification/toast context for global notifications</li>
+</ul>
+<hr>
+<h3 id="2-coreservices">2. <code>core/services/</code></h3>
+<p><strong>Purpose</strong>: Encapsulates all HTTP requests and external API communication.</p>
+<p><strong>Current Contents</strong>:</p>
+<ul>
+<li><code>api.js</code> — Central Axios instance with baseURL and default configuration</li>
+<li><code>authService.js</code> — Login, register, logout endpoints</li>
+<li><code>gameService.js</code> — Game exercises fetching</li>
+<li><code>resultsService.js</code> — Save results, generate AI messages, check auth status</li>
+</ul>
+<p><strong>Key Responsibilities</strong>:</p>
+<ul>
+<li>Abstract HTTP communication details from components</li>
+<li>Centralize API endpoints and configuration</li>
+<li>Handle request/response formatting</li>
+<li>Provide consistent error handling</li>
+</ul>
+<p><strong>Example Usage</strong>:</p>
+<pre><code class="language-jsx"><span class="hljs-keyword">import</span> { login } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;../core/services/authService&quot;</span>;
+
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">handleSubmit</span> = <span class="hljs-keyword">async</span> (<span class="hljs-params">formData</span>) =&gt; {
+  <span class="hljs-keyword">try</span> {
+    <span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> <span class="hljs-title function_">login</span>(formData);
+    <span class="hljs-comment">// Handle response</span>
+  } <span class="hljs-keyword">catch</span> (err) {
+    <span class="hljs-comment">// Handle error</span>
+  }
+};
+</code></pre>
+<p><strong>Why Services Matter</strong>:</p>
+<ul>
+<li>Components focus on UI logic, not HTTP details</li>
+<li>Changing an API endpoint requires modification in only one place</li>
+<li>Easy to add caching, retry logic, or middleware later</li>
+<li>Consistent authentication handling across all requests</li>
+</ul>
+<p><strong>Future Additions</strong>:</p>
+<ul>
+<li>User profile service (fetch, update profile)</li>
+<li>Game history/analytics service</li>
+<li>Custom games service</li>
+<li>Dashboard service</li>
+</ul>
+<hr>
+<h3 id="3-coreutils">3. <code>core/utils/</code></h3>
+<p><strong>Purpose</strong>: Reusable utility functions and helpers.</p>
+<p><strong>Current Contents</strong>:</p>
+<ul>
+<li><code>validations.js</code> — Object validation helpers (e.g., <code>trimObject</code>)</li>
+</ul>
+<p><strong>Key Responsibilities</strong>:</p>
+<ul>
+<li>Provide pure functions for common tasks</li>
+<li>Avoid code duplication across components</li>
+<li>Offer data transformation and validation helpers</li>
+</ul>
+<p><strong>Example Usage</strong>:</p>
+<pre><code class="language-jsx"><span class="hljs-keyword">import</span> { trimObject } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;../core/utils/validations&quot;</span>;
+
+<span class="hljs-keyword">const</span> cleanData = <span class="hljs-title function_">trimObject</span>(formData);
+</code></pre>
+<p><strong>Future Additions</strong>:</p>
+<ul>
+<li>Date/time formatters</li>
+<li>Number formatting utilities</li>
+<li>String manipulation helpers</li>
+<li>API response parsers</li>
+<li>Error message formatters</li>
+</ul>
+<hr>
+<h2 id="why-not-to-put-business-logic-in-components">Why NOT to Put Business Logic in Components</h2>
+<h3 id="-before-anti-pattern">❌ Before (Anti-pattern):</h3>
+<pre><code class="language-jsx"><span class="hljs-comment">// Game.jsx - mixing concerns</span>
+<span class="hljs-keyword">import</span> axios <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;axios&quot;</span>;
+
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">Game</span> = (<span class="hljs-params"></span>) =&gt; {
+  <span class="hljs-title function_">useEffect</span>(<span class="hljs-function">() =&gt;</span> {
+    axios.<span class="hljs-title function_">get</span>(<span class="hljs-string">`http://localhost:5000/api/game/n<span class="hljs-subst">${nivel}</span>/<span class="hljs-subst">${operacion}</span>`</span>)
+      .<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">res</span> =&gt;</span> <span class="hljs-title function_">setEjercicios</span>(res.<span class="hljs-property">data</span>))
+      .<span class="hljs-title function_">catch</span>(<span class="hljs-function"><span class="hljs-params">err</span> =&gt;</span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(err));
+  }, [gameOption]);
+  
+  <span class="hljs-keyword">return</span> <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>{/* UI code */}<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>;
+};
+</code></pre>
+<p><strong>Problems</strong>:</p>
+<ul>
+<li>Hard to test (requires mocking axios)</li>
+<li>API details leak into component</li>
+<li>Endpoint URL scattered throughout codebase</li>
+<li>Difficult to reuse logic</li>
+<li>Mix of business and UI logic</li>
+</ul>
+<h3 id="-after-best-practice">✅ After (Best practice):</h3>
+<pre><code class="language-jsx"><span class="hljs-comment">// Game.jsx - clean and focused</span>
+<span class="hljs-keyword">import</span> { getGameExercises } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;../core/services/gameService&quot;</span>;
+
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">Game</span> = (<span class="hljs-params"></span>) =&gt; {
+  <span class="hljs-title function_">useEffect</span>(<span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-title function_">getGameExercises</span>(nivel, operacion)
+      .<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">res</span> =&gt;</span> <span class="hljs-title function_">setEjercicios</span>(res.<span class="hljs-property">data</span>))
+      .<span class="hljs-title function_">catch</span>(<span class="hljs-function"><span class="hljs-params">err</span> =&gt;</span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(err));
+  }, [gameOption]);
+  
+  <span class="hljs-keyword">return</span> <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>{/* UI code */}<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>;
+};
+</code></pre>
+<p><strong>Benefits</strong>:</p>
+<ul>
+<li>Easy to test (service is a pure function)</li>
+<li>Component only knows what it needs to know</li>
+<li>Consistent API handling</li>
+<li>Reusable across components</li>
+<li>Clear separation of concerns</li>
+</ul>
+<hr>
+<h2 id="current-import-patterns">Current Import Patterns</h2>
+<h3 id="service-imports">Service Imports:</h3>
+<pre><code class="language-jsx"><span class="hljs-keyword">import</span> { login } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;../core/services/authService&quot;</span>;
+<span class="hljs-keyword">import</span> { getGameExercises } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;../core/services/gameService&quot;</span>;
+<span class="hljs-keyword">import</span> { saveGameResult, generateAIMessage } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;../core/services/resultsService&quot;</span>;
+</code></pre>
+<h3 id="context-imports">Context Imports:</h3>
+<pre><code class="language-jsx"><span class="hljs-keyword">import</span> { useAuth } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;../core/context/authContext&quot;</span>;
+</code></pre>
+<h3 id="utils-imports">Utils Imports:</h3>
+<pre><code class="language-jsx"><span class="hljs-keyword">import</span> { trimObject } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;../core/utils/validations&quot;</span>;
+</code></pre>
+<hr>
+<h2 id="future-roadmap">Future Roadmap</h2>
+<h3 id="immediate-next-phase">Immediate (Next Phase):</h3>
+<h4 id="1-ui-folder-frontendsrcui">1. <strong>UI Folder</strong> (<code>frontend/src/ui/</code>)</h4>
+<p>Move reusable UI components that are not page-level into a dedicated folder:</p>
+<pre><code>frontend/src/ui/
+├── Button/
+├── Modal/
+├── Loading/
+├── Header/
+├── Card/
+└── [Other reusable components]
+</code></pre>
+<p><strong>Benefits</strong>:</p>
+<ul>
+<li>Clear distinction between page components and reusable UI</li>
+<li>UI components are easier to style consistently</li>
+<li>Makes component library development simpler</li>
+<li>Team can work on UI independently from page logic</li>
+</ul>
+<h4 id="2-layout-folder-frontendsrclayouts">2. <strong>Layout Folder</strong> (<code>frontend/src/layouts/</code>)</h4>
+<p>Isolate layout components and page templates:</p>
+<pre><code>frontend/src/layouts/
+├── MainLayout.jsx
+├── AuthLayout.jsx
+├── DashboardLayout.jsx
+└── [Other layout variants]
+</code></pre>
+<p><strong>Benefits</strong>:</p>
+<ul>
+<li>Reusable page structures</li>
+<li>Consistent styling across pages</li>
+<li>Easier to manage header/footer/sidebar logic</li>
+<li>Reduces duplication in page components</li>
+</ul>
+<h3 id="expected-result">Expected Result:</h3>
+<pre><code>frontend/src/
+├── core/
+│   ├── context/
+│   ├── services/
+│   └── utils/
+├── pages/              # Route-level components only
+├── layouts/            # Page layout templates
+├── ui/                 # Reusable UI components
+└── [Other files]
+</code></pre>
+<hr>
+<h2 id="implementation-timeline">Implementation Timeline</h2>
+<ol>
+<li><strong>Phase 1</strong> (Current): ✅ Core folder structure established</li>
+<li><strong>Phase 2</strong> (Next): Create <code>ui/</code> folder and migrate reusable components</li>
+<li><strong>Phase 3</strong>: Create <code>layouts/</code> folder and consolidate layout logic</li>
+<li><strong>Phase 4</strong>: Add theming system (using context + UI components)</li>
+<li><strong>Phase 5</strong>: Optimize styling and component composition</li>
+</ol>
+<hr>
+<h2 id="team-guidelines">Team Guidelines</h2>
+<h3 id="when-adding-new-code">When Adding New Code:</h3>
+<p><strong>Is it a business/HTTP concern?</strong> → Add to <code>core/services/</code></p>
+<p><strong>Is it global state?</strong> → Add to <code>core/context/</code></p>
+<p><strong>Is it a reusable helper?</strong> → Add to <code>core/utils/</code></p>
+<p><strong>Is it a reusable UI component?</strong> → Add to <code>components/</code> (or <code>ui/</code> after Phase 2)</p>
+<p><strong>Is it a page view?</strong> → Add to <code>pages/</code></p>
+<h3 id="import-rules">Import Rules:</h3>
+<ol>
+<li><strong>Services</strong> should NOT import from pages or components</li>
+<li><strong>Components</strong> should import from services and context freely</li>
+<li><strong>Pages</strong> should be thin wrappers around components</li>
+<li><strong>Utils</strong> are pure functions with no dependencies on React or services</li>
+</ol>
+<hr>
+<h2 id="conclusion">Conclusion</h2>
+<p>This new structure provides:</p>
+<ul>
+<li>✅ Clear separation of business logic from UI</li>
+<li>✅ Improved code reusability</li>
+<li>✅ Better team collaboration</li>
+<li>✅ Easier testing and maintenance</li>
+<li>✅ Scalable foundation for future features</li>
+</ul>
+<p>We're committed to continuing this architectural improvement with the upcoming <code>ui/</code> and <code>layouts/</code> folders to further accelerate the styling and component development process.</p>
+<hr>
+<h2 id="questions">Questions?</h2>
+<p>For questions about the architecture or adding new features, consult this document and the code examples provided in the <code>core/</code> folders.</p>
+
+            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+            
+        </body>
+        </html>

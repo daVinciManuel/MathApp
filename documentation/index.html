@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MathApp Documentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .documentation-list {
+            list-style: none;
+        }
+
+        .documentation-list li {
+            margin-bottom: 12px;
+        }
+
+        .doc-link {
+            display: flex;
+            align-items: center;
+            padding: 16px 20px;
+            background: #f5f5f5;
+            border-left: 4px solid #667eea;
+            text-decoration: none;
+            color: #333;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            font-size: 1.05em;
+        }
+
+        .doc-link:hover {
+            background: #667eea;
+            color: white;
+            border-left-color: #764ba2;
+            transform: translateX(8px);
+        }
+
+        .doc-link::before {
+            content: "📄";
+            margin-right: 12px;
+            font-size: 1.3em;
+        }
+
+        .doc-link.architecture::before {
+            content: "🏗️";
+        }
+
+        .empty-state {
+            text-align: center;
+            color: #999;
+            padding: 30px;
+            font-size: 1.1em;
+        }
+
+        .footer {
+            background: #f5f5f5;
+            padding: 20px;
+            text-align: center;
+            color: #666;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            margin-left: 10px;
+        }
+
+        @media (max-width: 600px) {
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .section h2 {
+                font-size: 1.4em;
+            }
+
+            .doc-link {
+                font-size: 0.95em;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 Naomat Documentation</h1>
+            <p>Comprehensive guides and architecture documentation</p>
+        </div>
+
+        <div class="content">
+            <div class="section">
+                <h2>Architecture & Design</h2>
+                <ul class="documentation-list">
+                    <li>
+                        <a href="FRONTEND_ARCHITECTURE.html" class="doc-link architecture">
+                            Frontend Architecture
+                            <span class="badge">Essential</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div id="additional-docs" style="display: none;">
+                <div class="section">
+                    <h2>Other Documentation</h2>
+                    <ul class="documentation-list" id="other-docs-list">
+                        <!-- Additional docs will be listed here -->
+                    </ul>
+                </div>
+            </div>
+
+            <div class="empty-state" id="no-docs-message" style="display: none;">
+                <p>More documentation coming soon! 🚀</p>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>MathApp Team • Last updated: November 24, 2025</p>
+        </div>
+    </div>
+
+    <script>
+        // Auto-detect additional HTML files in the documentation folder
+        const architectureFile = 'FRONTEND_ARCHITECTURE.html';
+
+        // List of known documentation files
+        const docFiles = [
+            { name: 'Frontend Architecture', file: 'FRONTEND_ARCHITECTURE.html', icon: '🏗️' }
+        ];
+
+        // You can extend this list as more documentation is added
+        // Just add new entries in the format: { name: 'Doc Name', file: 'file.html', icon: '📄' }
+
+        console.log('Available documentation files:', docFiles.length);
+    </script>
+</body>
+
+</html>
