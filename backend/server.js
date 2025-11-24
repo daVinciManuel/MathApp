@@ -4,7 +4,9 @@ import dotenv from "dotenv";
 import express from "express";
 // import { conn } from "./db/conexion.js";
 import authRoutes from "./routes/auth.js";
+import customGamesRoutes from "./routes/customGames.js";
 import gameRoutes from "./routes/game.js";
+import openaiRoutes from "./routes/openai.js";
 import resultsRoutes from "./routes/results.js";
 // ---------------- db ----------------
 import pkg from "./db/models/index.cjs";
@@ -17,6 +19,8 @@ const app = express();
 const allowedOrigins = [
   "http://localhost:3000",
   "http://localhost:3001",
+  "http://localhost:5173",
+  "http://127.0.0.1:5173",
   "https://mathapp-ug8r.onrender.com",
   'https://naomathalloween.netlify.app/'
 ];
@@ -36,6 +40,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/auth", authRoutes);
 app.use("/api/game", gameRoutes);
 app.use("/api/results", resultsRoutes);
+app.use("/api/openai", openaiRoutes);
+app.use("/api/customGames", customGamesRoutes);
 
 app.get("/", (req, res) => {
   res.send(

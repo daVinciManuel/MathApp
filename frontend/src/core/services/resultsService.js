@@ -14,20 +14,16 @@ export async function saveGameResult(resultData) {
  * @param {object} performanceData 
  */
 export async function generateAIMessage(performanceData) {
-  const response = await fetch("http://localhost:5000/api/generate-message", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(performanceData),
+  const response = await api.post("/api/openai/generate-message", performanceData, {
+    headers: { "Content-Type": "application/json" },
   });
 
-  if (!response.ok) {
-    throw new Error("Failed to generate AI message");
+  // Check for successful response with message
+  if (response.data.success) {
+    return response.data.message;
+  } else {
+    throw new Error(response.data.message || "Failed to generate AI message");
   }
-
-  const data = await response.json();
-  return data.message;
 }
 
 export async function checkUserAuth() {

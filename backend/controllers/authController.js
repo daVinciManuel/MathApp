@@ -33,14 +33,14 @@ export async function registerUser(req, res) {
 // --------- Login User ------------
 export async function loginUser(req, res) {
   try {
-    const { email, pass } = req.body;
+    const { email, pass: password } = req.body;
     const user = await User.findOne({
       where: { email: email },
     });
     if (!user)
       return res.status(404).json({ message: "usuario no encontrado" });
 
-    const passOK = await bcrypt.compare(pass, user.pass);
+    const passOK = await bcrypt.compare(password, user.pass);
     if (!passOK)
       return res.status(401).json({ message: "credenciales incorrectas" });
 
@@ -56,10 +56,9 @@ export async function loginUser(req, res) {
       maxAge: 4 * 60 * 60 * 1000, // 4 hours
     });
 
-    const { pass: pwd, ...userWithoutPassword } = user;
     return res
       .status(200)
-      .json({ message: "login ok", user: userWithoutPassword });
+      .json({ message: "login ok"});
   } catch (e) {
     return res.status(500).json({ error: e.message });
   }
@@ -69,7 +68,7 @@ export async function loginUser(req, res) {
 export async function getProfile(req, res) {
   try {
     const user = await User.findByPk(req.userId, {
-      attributes: ["id", "name", "lastname", "email", "age"],
+      attributes: ["id", "name", "lastname", "email", "age", "role"],
     });
 
     if (!user)

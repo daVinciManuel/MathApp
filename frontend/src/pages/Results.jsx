@@ -47,10 +47,15 @@ const Results = () => {
   useEffect(() => {
     const getAIMessage = async () => {
       try {
-        const message = await generateAIMessage({ accuracy, duration });
+        const message = await generateAIMessage({
+          accuracy,
+          duration
+        });
         setAiMessage(message);
       } catch (error) {
-        setAiMessage("No pude generar un mensaje ahora 😢");
+        console.error("Error al obtener mensaje de IA:", error);
+        // Fallback message
+        setAiMessage("¡Sigue adelante! Cada intento cuenta. 💪");
       }
     };
 
@@ -96,7 +101,13 @@ const Results = () => {
 
       <p
         className="ai-message"
-        style={{ marginTop: "10px", fontStyle: "italic" }}
+        style={{
+          marginTop: "10px",
+          fontStyle: "italic",
+          padding: "15px",
+          borderRadius: "8px",
+          lineHeight: "1.6"
+        }}
       >
         {aiMessage}
       </p>
