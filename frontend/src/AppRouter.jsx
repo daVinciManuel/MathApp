@@ -1,7 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 // Páginas existentes
-import Layout from "./Layout.jsx";
+import AppLayout from "./AppLayout.jsx";
 import Dashboard from './pages/Dashboard.jsx';
 import Game from "./pages/Game.jsx";
 import Login from "./pages/Login.jsx";
@@ -17,7 +17,7 @@ import NotFoundPage from "./pages/NotFoundPage.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Layout />,
+    element: <AppLayout />,
     children: [
       { path: "login", element: <Login /> },
       { path: "game", element: <Game /> },
