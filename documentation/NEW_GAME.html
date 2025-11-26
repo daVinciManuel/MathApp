@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>NewGame feature &mdash; how it works</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+                :root{--bg1:#667eea;--bg2:#764ba2;--muted:#666}
+                body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;background:linear-gradient(135deg,#EFEFEF 0%,#E0E0E0 100%);min-height:100vh;padding:24px}
+                .page{max-width:1000px;margin:0 auto;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.18)}
+                header{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;padding:28px 24px;text-align:center}
+                header h1{margin:0;font-size:1.8rem}
+                header p{margin-top:6px;opacity:.95}
+                .wrap{display:block;gap:32px;padding:28px}
+                .content{padding:0}
+                .markdown-body{padding:6px 4px}
+                .back{display:inline-block;margin-bottom:14px;padding:8px 12px;background:#764ba2;color:#fff;border-radius:6px;text-decoration:none}
+                footer{background:#fafafa;padding:16px;text-align:center;color:var(--muted);border-top:1px solid #eee}
+                pre{background:#0f1724;color:#e6eef8;padding:12px;border-radius:6px;overflow:auto}
+                @media(max-width:900px){.wrap{flex-direction:column}nav.toc{order:2}}
+              </style>
+            </head>
+            <body>
+              <div class="page">
+                <header>
+                  <h1>🎮 NewGame Feature</h1>
+                  <p>How the NewGame flow works and why <code>useContext</code> is essential</p>
+                </header>
+
+                <div class="wrap">
+                  <main class="content markdown-body">
+                    <a class="back" href="index.html">← Back to docs</a>
+
+                    <section id="files-to-read">
+                      <h2>Files to read first</h2>
+                      <ul>
+                        <li><code>frontend/src/pages/NewGame.jsx</code> — page entry that renders the <code>Card</code> component and a <code>Modal</code> for feedback.</li>
+                        <li><code>frontend/src/components/newGameForm/Card.jsx</code> — main UI for a single exercise card; composes <code>SimpleExercise</code>, <code>ComplexExercise</code>, <code>AnswersInput</code>, and <code>NavBar</code>.</li>
+                        <li><code>frontend/src/core/context/newGameContext.jsx</code> — the context provider that contains all the state and actions for the NewGame flow.</li>
+                      </ul>
+                    </section>
+
+                    <section id="high-level-flow">
+                      <h2>High-level flow</h2>
+                      <ol>
+                        <li>The <code>NewGame</code> page mounts and uses the <code>NewGameProvider</code> (wired at a higher level in the app) to access NewGame state via the <code>useNewGame()</code> hook.</li>
+                        <li><code>NewGame.jsx</code> renders a <code>Modal</code> (for save messages) and the <code>Card</code> component.</li>
+                        <li><code>Card.jsx</code> calls <code>useNewGame()</code> and reads <code>index</code>, <code>exercises</code>, and action functions (<code>updateExercise</code>, <code>onNext</code>, <code>onPrev</code>, <code>onDuplicate</code>, <code>onSave</code>).</li>
+                        <li><code>Card</code> delegates specific UI parts to subcomponents: <code>SimpleExercise</code>, <code>ComplexExercise</code>, <code>AnswersInput</code>, and <code>NavBar</code>. These children also call <code>useNewGame()</code> to read state and dispatch updates.</li>
+                        <li>Actions like <code>updateExercise</code> mutate the <code>exercises</code> array in context (via <code>setExercises</code>) and cause all consumers to re-render with the updated data.</li>
+                      </ol>
+                    </section>
+
+                    <section id="why-usecontext">
+                      <h2>Why <code>useContext</code> is used</h2>
+                      <ul>
+                        <li><strong>Shared state across sibling components:</strong> Context avoids prop-drilling of <code>index</code>, <code>exercises</code>, and update functions.</li>
+                        <li><strong>Persistent UI state:</strong> The provider keeps state across card navigation without remounting components.</li>
+                        <li><strong>Centralized business logic:</strong> Navigation and persistence functions live in one place.</li>
+                      </ul>
+                    </section>
+
+                    <section id="implementation-details">
+                      <h2>Key implementation details</h2>
+                      <p><strong>Context shape:</strong> <code>index</code>, <code>exercises</code>, <code>updateExercise</code>, <code>onNext/onPrev/onDuplicate</code>, <code>onSave</code>, and modal state.</p>
+                      <h3><code>updateExercise</code></h3>
+                      <pre><code>setExercises(prev =&gt; { const updated = [...prev]; updated[index] = { ...updated[index], [field]: value }; return updated; })</code></pre>
+                    </section>
+
+                    <section id="run-test">
+                      <h2>Run &amp; test locally</h2>
+                      <p>Start backend and frontend, then open <code>http://localhost:3000</code> and navigate to New Game.</p>
+                      <pre><code>npm run dev
+            cd frontend
+            npm install
+            npm run dev</code></pre>
+                    </section>
+
+                  </main>
+                </div>
+
+                <footer>
+                  MathApp Team • Last updated: November 26, 2025
+                </footer>
+              </div>
+            </body>
+            </html>
+        </html>
+<ol>
+<li>Start backend from repo root:</li>
+</ol>
+<pre><code class="language-bash">npm run dev
+</code></pre>
+<ol start="2">
+<li>Start frontend in another shell:</li>
+</ol>
+<pre><code class="language-bash"><span class="hljs-built_in">cd</span> frontend
+npm install
+npm run dev
+</code></pre>
+<p>Open <code>http://localhost:3000</code> and navigate to the New Game page. Use the NavBar to move between cards and confirm that inputs retain values and are enabled/disabled according to the selected type.</p>
+<hr>
+<p>File saved: <code>documentation/NEW_GAME.md</code></p>
+
+            
+            
+        </body>
+        </html>

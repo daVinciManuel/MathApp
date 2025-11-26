@@ -41,6 +41,14 @@
 }
 </style>
 <style>
+/* TOC styles (from NEW_GAME menu style) */
+nav.toc{min-width:220px}
+nav.toc h3{margin-top:0}
+nav.toc ul{list-style:none;padding:0}
+nav.toc a{display:block;padding:10px 12px;border-radius:6px;color:#333;text-decoration:none;margin-bottom:8px;background:#f6f7fb}
+nav.toc a:hover{background:linear-gradient(90deg,#eef2ff,#f3e8ff)}
+</style>
+<style>
 :root {
   --color-note: #0969da;
   --color-tip: #1a7f37;
@@ -134,24 +142,44 @@
 .markdown-alert.markdown-alert-caution .markdown-alert-title {
   color: var(--color-caution);
 }
-
+.back{display:inline-block;margin-bottom:14px;padding:8px 12px;background:#764ba2;color:#fff;border-radius:6px;text-decoration:none}
 </style>
         
         </head>
         <body class="vscode-body vscode-light">
-            <h1 id="frontend-architecture-documentation">Frontend Architecture Documentation</h1>
-<h2 id="overview">Overview</h2>
-<p>This document explains the refactored frontend structure implemented in the MathApp project, specifically focusing on the new <code>core</code> folder and its subfolders. The goal is to provide clarity on the architectural decisions and future direction.</p>
-<h2 id="current-structure">Current Structure</h2>
-<pre><code>frontend/src/
-├── core/
-│   ├── context/          # React context &amp; state management
-│   ├── services/         # HTTP requests &amp; API logic
-│   └── utils/            # Helper functions &amp; utilities
-├── components/           # Reusable UI components
-├── pages/                # Page-level components (route views)
-└── [Other files]         # App.jsx, Layout.jsx, main.jsx, etc.
-</code></pre>
+          <div style="max-width:1100px;margin:24px auto;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 18px 48px rgba(0,0,0,.12)">
+            <header style="background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;padding:28px 24px;text-align:center">
+              <h1 style="margin:0;font-size:1.8rem">Frontend Architecture Documentation</h1>
+              <p style="margin-top:6px;opacity:.95">Refactored frontend structure and rationale (core folder)</p>
+            </header>
+                    <a class="back" href="index.html">← Back to docs</a>
+            <div style="display:flex;gap:28px;padding:24px">
+              <aside>
+                <nav class="toc" aria-label="Table of contents">
+                  <h3>Contents</h3>
+                  <ul>
+                    <li><a href="#overview">Overview</a></li>
+                    <li><a href="#current-structure">Structure</a></li>
+                    <li><a href="#core-subfolders-explained">Core Subfolders</a></li>
+                    <li><a href="#future-roadmap">Roadmap</a></li>
+                    <li><a href="#team-guidelines">Guidelines</a></li>
+                  </ul>
+                </nav>
+              </aside>
+
+              <main style="flex:1">
+    <h2 id="overview">Overview</h2>
+    <p>This document explains the refactored frontend structure implemented in the MathApp project, specifically focusing on the new <code>core</code> folder and its subfolders. The goal is to provide clarity on the architectural decisions and future direction.</p>
+    <h2 id="current-structure">Current Structure</h2>
+    <pre><code>frontend/src/
+    ├── core/
+    │   ├── context/          # React context &amp; state management
+    │   ├── services/         # HTTP requests &amp; API logic
+    │   └── utils/            # Helper functions &amp; utilities
+    ├── components/           # Reusable UI components
+    ├── pages/                # Page-level components (route views)
+    └── [Other files]         # App.jsx, Layout.jsx, main.jsx, etc.
+    </code></pre>
 <h2 id="why-we-created-the-core-folder">Why We Created the <code>core</code> Folder</h2>
 <p>The <code>core</code> folder serves as a <strong>dedicated namespace for business logic and state management</strong>. By isolating these concerns from UI components, we achieve better separation of concerns and improved maintainability.</p>
 <h3 id="benefits-of-this-structure">Benefits of This Structure</h3>
@@ -403,7 +431,11 @@
 <h2 id="questions">Questions?</h2>
 <p>For questions about the architecture or adding new features, consult this document and the code examples provided in the <code>core/</code> folders.</p>
 
+              </main>
+            </div>
+            <footer style="max-width:1100px;margin:12px auto;text-align:center;color:#666;font-size:.95rem">
+              MathApp Team • Last updated: November 26, 2025
+            </footer>
             <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
-            
-        </body>
-        </html>
+          </body>
+          </html>
