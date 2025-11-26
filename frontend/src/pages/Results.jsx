@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../core/context/authContext";
-import { checkUserAuth, generateAIMessage, saveGameResult } from "../core/services/resultsService";
+import {
+  checkUserAuth,
+  generateAIMessage,
+  saveGameResult,
+} from "../core/services/resultsService";
 import "./css/general.css";
 import "./css/results.css";
 
@@ -48,8 +52,8 @@ const Results = () => {
     const getAIMessage = async () => {
       try {
         const message = await generateAIMessage({
-          accuracy,
-          duration
+          accuracy: accuracy,
+          duration: duration,
         });
         setAiMessage(message);
       } catch (error) {
@@ -88,7 +92,6 @@ const Results = () => {
 
   return (
     <main id="results">
-
       {image && (
         <img
           src={image}
@@ -106,7 +109,7 @@ const Results = () => {
           fontStyle: "italic",
           padding: "15px",
           borderRadius: "8px",
-          lineHeight: "1.6"
+          lineHeight: "1.6",
         }}
       >
         {aiMessage}
@@ -130,7 +133,6 @@ const Results = () => {
         <Link to="/">
           <button>🏠️ inicio</button>
         </Link>
-
       )}
     </main>
   );

@@ -1,6 +1,19 @@
-import React from "react";
+import { useEffect } from "react";
 
 function Modal({ message, isOpen, onClose }) {
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleEscapeKey = (e) => {
+      if (e.key === "Escape") {
+        onClose();
+      }
+    };
+
+    document.addEventListener("keydown", handleEscapeKey);
+    return () => document.removeEventListener("keydown", handleEscapeKey);
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
   const overlayStyles = {

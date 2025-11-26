@@ -1,7 +1,7 @@
 import Groq from "groq-sdk";
 
 const groq = new Groq({
-  apiKey: process.env.GROQ_API_KEY
+  apiKey: process.env.GROQ_API_KEY,
 });
 
 export async function generateMotivationalMessage(req, res) {
@@ -9,8 +9,8 @@ export async function generateMotivationalMessage(req, res) {
     const { accuracy, duration } = req.body;
 
     if (accuracy === undefined || duration === undefined) {
-      return res.status(400).json({ 
-        error: 'Se requieren accuracy y duration' 
+      return res.status(400).json({
+        error: "Se requieren accuracy y duration",
       });
     }
 
@@ -20,35 +20,35 @@ export async function generateMotivationalMessage(req, res) {
       messages: [
         {
           role: "system",
-          content: "Eres un asistente motivador para estudiantes de matemáticas. Genera mensajes BREVES de máximo 2-3 líneas. Sé conciso, positivo y usa emojis apropiados."
+          content:
+            "Eres un asistente motivador para estudiantes de matemáticas. Genera mensajes BREVES de máximo 2-3 líneas. Sé conciso, positivo y usa emojis apropiados.",
         },
         {
           role: "user",
-          content: `Estudiante obtuvo ${accuracy}% de precisión en ${duration} segundos. Mensaje corto y motivador (máximo 3 líneas):`
-        }
+          content: `Estudiante obtuvo ${accuracy}% de precisión en ${duration} segundos. Mensaje corto y motivador (máximo 3 líneas):`,
+        },
       ],
       model: "llama-3.3-70b-versatile",
       temperature: 0.8,
-      max_tokens: 70, 
+      max_tokens: 70,
       top_p: 1,
-      stream: false
+      stream: false,
     });
 
-    const message = completion.choices[0]?.message?.content || "¡Buen trabajo! 💪";
+    const message =
+      completion.choices[0]?.message?.content || "¡Buen trabajo! 💪";
 
-    console.log('Mensaje generado');
+    console.log("Mensaje generado");
 
-    return res.status(200).json({ 
+    return res.status(200).json({
       success: true,
-      message 
+      message,
     });
-
   } catch (error) {
-    console.error('Error con Groq:', error.message);
-    return res.status(500).json({ 
+    console.error("Error con Groq:", error.message);
+    return res.status(500).json({
       success: false,
-      error: error.message,
-      message: '¡Sigue practicando! 💪'
+      message: "¡Sigue practicando! 💪",
     });
   }
 }
