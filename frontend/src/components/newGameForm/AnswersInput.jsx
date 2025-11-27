@@ -1,6 +1,6 @@
 import { useNewGame } from "../../core/context/newGameContext";
 const AnswersInput = () => {
-  const { updateExercise, exercises, index } = useNewGame();
+  const { updateExercise, payload, index } = useNewGame();
   return (
     <div>
       <input
@@ -10,7 +10,9 @@ const AnswersInput = () => {
         onChange={(e) => {
           updateExercise("answers", e.target.value);
         }}
-        value={(exercises[index] && exercises[index].answers) || ""}
+        value={
+          (payload.exercises[index] && payload.exercises[index].answers) || ""
+        }
       />
     </div>
   );

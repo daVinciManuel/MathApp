@@ -7,6 +7,19 @@ export const NewGameProvider = ({ children }) => {
   const [message, setMessage] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [index, setIndex] = useState(0);
+  const [payload, setPayload] = useState({
+    gameName: "",
+    exercises: [
+      {
+        type: "",
+        num1: "",
+        operation: "",
+        num2: "",
+        customExercise: "",
+        answers: "",
+      },
+    ],
+  });
   const [exercises, setExercises] = useState([
     {
       type: "",
@@ -18,19 +31,21 @@ export const NewGameProvider = ({ children }) => {
     },
   ]);
 
-  const [selectedType, setSelectedType] = useState("");
-
+  const updateName = (name) => {
+    setPayload((prev) => ({ ...prev, gameName: name }));
+    console.log("Game name updated to:", name);
+    console.log(name);
+  };
   // -----------------------------------------
   // 1) Update a field in current card
   // -----------------------------------------
   const updateExercise = (field, value) => {
     console.log("Updating field:", field, "with value:", value);
     console.log("Current index:", index);
-    setExercises((prev) => {
-      const updated = [...prev];
-      updated[index] = { ...updated[index], [field]: value };
-      console.log(updated);
-      return updated;
+    setPayload((prev) => {
+      const updatedExercises = [...prev.exercises];
+      updatedExercises[index] = { ...updatedExercises[index], [field]: value };
+      return { ...prev, exercises: updatedExercises };
     });
   };
 
@@ -38,10 +53,10 @@ export const NewGameProvider = ({ children }) => {
   // 2) Save current card info into exercises array
   // -----------------------------------------
   const saveCurrentCard = () => {
-    setExercises((prev) => {
-      const updated = [...prev];
-      if (!updated[index]) {
-        updated[index] = {
+    setPayload((prev) => {
+      const updatedExercises = [...prev.exercises];
+      if (!updatedExercises[index]) {
+        updatedExercises[index] = {
           type: "",
           num1: "",
           operation: "",
@@ -50,9 +65,7 @@ export const NewGameProvider = ({ children }) => {
           answers: "",
         };
       }
-      // Save type selected
-      //   updated[index].type = selectedType;
-      return updated;
+      return { ...prev, exercises: updatedExercises };
     });
   };
 
@@ -62,21 +75,22 @@ export const NewGameProvider = ({ children }) => {
   const onNext = () => {
     saveCurrentCard(); // Save current card first
     console.log("Next pressed. Current index:", index);
-    if (!exercises[index + 1]) {
-      setExercises((prev) => [
-        ...prev,
-        {
+    if (!payload.exercises[index + 1]) {
+      setPayload((prev) => {
+        const updatedExercises = [...prev.exercises];
+        updatedExercises.push({
           type: "",
           num1: "",
           operation: "",
           num2: "",
           customExercise: "",
           answers: "",
-        },
-      ]);
+        });
+        return { ...prev, exercises: updatedExercises };
+      });
     }
     setIndex((prev) => prev + 1);
-    console.log(exercises);
+    console.log(payload);
   };
 
   const onPrev = () => {
@@ -86,9 +100,9 @@ export const NewGameProvider = ({ children }) => {
 
   const onDuplicate = () => {
     saveCurrentCard();
-    const current = exercises[index];
-    setExercises((prev) => {
-      const copy = [...prev];
+    const current = payload.exercises[index];
+    setPayload((prev) => {
+      const copy = [...prev.exercises];
       copy.splice(index + 1, 0, { ...current });
       return copy;
     });
@@ -102,9 +116,9 @@ export const NewGameProvider = ({ children }) => {
     saveCurrentCard();
     try {
       //   await newGameService.saveExercises(exercises);
-      console.log("Saved all exercises:", exercises);
-      setShowModal(true);
       setMessage("Ejercicios guardados correctamente.");
+      setShowModal(true);
+      console.log("Payload to be sent:", payload);
     } catch (error) {
       setShowModal(true);
       setMessage("Error guardando los ejercicios.");
@@ -118,8 +132,6 @@ export const NewGameProvider = ({ children }) => {
         index,
         setIndex,
         exercises,
-        selectedType,
-        setSelectedType,
         updateExercise,
         onNext,
         onPrev,
@@ -129,6 +141,9 @@ export const NewGameProvider = ({ children }) => {
         setMessage,
         showModal,
         setShowModal,
+        updateName,
+        payload,
+        setPayload,
       }}
     >
       {children}

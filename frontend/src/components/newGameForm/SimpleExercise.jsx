@@ -1,7 +1,8 @@
 import { useNewGame } from "../../core/context/newGameContext";
 
 const SimpleExercise = ({ styles }) => {
-  const { updateExercise, index, exercises } = useNewGame();
+  const { updateExercise, index, payload } = useNewGame();
+  console.log(payload);
   return (
     <div style={styles}>
       <input
@@ -9,7 +10,7 @@ const SimpleExercise = ({ styles }) => {
         name="typeExer"
         id="simpleExer"
         value="simple"
-        checked={exercises[index].type === "simple"}
+        checked={payload.exercises[index].type === "simple"}
         onChange={() => {
           updateExercise("type", "simple");
         }}
@@ -19,16 +20,21 @@ const SimpleExercise = ({ styles }) => {
         name="num1"
         id="num1"
         style={{ width: "50px" }}
-        disabled={exercises[index].type !== "simple"}
+        disabled={payload.exercises[index].type !== "simple"}
         onChange={(e) => updateExercise("num1", e.target.value)}
-        value={(exercises[index] && exercises[index].num1) || ""}
+        value={
+          (payload.exercises[index] && payload.exercises[index].num1) || ""
+        }
       />
       <select
         name="operation"
         id="operation"
-        disabled={exercises[index].type !== "simple"}
+        disabled={payload.exercises[index].type !== "simple"}
         onChange={(e) => updateExercise("operation", e.target.value)}
-        value={(exercises[index] && exercises[index].operation) || "+"}
+        value={
+          (payload.exercises[index] && payload.exercises[index].operation) ||
+          "+"
+        }
       >
         <option value="+" default>
           +
@@ -42,9 +48,11 @@ const SimpleExercise = ({ styles }) => {
         name="num2"
         id="num2"
         style={{ width: "50px" }}
-        disabled={exercises[index].type !== "simple"}
+        disabled={payload.exercises[index].type !== "simple"}
         onChange={(e) => updateExercise("num2", e.target.value)}
-        value={(exercises[index] && exercises[index].num2) || ""}
+        value={
+          (payload.exercises[index] && payload.exercises[index].num2) || ""
+        }
       />
     </div>
   );

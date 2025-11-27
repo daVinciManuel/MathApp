@@ -3,7 +3,7 @@ import Card from "../components/newGameForm/Card";
 import { useNewGame } from "../core/context/newGameContext";
 
 const NewGame = () => {
-  const { onSave, showModal, setShowModal, message } = useNewGame();
+  const { updateName, onSave, showModal, setShowModal, message } = useNewGame();
 
   return (
     <>
@@ -15,6 +15,15 @@ const NewGame = () => {
           setShowModal(false);
         }}
       />
+      <center>
+        <input
+          type="text"
+          placeholder="Nombre del juego"
+          onChange={(e) => {
+            updateName(e.target.value);
+          }}
+        />
+      </center>
       <Card />
       <button onClick={onSave} style={{ marginLeft: "47.5%" }}>
         Guardar todo

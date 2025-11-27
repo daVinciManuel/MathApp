@@ -10,7 +10,7 @@
 // --------------------------------------------------------------------
 import { useNewGame } from "../../core/context/newGameContext";
 const ComplexExercise = ({ styles }) => {
-  const { updateExercise, exercises, index } = useNewGame();
+  const { updateExercise, payload, index } = useNewGame();
   return (
     <div style={styles}>
       <input
@@ -18,7 +18,7 @@ const ComplexExercise = ({ styles }) => {
         name="typeExer"
         id="complexExer"
         value="complex"
-        checked={exercises[index].type === "complex"}
+        checked={payload.exercises[index].type === "complex"}
         onChange={() => {
           updateExercise("type", "complex");
         }}
@@ -27,9 +27,13 @@ const ComplexExercise = ({ styles }) => {
         type="text"
         name="customExercise"
         id="customExercise"
-        disabled={exercises[index].type !== "complex"}
+        disabled={payload.exercises[index].type !== "complex"}
         onChange={(e) => updateExercise("customExercise", e.target.value)}
-        value={(exercises[index] && exercises[index].customExercise) || ""}
+        value={
+          (payload.exercises[index] &&
+            payload.exercises[index].customExercise) ||
+          ""
+        }
       />
     </div>
   );
