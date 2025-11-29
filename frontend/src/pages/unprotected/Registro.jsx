@@ -1,6 +1,6 @@
+import Modal from "@components/Modal";
+import { register } from "@core/services/authService";
 import { useState } from "react";
-import Modal from "../components/Modal";
-import { register } from "../core/services/authService";
 
 const Registro = () => {
   // plantilla del formulario
@@ -10,7 +10,7 @@ const Registro = () => {
     email: "",
     age: "",
     pass: "",
-    role: ""
+    role: "",
   });
   // Mensaje de respuesta del servidor
   const [message, setMessage] = useState("");
@@ -72,12 +72,26 @@ const Registro = () => {
           <br />
           Rol:
           <br />
-          <label style={{ cursor: 'pointer' }}>
-            <input type="radio" name="role" value='teacher' onChange={handleChange} style={{ cursor: 'pointer' }} /> Profesor
+          <label style={{ cursor: "pointer" }}>
+            <input
+              type="radio"
+              name="role"
+              value="teacher"
+              onChange={handleChange}
+              style={{ cursor: "pointer" }}
+            />{" "}
+            Profesor
           </label>
           <br />
-          <label style={{ cursor: 'pointer' }}>
-            <input type="radio" name="role" value='student' onChange={handleChange} style={{ cursor: 'pointer' }} /> Estudiante
+          <label style={{ cursor: "pointer" }}>
+            <input
+              type="radio"
+              name="role"
+              value="student"
+              onChange={handleChange}
+              style={{ cursor: "pointer" }}
+            />{" "}
+            Estudiante
           </label>
           <br />
           <br />
@@ -86,7 +100,6 @@ const Registro = () => {
           <input type="text" name="email" id="user" onChange={handleChange} />
           <br />
           <br />
-
           <label htmlFor="pass">Contrase&ntilde;a:</label>
           <br />
           <input
@@ -97,7 +110,6 @@ const Registro = () => {
           />
           <br />
           <br />
-
           <button>Crear cuenta</button>
         </form>
       </div>
@@ -106,7 +118,10 @@ const Registro = () => {
       <Modal
         isOpen={showModal}
         message={message}
-        onClose={() => { setShowModal(false) }} />
+        onClose={() => {
+          setShowModal(false);
+        }}
+      />
     </main>
   );
 };

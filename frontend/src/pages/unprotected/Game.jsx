@@ -1,12 +1,11 @@
+import Ejercicio from "@components/Ejercicio";
+import GameMenu from "@components/GameMenu";
+import Loading from "@components/Loading";
+import { getGameExercises } from "@core/services/gameService";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Loading from "../components/Loading";
-//import fetchGame from "../axios/fetchGame.js";
-import Ejercicio from "../components/Ejercicio";
-import GameMenu from "../components/GameMenu";
-import { getGameExercises } from "../core/services/gameService";
+import "../css/general.css";
 import "./css/game.css";
-import "./css/general.css";
 
 let correctAnswers = 0;
 var startTime = null;

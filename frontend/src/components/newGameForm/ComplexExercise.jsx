@@ -8,7 +8,7 @@
 //
 //  comma is NOT allowed
 // --------------------------------------------------------------------
-import { useNewGame } from "../../core/context/newGameContext";
+import { useNewGame } from "@core/context/newGameContext";
 const ComplexExercise = ({ styles }) => {
   const { updateExercise, payload, index } = useNewGame();
   return (

@@ -20,16 +20,6 @@ export const NewGameProvider = ({ children }) => {
       },
     ],
   });
-  const [exercises, setExercises] = useState([
-    {
-      type: "",
-      num1: "",
-      operation: "",
-      num2: "",
-      customExercise: "",
-      answers: "",
-    },
-  ]);
 
   const updateName = (name) => {
     setPayload((prev) => ({ ...prev, gameName: name }));
@@ -131,7 +121,6 @@ export const NewGameProvider = ({ children }) => {
       value={{
         index,
         setIndex,
-        exercises,
         updateExercise,
         onNext,
         onPrev,

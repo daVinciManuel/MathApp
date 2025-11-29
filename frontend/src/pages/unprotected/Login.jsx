@@ -1,23 +1,17 @@
-import { useEffect, useState } from "react";
+import Modal from "@components/Modal";
+import { useAuth } from "@core/context/authContext";
+import { login } from "@core/services/authService";
+import { trimObject } from "@core/utils/validations.js";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Modal from "../components/Modal";
-import { useAuth } from "../core/context/authContext";
-import { login } from "../core/services/authService";
-import { trimObject } from '../core/utils/validations.js';
-import "./css/general.css";
+import "../css/general.css";
 
 const Login = () => {
-
   const [showModal, setShowModal] = useState(false);
-  const { user, refetchUser } = useAuth();
+  const { refetchUser } = useAuth();
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (user !== null) {
-      navigate('/')
-    }
-  }, [user, navigate])
   // Datos formulario
   const [formData, setFormData] = useState({
     email: "",
@@ -43,10 +37,10 @@ const Login = () => {
 
       setMessage(res.data.message);
 
-      if (res.status === 200 && res.data.message === 'login ok') {
+      if (res.status === 200 && res.data.message === "login ok") {
         // Fetch user profile via refetchUser so it updates context before redirect
         await refetchUser();
-        navigate('/dashboard');
+        navigate("/dashboard");
       }
     } catch (err) {
       setMessage(err.response?.data?.message || err.message || "Error");
@@ -59,7 +53,10 @@ const Login = () => {
       <Modal
         isOpen={showModal}
         message={message}
-        onClose={() => { setShowModal(false) }} />
+        onClose={() => {
+          setShowModal(false);
+        }}
+      />
       <h1>Inicie sesión</h1>
       <div>
         <form onSubmit={handleSubmit}>

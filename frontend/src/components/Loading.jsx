@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function Loading() {
   return (
     <div style={styles.container}>
@@ -14,9 +12,9 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     justifyContent: "center", // vertical center
-    alignItems: "center",     // horizontal center
-    height: "100%",           // fills parent height
-    width: "100%",            // fills parent width
+    alignItems: "center", // horizontal center
+    height: "100%", // fills parent height
+    width: "100%", // fills parent width
     position: "relative",
   },
   spinner: {
@@ -37,10 +35,4 @@ const styles = {
 
 // Keyframes for spinner animation
 const styleSheet = document.styleSheets[0];
-const keyframes = `
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}`;
-styleSheet.insertR
-
+styleSheet.insertR;

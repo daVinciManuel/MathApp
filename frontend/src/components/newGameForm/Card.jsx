@@ -1,4 +1,4 @@
-import { useNewGame } from "../../core/context/newGameContext";
+import { useNewGame } from "@core/context/newGameContext";
 import AnswersInput from "./answersInput";
 import ComplexExercise from "./ComplexExercise";
 import NavBar from "./NavBar";
@@ -23,6 +23,7 @@ const Card = () => {
 
 export default Card;
 
+// styles
 function newGameCard() {
   return {
     width: "380px",

@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { useAuth } from "../core/context/authContext";
+import { useAuth } from "@core/context/authContext";
 import {
   checkUserAuth,
   generateAIMessage,
   saveGameResult,
-} from "../core/services/resultsService";
-import "./css/general.css";
+} from "@core/services/resultsService";
+import { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import "../css/general.css";
 import "./css/results.css";
 
 const Results = () => {

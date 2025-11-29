@@ -1,16 +1,14 @@
+import { useAuth } from "@core/context/authContext";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useAuth } from "../core/context/authContext";
 
 const History = () => {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
 
-
   useEffect(() => {
     const fetchResults = async () => {
-
       if (!user.id) return;
 
       await axios
@@ -18,7 +16,7 @@ const History = () => {
           withCredentials: true,
           headers: {
             "Content-Type": "application/json",
-          }
+          },
         })
         .then((data) => {
           setResults(data.data.data);

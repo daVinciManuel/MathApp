@@ -1,6 +1,6 @@
+import { useAuth } from "@core/context/authContext";
+import { logout } from "@core/services/authService";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../core/context/authContext";
-import { logout } from "../core/services/authService";
 import "./css/logoutButton.css";
 
 function LogoutButton(position) {
@@ -11,8 +11,8 @@ function LogoutButton(position) {
     try {
       await logout();
       // eliminar info de localStorage
-      localStorage.removeItem('role');
-      localStorage.removeItem('user');
+      localStorage.removeItem("role");
+      localStorage.removeItem("user");
 
       // elimina info del estado
       setUser(null);
@@ -23,7 +23,11 @@ function LogoutButton(position) {
   };
 
   return (
-    <button onClick={handleLogout} className="logout-btn" style={position.position}>
+    <button
+      onClick={handleLogout}
+      className="logout-btn"
+      style={position.position}
+    >
       Cerrar sesi&oacute;n
     </button>
   );

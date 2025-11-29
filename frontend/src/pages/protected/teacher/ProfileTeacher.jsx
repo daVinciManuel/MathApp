@@ -1,6 +1,6 @@
+import EditProfileForm from "@/components/EditProfileForm";
 import { useState } from "react";
-import MyGames from "../components/MyGames";
-import EditProfileForm from "../components/EditProfileForm";
+import MyGames from "./MyGames";
 
 const ProfileTeacher = () => {
   const [section, setSection] = useState("myGames");
