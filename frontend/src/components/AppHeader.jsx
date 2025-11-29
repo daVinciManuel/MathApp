@@ -40,7 +40,7 @@ function AppHeader() {
         <>
           {currentPath !== "pfstudent" && currentPath !== "pfteacher" && (
             <button
-              onClick={() => navigate(`/profile/${user.role}`)}
+              onClick={() => navigate(`/pf${user.role}`)}
               style={perfilBtnPosition}
             >
               Perfil

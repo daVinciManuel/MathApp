@@ -41,7 +41,7 @@ const Dashboard = () => {
             </button>
             <button
               onClick={() => {
-                navigate("pfteacher");
+                navigate("/pfteacher");
               }}
             >
               👤 Perfil
@@ -58,7 +58,7 @@ const Dashboard = () => {
             </button>
             <button
               onClick={() => {
-                navigate("pfstudent");
+                navigate("/pfstudent");
               }}
             >
               👤 Perfil
