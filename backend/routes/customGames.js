@@ -15,6 +15,6 @@ router.post("/save", verifyToken, saveCustomGame);
 router.get("/show", verifyToken, showCustomGames);
 
 //Mostrar mis juegos personalizados a profesores
-router.get("/show/myGames", verifyToken, showMyCustomGames);
+router.get("/showMyGames", verifyToken, showMyCustomGames);
 
 export default router;
