@@ -3,7 +3,8 @@ import Card from "@/components/newGameForm/Card";
 import { useNewGame } from "@/core/context/newGameContext";
 
 const NewGame = () => {
-  const { updateName, onSave, showModal, setShowModal, message } = useNewGame();
+  const { updateName, onSave, showModal, setShowModal, message, payload } =
+    useNewGame();
 
   return (
     <>
@@ -22,6 +23,7 @@ const NewGame = () => {
           onChange={(e) => {
             updateName(e.target.value);
           }}
+          value={(payload && payload.gameName) || ""}
         />
       </center>
       <Card />

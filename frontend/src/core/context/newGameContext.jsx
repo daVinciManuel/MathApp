@@ -1,5 +1,9 @@
 import { createContext, useContext, useState } from "react";
-// import { newGameService } from "../services/newGameService"; // <-- your API service
+import { saveCustomGame } from "../services/newGameService"; // <-- your API service
+import {
+  objectArraysAreEqual,
+  removeEmptyObjectsFromArray,
+} from "../utils/validations";
 
 const NewGameContext = createContext();
 
@@ -105,10 +109,16 @@ export const NewGameProvider = ({ children }) => {
   const onSave = async () => {
     saveCurrentCard();
     try {
-      //   await newGameService.saveExercises(exercises);
-      setMessage("Ejercicios guardados correctamente.");
+      let payloadValidated = payload;
+      let exercises = removeEmptyObjectsFromArray(payload.exercises);
+      if (objectArraysAreEqual(exercises, payload.exercises) === false) {
+        payloadValidated = { ...payload, exercises: exercises };
+        console.log(payloadValidated);
+      }
+      await saveCustomGame(payloadValidated);
+      setMessage("Juego guardado correctamente.");
       setShowModal(true);
-      console.log("Payload to be sent:", payload);
+      console.log("Payload to be sent:", payloadValidated);
     } catch (error) {
       setShowModal(true);
       setMessage("Error guardando los ejercicios.");
