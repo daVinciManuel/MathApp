@@ -44,9 +44,13 @@ export async function loginUser(req, res) {
     if (!passOK)
       return res.status(401).json({ message: "credenciales incorrectas" });
 
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SAL, {
-      expiresIn: "4h",
-    });
+    const token = jwt.sign(
+      { id: user.id, role: user.role },
+      process.env.JWT_SAL,
+      {
+        expiresIn: "4h",
+      }
+    );
 
     res.cookie("token", token, {
       httpOnly: true,
@@ -56,9 +60,7 @@ export async function loginUser(req, res) {
       maxAge: 4 * 60 * 60 * 1000, // 4 hours
     });
 
-    return res
-      .status(200)
-      .json({ message: "login ok"});
+    return res.status(200).json({ message: "login ok" });
   } catch (e) {
     return res.status(500).json({ error: e.message });
   }

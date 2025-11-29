@@ -1,5 +1,5 @@
 import pkg from "../db/models/index.cjs";
-const { CustomGame } = pkg;
+const { CustomGame, User } = pkg;
 // --------- Guardar juego customizado ------------
 export async function saveCustomGame(req, res) {
   try {
@@ -53,7 +53,7 @@ export async function saveCustomGame(req, res) {
         });
       }
     }
-    // Crear el juego
+    // Guardar el juego
     const newCustomGame = await CustomGame.create({
       userId,
       gameName,
@@ -74,11 +74,17 @@ export async function saveCustomGame(req, res) {
 export async function showCustomGames(req, res) {
   try {
     const games = await CustomGame.findAll({
-      attributes: ["createdBy", "gameName", "exercises", "createdAt"],
+      attributes: [
+        "id",
+        "userId",
+        "gameName",
+        "exercises",
+        "createdAt",
+        "updatedAt",
+      ],
       include: [
         {
           model: User,
-          as: "creator",
           attributes: ["name", "lastname"],
         },
       ],
@@ -103,94 +109,33 @@ export async function showCustomGames(req, res) {
 // --------- Mostrar juegos customizados x Admin ------------
 export async function showMyCustomGames(req, res) {
   try {
-    const userId = req.user.id;
+    console.log(`userId in showMyCustomGames: ${req.userId}`);
+    const userId = req.userId;
+    const userRole = req.userRole;
 
-    if (req.user.role !== "admin") {
+    // Verificar que el usuario es profesor
+    if (userRole !== "teacher") {
       return res.status(403).json({
         error: "Solo los administradores pueden ver sus juegos",
       });
     }
 
+    // Query
     const games = await CustomGame.findAll({
-      where: { createdBy: userId },
-      attributes: ["id", "name", "numEjercicios", "ejercicios", "createdAt"],
-      order: [["createdAt", "DESC"]],
+      where: { userId: userId, active: true },
+      attributes: ["id", "gameName", "exercises", "createdAt", "updatedAt"],
+      order: [["updatedAt", "DESC"]],
     });
 
     return res.status(200).json({
       success: true,
       message: "Mis juegos obtenidos exitosamente",
-      count: games.length,
-      games,
+      data: games,
     });
   } catch (e) {
     console.error("Error al obtener mis juegos:", e);
     return res.status(500).json({
       error: "Error al obtener juegos",
-      message: e.message,
-    });
-  }
-}
-
-// --------- Generar ejercicios de un juego customizado ------------
-export async function generateCustomGame(req, res) {
-  try {
-    const { gameId } = req.params;
-
-    // Obtener el juego
-    const game = await CustomGame.findByPk(gameId);
-
-    if (!game) {
-      return res.status(404).json({
-        error: "Juego no encontrado",
-      });
-    }
-
-    // Generar los ejercicios aleatorios
-    const ejerciciosGenerados = game.ejercicios.map(
-      (ejercicioConfig, index) => {
-        // Generar términos aleatorios según la configuración
-        const terminos = ejercicioConfig.terminos.map((terminoConfig) => {
-          const { min, max } = terminoConfig;
-          return randomInRange(min, max);
-        });
-
-        // Construir la operación completa
-        const operacion = construirOperacion(
-          terminos,
-          ejercicioConfig.operadores
-        );
-
-        // Calcular el resultado correcto
-        const resultado = calcularResultado(
-          terminos,
-          ejercicioConfig.operadores
-        );
-
-        return {
-          ejercicioId: index + 1,
-          terminos,
-          operadores: ejercicioConfig.operadores,
-          operacion, // Ej: "5 + 3 - 2"
-          resultado,
-        };
-      }
-    );
-
-    return res.status(200).json({
-      success: true,
-      message: "Ejercicios generados exitosamente",
-      gameInfo: {
-        id: game.id,
-        name: game.name,
-        numEjercicios: game.numEjercicios,
-      },
-      ejercicios: ejerciciosGenerados,
-    });
-  } catch (e) {
-    console.error("Error al generar ejercicios:", e);
-    return res.status(500).json({
-      error: "Error al generar ejercicios",
       message: e.message,
     });
   }
