@@ -1,5 +1,6 @@
 import { createContext, useContext, useState } from "react";
-// import { newGameService } from "../services/newGameService"; // <-- your API service
+import { validarTextoBasico, validarTextoConComa } from "../utils/validations";
+// import { newGameService } from "../services/newGameService";
 
 const NewGameContext = createContext();
 
@@ -7,6 +8,7 @@ export const NewGameProvider = ({ children }) => {
   const [message, setMessage] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [index, setIndex] = useState(0);
+  const [fieldError, setFieldError] = useState("");
   const [payload, setPayload] = useState({
     gameName: "",
     exercises: [
@@ -21,17 +23,32 @@ export const NewGameProvider = ({ children }) => {
     ],
   });
 
+  // Actualiza el nombre del juego
   const updateName = (name) => {
     setPayload((prev) => ({ ...prev, gameName: name }));
     console.log("Game name updated to:", name);
-    console.log(name);
   };
-  // -----------------------------------------
-  // 1) Update a field in current card
-  // -----------------------------------------
+
+  // 1) Actualiza un campo del ejercicio actual
   const updateExercise = (field, value) => {
     console.log("Updating field:", field, "with value:", value);
     console.log("Current index:", index);
+
+    let isValid = true;
+
+    // Validaciones
+    if (field === "customExercise") isValid = validarTextoBasico(value);
+    if (field === "answers") isValid = validarTextoConComa(value);
+
+    // Si no es válido, guardamos error y no actualizamos
+    if (!isValid) {
+      setFieldError(field);
+      return;
+    } else {
+      setFieldError(""); // Borramos error si es válido
+    }
+    
+    // Actualiza el payload con el nuevo valor
     setPayload((prev) => {
       const updatedExercises = [...prev.exercises];
       updatedExercises[index] = { ...updatedExercises[index], [field]: value };
@@ -39,9 +56,7 @@ export const NewGameProvider = ({ children }) => {
     });
   };
 
-  // -----------------------------------------
-  // 2) Save current card info into exercises array
-  // -----------------------------------------
+  // 2) Guarda la info del ejercicio actual
   const saveCurrentCard = () => {
     setPayload((prev) => {
       const updatedExercises = [...prev.exercises];
@@ -59,11 +74,34 @@ export const NewGameProvider = ({ children }) => {
     });
   };
 
-  // -----------------------------------------
-  // 3) Navigation functions
-  // -----------------------------------------
+  // Comprueba si el ejercicio actual está completo
+  const isCardValid = () => {
+    const current = payload.exercises[index];
+
+    // Ejercicio simple
+    if (current.type === "simple") {
+      return (
+        current.num1 !== "" &&
+        current.operation !== "" &&
+        current.num2 !== ""
+      );
+    }
+
+    // Ejercicio personalizado
+    if (current.type === "custom") {
+      return (
+        current.customExercise.trim() !== "" &&
+        current.answers.trim() !== ""
+      );
+    }
+
+    // Si no tiene type, no está completo
+    return false;
+  };
+
+  // 3) Funciones de navegación
   const onNext = () => {
-    saveCurrentCard(); // Save current card first
+    saveCurrentCard(); // Guarda antes de pasar
     console.log("Next pressed. Current index:", index);
     if (!payload.exercises[index + 1]) {
       setPayload((prev) => {
@@ -94,18 +132,16 @@ export const NewGameProvider = ({ children }) => {
     setPayload((prev) => {
       const copy = [...prev.exercises];
       copy.splice(index + 1, 0, { ...current });
-      return copy;
+      return { ...prev, exercises: copy };
     });
     setIndex((prev) => prev + 1);
   };
 
-  // -----------------------------------------
-  // 4) Save all exercises to backend
-  // -----------------------------------------
+  // 4) Guarda todos los ejercicios en backend
   const onSave = async () => {
     saveCurrentCard();
     try {
-      //   await newGameService.saveExercises(exercises);
+      // await newGameService.saveExercises(exercises);
       setMessage("Ejercicios guardados correctamente.");
       setShowModal(true);
       console.log("Payload to be sent:", payload);
@@ -133,6 +169,9 @@ export const NewGameProvider = ({ children }) => {
         updateName,
         payload,
         setPayload,
+        isCardValid,
+        fieldError,
+        setFieldError,
       }}
     >
       {children}

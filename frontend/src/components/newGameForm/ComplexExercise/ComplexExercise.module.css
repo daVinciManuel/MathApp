@@ -1,0 +1,32 @@
+.input {
+  text-align: center;
+  width: 70%;
+  padding: 10px 14px;
+
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  outline: none;
+  transition: 0.2s;
+}
+
+.input:focus {
+  border-color: #8b5cf6;
+}
+
+.radio {
+  accent-color: #8b5cf6;
+}
+
+.inputError {
+  border: 2px solid red;
+  padding: 6px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.errorMsg {
+  color: red;
+  font-size: 12px;
+  margin: 0;
+  margin-top: -2px;
+}

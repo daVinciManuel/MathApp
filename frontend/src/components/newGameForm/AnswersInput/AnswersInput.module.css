@@ -1,0 +1,19 @@
+.wrapper {
+  width: 75%;
+}
+
+.input {
+  text-align: center;
+  width: 90%;
+  max-width: 350px;
+  padding: 10px 14px;
+
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  outline: none;
+  transition: 0.2s;
+}
+
+.input:focus {
+  border-color: #8b5cf6;
+}

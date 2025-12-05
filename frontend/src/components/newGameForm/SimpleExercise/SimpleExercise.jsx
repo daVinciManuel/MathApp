@@ -1,12 +1,14 @@
 import { useNewGame } from "@core/context/newGameContext";
+import styles from "./SimpleExercise.module.css";
 
-const SimpleExercise = ({ styles }) => {
+const SimpleExercise = ({ containerStyles }) => {
   const { updateExercise, index, payload } = useNewGame();
   console.log(payload);
   return (
-    <div style={styles}>
+    <div style={containerStyles}>
       <input
         type="radio"
+        className={styles.radio}
         name="typeExer"
         id="simpleExer"
         value="simple"
@@ -29,6 +31,7 @@ const SimpleExercise = ({ styles }) => {
       <select
         name="operation"
         id="operation"
+        style={{ margin: "0 10px" }}
         disabled={payload.exercises[index].type !== "simple"}
         onChange={(e) => updateExercise("operation", e.target.value)}
         value={

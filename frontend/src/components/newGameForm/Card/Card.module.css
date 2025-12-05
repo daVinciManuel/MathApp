@@ -1,0 +1,42 @@
+.card {
+  width: 380px;
+  height: auto;
+  margin: 0 auto;
+  padding: 20px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+
+  background-color: violet;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 15px;
+}
+
+.typeExercise {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 10px;
+  gap: 10px;
+}
+
+.exerciseOption {
+  width: 304px;
+  height: 40px;
+  padding: 5px;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  border: 1px solid #555;
+  border-radius: 4px;
+}
+
+#operation
+{
+    margin: 30px;
+}
