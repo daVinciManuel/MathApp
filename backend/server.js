@@ -2,7 +2,6 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
-// import { conn } from "./db/conexion.js";
 import authRoutes from "./routes/auth.js";
 import customGamesRoutes from "./routes/customGames.js";
 import gameRoutes from "./routes/game.js";
@@ -20,10 +19,14 @@ const allowedOrigins = [
   "http://localhost:3000",
   "http://localhost:3001",
   "http://localhost:5173",
+  "http://localhost:4173",
   "http://127.0.0.1:5173",
+  "http://127.0.0.1:4173",
   "https://mathapp-ug8r.onrender.com",
-  "https://naomathalloween.netlify.app/",
-  "https://naomat.netlify.app/",
+  "https://naomathalloween.netlify.app",
+  "https://naomat.netlify.app:4173",
+  "https://naomat.netlify.app:3000",
+  "https://naomat.netlify.app",
 ];
 
 app.use(
@@ -63,12 +66,3 @@ async function startServer() {
   }
 }
 startServer();
-
-// conn
-//   .sync()
-//   .then(() => {
-//     app.listen(5000, () => {
-//       console.log("Server is running on http://localhost:5000");
-//     });
-//   })
-//   .catch((err) => console.log("Error creating DB: " + err));
