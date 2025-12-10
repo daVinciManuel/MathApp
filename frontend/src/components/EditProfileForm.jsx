@@ -1,22 +1,24 @@
+import styles from "./css/EditProfileForm.module.css";
+
 const EditProfileForm = () => {
   return (
-    <form>
-      <label>
-        Nombre:
-        <input type="text" placeholder="Tu nombre" />
-      </label>
+    <form className={styles.formContainer}>
+      <div className={styles.inputGroup}>
+        <label>Nombre</label>
+        <input type="text" placeholder="Nombre de usuario" />
+      </div><br/>
 
-      <label>
-        Email:
+      <div className={styles.inputGroup}>
+        <label>Email</label>
         <input type="email" placeholder="tu@email.com" />
-      </label>
+      </div><br/>
 
-      <label>
-        Contraseña:
+      <div className={styles.inputGroup}>
+        <label>Contraseña</label>
         <input type="password" placeholder="Nueva contraseña" />
-      </label>
+      </div><br/>
 
-      <button type="submit">Guardar cambios</button>
+      <button type="submit" className={styles.saveButton}>Guardar cambios</button>
     </form>
   );
 };
