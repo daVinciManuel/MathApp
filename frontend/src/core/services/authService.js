@@ -26,3 +26,10 @@ export async function register(formData) {
 export async function logout() {
   return api.post("/api/auth/logout", {}, { withCredentials: true });
 }
+
+export async function getProfile() {
+  return api.get("/api/auth/profile", {
+    withCredentials: true,
+    validateStatus: () => true,
+  });
+}

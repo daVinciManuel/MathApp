@@ -1,6 +1,6 @@
 import { useAuth } from "@core/context/authContext";
-import axios from "axios";
 import { useEffect, useState } from "react";
+import { getGameHistory } from "../core/services/historyService";
 
 const History = () => {
   const [results, setResults] = useState([]);
@@ -11,13 +11,7 @@ const History = () => {
     const fetchResults = async () => {
       if (!user.id) return;
 
-      await axios
-        .get(`http://localhost:5000/api/results/user/${user.id}`, {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
+      getGameHistory(user.id)
         .then((data) => {
           setResults(data.data.data);
           setLoading(false);

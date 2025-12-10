@@ -1,4 +1,3 @@
-import axios from "axios";
 import {
   createContext,
   useCallback,
@@ -6,6 +5,8 @@ import {
   useEffect,
   useState,
 } from "react";
+
+import { getProfile } from "../services/authService";
 
 const AuthContext = createContext(null);
 
@@ -16,22 +17,17 @@ export function AuthProvider({ children }) {
   // Fetch user profile from the protected endpoint
   const refetchUser = useCallback(async () => {
     setLoading(true);
-    try {
-      const res = await axios.get("http://localhost:5000/api/auth/profile", {
-        withCredentials: true,
-        validateStatus: () => true,
+    getProfile()
+      .then((res) => {
+        if (res.status === 200) setUser(res.data);
+        else setUser(null);
+      })
+      .catch((err) => {
+        console.log("Error fetching user profile: " + err);
+      })
+      .finally(() => {
+        setLoading(false);
       });
-      if (res.status === 200) {
-        setUser(res.data);
-      } else {
-        setUser(null);
-      }
-    } catch (err) {
-      console.error("Error fetching user profile:", err);
-      setUser(null);
-    } finally {
-      setLoading(false);
-    }
   }, []);
 
   useEffect(() => {
