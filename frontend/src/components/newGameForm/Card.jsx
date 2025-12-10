@@ -1,5 +1,5 @@
 import { useNewGame } from "@core/context/newGameContext";
-import AnswersInput from "./answersInput";
+import AnswersInput from "./AnswersInput";
 import ComplexExercise from "./ComplexExercise";
 import NavBar from "./NavBar";
 import SimpleExercise from "./SimpleExercise";
