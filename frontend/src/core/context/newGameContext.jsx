@@ -88,7 +88,7 @@ export const NewGameProvider = ({ children }) => {
     }
 
     // Ejercicio personalizado
-    if (current.type === "custom") {
+    if (current.type === "complex") {
       return (
         current.customExercise.trim() !== "" &&
         current.answers.trim() !== ""

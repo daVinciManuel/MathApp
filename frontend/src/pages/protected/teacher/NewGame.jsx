@@ -1,6 +1,7 @@
 import Modal from "@/components/Modal";
 import Card from "@/components/newGameForm/Card/Card.jsx";
 import { useNewGame } from "@/core/context/newGameContext";
+import styles from "../css/NewGame.module.css";
 
 const NewGame = () => {
   const { updateName, onSave, showModal, setShowModal, message } = useNewGame();
@@ -11,35 +12,21 @@ const NewGame = () => {
       <Modal
         isOpen={showModal}
         message={message}
-        onClose={() => {
-          setShowModal(false);
-        }}
+        onClose={() => setShowModal(false)}
       />
-      <center>
+      <div className={styles.container}>
         <input
           type="text"
-          style={{
-      width: "80%",
-      maxWidth: "350px",
-      padding: "10px 14px",
-      border: "2px solid #ccc",
-      borderRadius: "10px",
-      fontSize: "16px",
-      outline: "none",
-      transition: "0.2s",
-    }}
-    onFocus={(e) => (e.target.style.borderColor = "#8b5cf6")}
-    onBlur={(e) => (e.target.style.borderColor = "#ccc")}
+          className={styles.inputName}
           placeholder="Nombre del juego"
-          onChange={(e) => {
-            updateName(e.target.value);
-          }}
+          onChange={(e) => updateName(e.target.value)}
         />
-      </center><br />
-      <Card />
-      <button onClick={onSave} style={{ marginLeft: "39%" }}>
-        Guardar todo
-      </button>
+        
+        <Card />
+        <button className={styles.saveButton} onClick={onSave}>
+          Guardar todo
+        </button>
+      </div>
     </>
   );
 };

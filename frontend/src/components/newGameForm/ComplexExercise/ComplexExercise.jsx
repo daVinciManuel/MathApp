@@ -3,8 +3,20 @@ import { useNewGame } from "@core/context/newGameContext";
 import styles from "./ComplexExercise.module.css";
 
 const ComplexExercise = ({ containerStyles  }) => {
-  const { updateExercise, payload, index, fieldError } = useNewGame();
+  const { updateExercise, payload, index } = useNewGame();
   
+  const handleChange = (e) => {
+    const value = e.target.value;
+
+    if (value.includes(",")) {
+      alert("La coma no está permitida en el ejercicio.");
+      return;
+    }
+
+    updateExercise("customExercise", value);
+  };
+
+
   return (
     <div className={styles.container} style={containerStyles}>
       <input
@@ -23,18 +35,12 @@ const ComplexExercise = ({ containerStyles  }) => {
         id="customExercise"
         placeholder="Escribe el ejercicio"
         disabled={payload.exercises[index].type !== "complex"}
-        className={fieldError === "customExercise" ? styles.inputError : styles.input}
-        onChange={(e) => updateExercise("customExercise", e.target.value)}
+        className={styles.input}
+        onChange={handleChange}
         value={
           (payload.exercises[index] &&
             payload.exercises[index].customExercise) || ""}
       />
-
-      {fieldError === "customExercise" && (
-        <p className={styles.errorMsg}>
-          Solo números, letras y símbolos permitidos. (La coma no está permitida)
-        </p>
-      )}
     </div>
   );
 };
