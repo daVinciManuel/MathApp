@@ -149,6 +149,8 @@ const Game = () => {
             <Ejercicio
               ejercicio={ejercicios[indice]}
               onRespuesta={handleRespuesta}
+              indiceActual={indice + 1}          
+              totalEjercicios={ejercicios.length} 
             />
           </>
         )}
