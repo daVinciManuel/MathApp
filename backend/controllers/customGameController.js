@@ -127,11 +127,7 @@ export async function showMyCustomGames(req, res) {
       order: [["updatedAt", "DESC"]],
     });
 
-    return res.status(200).json({
-      success: true,
-      message: "Mis juegos obtenidos exitosamente",
-      data: games,
-    });
+    return res.status(200).json(games);
   } catch (e) {
     console.error("Error al obtener mis juegos:", e);
     return res.status(500).json({
