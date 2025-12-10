@@ -1,4 +1,4 @@
-import { useAuth } from "@core/context/authContext";
+import { useAuth } from "@core/hooks/context";
 import { useEffect, useState } from "react";
 import { getGameHistory } from "../core/services/historyService";
 
@@ -23,7 +23,7 @@ const History = () => {
     };
 
     fetchResults();
-  }, []);
+  }, [user.id]);
 
   if (loading) return <p>Cargando historial...</p>;
   if (!results.length) return <p>No hay partidas registradas.</p>;

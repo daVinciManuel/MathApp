@@ -1,4 +1,4 @@
-import { useNewGame } from "@core/context/newGameContext";
+import { useNewGame } from "@core/hooks/context";
 const NavBar = () => {
   const { index, onNext, onPrev, onDuplicate } = useNewGame();
   return (

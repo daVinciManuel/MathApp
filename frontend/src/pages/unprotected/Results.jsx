@@ -1,4 +1,4 @@
-import { useAuth } from "@core/context/authContext";
+import { useAuth } from "@core/hooks/context";
 import {
   checkUserAuth,
   generateAIMessage,

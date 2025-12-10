@@ -1,4 +1,4 @@
-import { useAuth } from "@core/context/authContext.jsx";
+import { useAuth } from "@core/hooks/context";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./css/header.css";
 import LogoutButton from "./LogoutButton";

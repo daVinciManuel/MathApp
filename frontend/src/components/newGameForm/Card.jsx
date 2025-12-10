@@ -1,4 +1,4 @@
-import { useNewGame } from "@core/context/newGameContext";
+import { useNewGame } from "@core/hooks/context";
 import AnswersInput from "./AnswersInput";
 import ComplexExercise from "./ComplexExercise";
 import NavBar from "./NavBar";
