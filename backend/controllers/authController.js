@@ -55,7 +55,7 @@ export async function loginUser(req, res) {
     res.cookie("token", token, {
       httpOnly: true,
       // uncomment the following line in production with HTTPS
-      //secure: true, // only over HTTPS
+      secure: true, // only over HTTPS
       sameSite: "lax",
       maxAge: 4 * 60 * 60 * 1000, // 4 hours
     });
