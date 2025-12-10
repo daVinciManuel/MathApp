@@ -56,7 +56,7 @@ export async function loginUser(req, res) {
       httpOnly: true,
       // uncomment the following line in production with HTTPS
       secure: true, // only over HTTPS
-      sameSite: "lax",
+      sameSite: "none",
       maxAge: 4 * 60 * 60 * 1000, // 4 hours
     });
 
@@ -86,7 +86,7 @@ export async function getProfile(req, res) {
 export async function logoutUser(req, res) {
   res.clearCookie("token", {
     httpOnly: true,
-    sameSite: "lax",
+    sameSite: "none",
     // make it true for HTTPS:
     secure: false,
   });
