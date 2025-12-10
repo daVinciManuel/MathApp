@@ -20,10 +20,14 @@ const allowedOrigins = [
   "http://localhost:3000",
   "http://localhost:3001",
   "http://localhost:5173",
+  "http://localhost:4173",
   "http://127.0.0.1:5173",
+  "http://127.0.0.1:4173",
   "https://mathapp-ug8r.onrender.com",
-  "https://naomathalloween.netlify.app/",
-  "https://naomat.netlify.app/",
+  "https://naomathalloween.netlify.app",
+  "https://naomat.netlify.app:4173",
+  "https://naomat.netlify.app:3000",
+  "https://naomat.netlify.app",
 ];
 
 app.use(
