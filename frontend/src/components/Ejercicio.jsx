@@ -1,5 +1,5 @@
 import { useState } from "react";
-const Ejercicio = ({ ejercicio, onRespuesta}) => {
+const Ejercicio = ({ ejercicio, onRespuesta }) => {
   const [answer, setAnswer] = useState("");
 
   const handleSubmit = () => {
@@ -11,14 +11,14 @@ const Ejercicio = ({ ejercicio, onRespuesta}) => {
     setAnswer("");
   };
 
-   // Si es ejercicio personalizado tipo "complex"
+  // Si es ejercicio personalizado tipo "complex"
   if (ejercicio.type === "complex") {
     return (
       <>
         <div className="operation">{ejercicio.customExercise}</div>
         <p>Resultado:</p>
         <input
-          type="number"
+          type="text"
           value={answer}
           onChange={(e) => setAnswer(e.target.value)}
         />
