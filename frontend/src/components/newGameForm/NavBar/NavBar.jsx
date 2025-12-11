@@ -8,8 +8,12 @@ const NavBar = () => {
       <button disabled={index === 0} onClick={onPrev}>
         Anterior
       </button>
-      <button onClick={onDuplicate}>Duplicar</button>
-      <button onClick={onNext} disabled={!isCardValid()}>Siguiente</button>
+      <button onClick={onDuplicate} disabled={!isCardValid()}>
+        Duplicar
+      </button>
+      <button onClick={onNext} disabled={!isCardValid()}>
+        Siguiente
+      </button>
     </div>
   );
 };

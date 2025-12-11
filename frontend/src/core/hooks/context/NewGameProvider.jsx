@@ -19,7 +19,7 @@ export const NewGameProvider = ({ children }) => {
       {
         type: "",
         num1: "",
-        operation: "",
+        operation: "+",
         num2: "",
         customExercise: "",
         answers: "",
@@ -110,7 +110,7 @@ export const NewGameProvider = ({ children }) => {
         updatedExercises.push({
           type: "",
           num1: "",
-          operation: "",
+          operation: "+",
           num2: "",
           customExercise: "",
           answers: "",

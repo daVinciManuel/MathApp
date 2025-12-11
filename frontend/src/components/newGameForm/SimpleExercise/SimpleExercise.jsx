@@ -39,7 +39,7 @@ const SimpleExercise = ({ containerStyles }) => {
           "+"
         }
       >
-        <option value="+" default>
+        <option value="+" selected>
           +
         </option>
         <option value="-">-</option>
