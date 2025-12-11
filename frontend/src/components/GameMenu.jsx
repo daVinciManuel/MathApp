@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "./css/GameMenu.css";
+
 function GameMenu({ onSelected }) {
   const [nivel, setNivel] = useState();
   const [operacion, setOperacion] = useState();
@@ -10,13 +11,20 @@ function GameMenu({ onSelected }) {
   const handleSubmitOperacion = (operacion) => {
     setOperacion(operacion);
   };
+
   useEffect(() => {
     if (nivel && operacion) {
       onSelected(nivel, operacion);
+    } else if (operacion && operacion.startsWith('custom-') && operacion !== 'custom-menu') {
+      onSelected(null, operacion);
+    } else if (operacion === 'custom-menu') {
+      onSelected(null, 'custom-menu'); 
     }
   }, [nivel, operacion, onSelected]);
+
   const opValues = ["suma", "resta", "multiplicacion", "division"];
   const nivelValues = [1, 2, 3];
+
   return (
     <>
       {!operacion ? (
@@ -57,7 +65,14 @@ function GameMenu({ onSelected }) {
           >
             Divisi&oacute;n
           </li>
+          
+          <li onClick={() => handleSubmitOperacion('custom-menu')}>
+            Ejercicios Personalizados
+          </li>
         </menu>
+      ) : operacion.startsWith('custom-') ? (
+        // Si es un ejercicio personalizado se ejecuta sin nivel
+        null 
       ) : (
         <menu className="game-menu menu-niveles">
           <li

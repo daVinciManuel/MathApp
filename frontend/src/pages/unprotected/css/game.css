@@ -32,7 +32,7 @@
   height: 20px;
   border-radius: 20px;
   border: 2px solid white;
-  margin: 20px auto;
+  margin: 0 auto 20px;
   position: relative;
 }
 
@@ -44,4 +44,11 @@
   border-radius: 20px;
   background: linear-gradient(90deg, #69bff8, #4a90e2);
   width: 50%; /* valor demo */
+}
+
+#game .exercise-counter {
+  font-size: 0.8rem;
+  text-align: left;
+  width: 80%; 
+  margin: 30px auto 5px;
 }

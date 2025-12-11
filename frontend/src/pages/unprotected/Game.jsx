@@ -2,6 +2,7 @@ import Ejercicio from "@components/Ejercicio";
 import GameMenu from "@components/GameMenu";
 import Loading from "@components/Loading";
 import { getGameExercises } from "@core/services/gameService";
+import { getAllCustomGames } from "@core/services/newGameService";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/general.css";
@@ -14,6 +15,8 @@ const Game = () => {
   const [ejercicios, setEjercicios] = useState();
   const [loading, setLoading] = useState(true);
   const [gameOption, setGameOption] = useState();
+  const [customGames, setCustomGames] = useState([]);
+  const [showingCustomMenu, setShowingCustomMenu] = useState(false);
 
   const navigate = useNavigate();
 
@@ -21,19 +24,74 @@ const Game = () => {
   useEffect(() => {
     if (gameOption) {
       let [nivel, operacion] = gameOption;
-      getGameExercises(nivel, operacion)
-        .then((res) => {
-          let data = res.data;
-          setEjercicios(data);
-          setLoading(false);
-        })
-        .catch((err) => {
-          console.log("Error fetching game: " + err);
-          setLoading(false);
-        });
+
+      // Si se seleccionó el menú de ejercicios personalizados
+      if (operacion === 'custom-menu') {
+        setLoading(true);
+        getAllCustomGames()
+          .then(res => {
+            if (res.data.success && res.data.games) {
+              setCustomGames(res.data.games);
+              setShowingCustomMenu(true);
+              setLoading(false);
+            }
+          })
+          .catch(err => {
+            console.error('Error:', err);
+            setCustomGames([]);
+            setShowingCustomMenu(true);
+            setLoading(false);
+          });
+        return;
+      }
+
+      setShowingCustomMenu(false);
+      setLoading(true);  
+      
+      // Verificar si es un ejercicio personalizado
+      if (operacion && operacion.startsWith('custom-')) {
+        const gameId = operacion.replace('custom-', ''); // Extrae el ID
+
+        //Mostrar los juegos personalizados y filtrar por ID
+        getAllCustomGames()
+          .then(res => {
+            console.log('Datos recibidos:', res.data);
+            if (res.data.success && res.data.games) {
+              const game = res.data.games.find(g => g.id === parseInt(gameId));
+              console.log('Juego encontrado:', game);
+              if (game) {
+                console.log('Ejercicios:', game.exercises);
+                setEjercicios(game.exercises);
+                setLoading(false);
+              } else {
+                console.error('Juego no encontrado');
+                setLoading(false);
+              }
+            }
+          })
+          .catch(err => {
+            console.error('Error:', err);
+            setLoading(false);
+          });
+      } else {
+        // Ejercicios normales (suma, resta, etc.)
+        getGameExercises(nivel, operacion)
+          .then((res) => {
+            let data = res.data;
+            setEjercicios(data);
+            setShowingCustomMenu(false);
+            setLoading(false);
+          })
+          .catch((err) => {
+            console.log("Error fetching game: " + err);
+            setLoading(false);
+          });
+      }
+      
       startTime = Date.now();
     }
   }, [gameOption]);
+
   const handleRespuesta = (isCorrect) => {
     if (isCorrect) correctAnswers += 1;
 
@@ -60,8 +118,28 @@ const Game = () => {
           <>
             <Loading />
           </>
+        ) : showingCustomMenu ? (
+          <menu className="game-menu menu-custom-games">
+            {customGames.length > 0 ? (
+              <>
+                {customGames.map((game) => (
+                  <li 
+                    key={game.id} 
+                    onClick={() => setGameOption([null, `custom-${game.id}`])}
+                  >
+                    {game.gameName}
+                  </li>
+                ))}
+              </>
+            ) : (
+              <li className="no-games">
+                No hay ejercicios personalizados por ahora
+              </li>
+            )}
+          </menu>
         ) : (
           <>
+            <p className="exercise-counter">Ejercicio {indice + 1} de {ejercicios.length}</p>
             <div className="progress-bar">
               <div
                 className="progress"
