@@ -18,7 +18,7 @@ export const objectArraysAreEqual = (a, b) => {
 };
 
 // Para ComplexExercise.jsx: números, letras inglesas, espacios y: . ^ ( ) + - * ÷ / : | =
-const regexBasic = /^[0-9a-zA-Z .^\(\)\+\-\*÷\/:\|=]*$/;
+const regexBasic = /^[0-9a-zA-Z .^()+\-*÷/:|=]*$/;
 
 export const validarTextoBasico = (str) => {
   if (typeof str !== "string") return false;
@@ -26,7 +26,7 @@ export const validarTextoBasico = (str) => {
 };
 
 // Para AnswersInput.jsx: Igual que el anterior pero permite coma
-const regexWithComma = /^[0-9a-zA-Z .^\(\)\+\-\*÷\/:\|=,]*$/;
+const regexWithComma = /^[0-9a-zA-Z .^()+\-*÷/:|=,]*$/;
 
 export const validarTextoConComa = (str) => {
   if (typeof str !== "string") return false;

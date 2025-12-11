@@ -1,10 +1,10 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { saveCustomGame } from "../../services/newGameService"; // <-- your API service
 import {
   objectArraysAreEqual,
   removeEmptyObjectsFromArray,
   validarTextoBasico,
-  validarTextoConComa
+  validarTextoConComa,
 } from "../../utils/validations";
 import { NewGameContext } from "./newGameContext.js";
 
@@ -51,7 +51,7 @@ export const NewGameProvider = ({ children }) => {
     } else {
       setFieldError(""); // Borramos error si es válido
     }
-    
+
     // Actualiza el payload con el nuevo valor
     setPayload((prev) => {
       const updatedExercises = [...prev.exercises];
@@ -85,17 +85,14 @@ export const NewGameProvider = ({ children }) => {
     // Ejercicio simple
     if (current.type === "simple") {
       return (
-        current.num1 !== "" &&
-        current.operation !== "" &&
-        current.num2 !== ""
+        current.num1 !== "" && current.operation !== "" && current.num2 !== ""
       );
     }
 
     // Ejercicio personalizado
     if (current.type === "complex") {
       return (
-        current.customExercise.trim() !== "" &&
-        current.answers.trim() !== ""
+        current.customExercise.trim() !== "" && current.answers.trim() !== ""
       );
     }
 
@@ -147,14 +144,14 @@ export const NewGameProvider = ({ children }) => {
     try {
       let payloadValidated = payload;
       let exercises = removeEmptyObjectsFromArray(payload.exercises);
-      
+
       if (objectArraysAreEqual(exercises, payload.exercises) === false) {
         payloadValidated = { ...payload, exercises: exercises };
         console.log(payloadValidated);
       }
-      
+
       await saveCustomGame(payloadValidated);
-      
+
       setMessage("Juego guardado correctamente.");
       setShowModal(true);
     } catch (error) {
@@ -190,5 +187,3 @@ export const NewGameProvider = ({ children }) => {
     </NewGameContext.Provider>
   );
 };
-
-export const useNewGame = () => useContext(NewGameContext);
