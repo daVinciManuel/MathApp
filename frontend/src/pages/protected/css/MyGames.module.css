@@ -1,0 +1,95 @@
+/* Contenedor general */
+.myGamesContainer {
+    padding: 30px 20px;
+    min-height: 100vh;
+}
+
+.instruction {
+    color: #aaaaaa;
+    margin-bottom: 25px;
+    font-size: 0.9em;
+}
+
+/* Lista de juegos */
+.gamesList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Tarjeta de cada juego */
+.gameCard {
+    display: flex;
+    align-items: center;
+    background-color: #2a2a2a;
+    border-radius: 10px;
+    padding: 15px 20px;
+    margin-bottom: 10px;
+    border: 1px solid #444;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-left: 50px;
+    margin-right: 50px; 
+}
+
+.gameCard:hover {
+    background-color: #3a3a3a;
+}
+
+/* Icono del juego */
+.gameIcon {
+    background-color: #4a4a4a;
+    border-radius: 4px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2em;
+    color: #ffffff;
+    margin-right: 15px;
+}
+
+/* Información principal */
+.infoPrincipal {
+    flex-grow: 1;
+}
+
+.gameName {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #ffffff;
+    margin: 0 0 4px 0;
+}
+
+.metadata {
+    font-size: 0.85em;
+    color: #aaaaaa;
+    margin: 0;
+}
+
+.metadata i {
+    margin-right: 5px;
+}
+
+/* Acciones (Editar, Eliminar, Detalle) */
+.actions {
+    display: flex;
+    gap: 15px;
+    font-size: 1.1em;
+}
+
+.actions i {
+    color: #999999;
+    cursor: pointer;
+    transition: color 0.2s;
+    padding: 5px;
+}
+
+.actionEdit:hover {
+    color: #4d94ff;
+}
+
+.actionDelete:hover {
+    color: #ff4d4d;
+}

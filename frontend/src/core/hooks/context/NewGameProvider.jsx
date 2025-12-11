@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { saveCustomGame } from "../../services/newGameService"; // <-- your API service
 import {
   objectArraysAreEqual,
@@ -190,5 +190,3 @@ export const NewGameProvider = ({ children }) => {
     </NewGameContext.Provider>
   );
 };
-
-export const useNewGame = () => useContext(NewGameContext);
