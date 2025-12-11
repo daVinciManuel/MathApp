@@ -1,4 +1,4 @@
-import { useAuth } from "@core/context/authContext";
+import { useAuth } from "@core/hooks/context";
 import { logout } from "@core/services/authService";
 import { useNavigate } from "react-router-dom";
 import "./css/logoutButton.css";

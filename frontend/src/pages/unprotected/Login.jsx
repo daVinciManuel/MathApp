@@ -1,5 +1,5 @@
 import Modal from "@components/Modal";
-import { useAuth } from "@core/context/authContext";
+import { useAuth } from "@core/hooks/context";
 import { login } from "@core/services/authService";
 import { trimObject } from "@core/utils/validations.js";
 import { useState } from "react";

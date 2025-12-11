@@ -1,11 +1,10 @@
-import { createContext, useContext, useState } from "react";
-import { saveCustomGame } from "../services/newGameService"; // <-- your API service
+import { useState } from "react";
+import { saveCustomGame } from "../../services/newGameService"; // <-- your API service
 import {
   objectArraysAreEqual,
   removeEmptyObjectsFromArray,
-} from "../utils/validations";
-
-const NewGameContext = createContext();
+} from "../../utils/validations";
+import { NewGameContext } from "./newGameContext.js";
 
 export const NewGameProvider = ({ children }) => {
   const [message, setMessage] = useState("");
@@ -149,5 +148,3 @@ export const NewGameProvider = ({ children }) => {
     </NewGameContext.Provider>
   );
 };
-
-export const useNewGame = () => useContext(NewGameContext);

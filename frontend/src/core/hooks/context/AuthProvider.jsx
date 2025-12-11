@@ -1,15 +1,6 @@
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
-
-import { getProfile } from "../services/authService";
-
-const AuthContext = createContext(null);
-
+import { useCallback, useEffect, useState } from "react";
+import { getProfile } from "../../services/authService";
+import { AuthContext } from "./authContext.js";
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -39,8 +30,4 @@ export function AuthProvider({ children }) {
       {children}
     </AuthContext.Provider>
   );
-}
-
-export function useAuth() {
-  return useContext(AuthContext);
 }

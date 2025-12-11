@@ -1,4 +1,4 @@
-import { useNewGame } from "@core/context/newGameContext";
+import { useNewGame } from "@core/hooks/context";
 const AnswersInput = () => {
   const { updateExercise, payload, index } = useNewGame();
   return (

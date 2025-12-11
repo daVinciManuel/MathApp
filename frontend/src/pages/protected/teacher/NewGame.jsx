@@ -1,6 +1,6 @@
 import Modal from "@/components/Modal";
 import Card from "@/components/newGameForm/Card";
-import { useNewGame } from "@/core/context/newGameContext";
+import { useNewGame } from "@/core/hooks/context";
 
 const NewGame = () => {
   const { updateName, onSave, showModal, setShowModal, message, payload } =
