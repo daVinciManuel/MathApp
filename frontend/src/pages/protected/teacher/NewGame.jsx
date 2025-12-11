@@ -1,5 +1,5 @@
 import Modal from "@/components/Modal";
-import Card from "@/components/newGameForm/Card";
+import Card from "@/components/newGameForm/Card/Card";
 import { useNewGame } from "@/core/hooks/context";
 import styles from "../css/NewGame.module.css";
 
