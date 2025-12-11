@@ -27,10 +27,10 @@ const Dashboard = () => {
           <>
             <button
               onClick={() => {
-                navigate("/myGames");
+                navigate("/game");
               }}
             >
-              🎮 Mis juegos
+              🎮 Probar Juegos
             </button>
             <button
               onClick={() => {
