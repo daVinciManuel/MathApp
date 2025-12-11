@@ -109,7 +109,6 @@ export async function showCustomGames(req, res) {
 // --------- Mostrar juegos customizados x Admin ------------
 export async function showMyCustomGames(req, res) {
   try {
-    console.log(`userId in showMyCustomGames: ${req.userId}`);
     const userId = req.userId;
     const userRole = req.userRole;
 

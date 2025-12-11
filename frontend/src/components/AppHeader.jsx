@@ -7,11 +7,11 @@ function AppHeader() {
   // get the actual path
   const location = useLocation();
   const currentPath = location.pathname;
-  console.log(currentPath);
+  
   // get the user info from context
   const navigate = useNavigate();
   const { user } = useAuth();
-  console.log(user);
+  
   // styles...
   const gridContainer = {
     display: "grid",

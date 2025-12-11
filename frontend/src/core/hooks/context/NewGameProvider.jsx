@@ -30,14 +30,10 @@ export const NewGameProvider = ({ children }) => {
   // Actualiza el nombre del juego
   const updateName = (name) => {
     setPayload((prev) => ({ ...prev, gameName: name }));
-    console.log("Game name updated to:", name);
   };
 
   // 1) Actualiza un campo del ejercicio actual
   const updateExercise = (field, value) => {
-    console.log("Updating field:", field, "with value:", value);
-    console.log("Current index:", index);
-
     let isValid = true;
 
     // Validaciones
@@ -103,7 +99,6 @@ export const NewGameProvider = ({ children }) => {
   // 3) Funciones de navegación
   const onNext = () => {
     saveCurrentCard(); // Guarda antes de pasar
-    console.log("Next pressed. Current index:", index);
     if (!payload.exercises[index + 1]) {
       setPayload((prev) => {
         const updatedExercises = [...prev.exercises];
@@ -119,7 +114,7 @@ export const NewGameProvider = ({ children }) => {
       });
     }
     setIndex((prev) => prev + 1);
-    console.log(payload);
+    
   };
 
   const onPrev = () => {
@@ -147,7 +142,7 @@ export const NewGameProvider = ({ children }) => {
 
       if (objectArraysAreEqual(exercises, payload.exercises) === false) {
         payloadValidated = { ...payload, exercises: exercises };
-        console.log(payloadValidated);
+        
       }
 
       await saveCustomGame(payloadValidated);

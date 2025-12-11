@@ -55,12 +55,11 @@ const Game = () => {
         //Mostrar los juegos personalizados y filtrar por ID
         getAllCustomGames()
           .then(res => {
-            console.log('Datos recibidos:', res.data);
+            
             if (res.data.success && res.data.games) {
               const game = res.data.games.find(g => g.id === parseInt(gameId));
-              console.log('Juego encontrado:', game);
+              
               if (game) {
-                console.log('Ejercicios:', game.exercises);
                 setEjercicios(game.exercises);
                 setLoading(false);
               } else {

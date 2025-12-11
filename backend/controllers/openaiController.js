@@ -14,8 +14,6 @@ export async function generateMotivationalMessage(req, res) {
       });
     }
 
-    console.log(`Generando mensaje corto para: ${accuracy}% en ${duration}s`);
-
     const completion = await groq.chat.completions.create({
       messages: [
         {
@@ -38,7 +36,6 @@ export async function generateMotivationalMessage(req, res) {
     const message =
       completion.choices[0]?.message?.content || "¡Buen trabajo! 💪";
 
-    console.log("Mensaje generado");
 
     return res.status(200).json({
       success: true,

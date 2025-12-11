@@ -14,7 +14,6 @@ const MyGames = () => {
     }
     fetchGames();
   }, []);
-  console.log(games);
   return (
     <div>
       <h2>Mis juegos creados</h2>

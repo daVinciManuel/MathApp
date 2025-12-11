@@ -67,12 +67,3 @@ async function startServer() {
   }
 }
 startServer();
-
-// conn
-//   .sync()
-//   .then(() => {
-//     app.listen(5000, () => {
-//       console.log("Server is running on http://localhost:5000");
-//     });
-//   })
-//   .catch((err) => console.log("Error creating DB: " + err));

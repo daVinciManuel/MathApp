@@ -3,7 +3,7 @@ import styles from "./SimpleExercise.module.css";
 
 const SimpleExercise = ({ containerStyles }) => {
   const { updateExercise, index, payload } = useNewGame();
-  console.log(payload);
+  
   return (
     <div style={containerStyles}>
       <input
