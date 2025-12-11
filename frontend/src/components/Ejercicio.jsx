@@ -1,17 +1,28 @@
 import { useState } from "react";
-const Ejercicio = ({ ejercicio, onRespuesta }) => {
+const Ejercicio = ({ ejercicio, onRespuesta}) => {
   const [answer, setAnswer] = useState("");
 
   const handleSubmit = () => {
-    // Verificar si es ejercicio personalizado o normal
-    const correctAnswer = ejercicio.result || parseInt(ejercicio.answers);
+    let isCorrect;
 
-    const isCorrect = parseInt(answer) === correctAnswer;
+    // Si es complex, comparar como strings 
+    if (ejercicio.type === "complex") {
+      // Limpiar espacios y comparar
+      const userAnswer = answer.replace(/\s+/g, '').toLowerCase(); 
+      const correctAnswer = ejercicio.answers.replace(/\s+/g, '').toLowerCase();
+      isCorrect = userAnswer === correctAnswer;
+    } 
+    // Si es simple o normal, comparar como números
+    else {
+      const correctAnswer = ejercicio.result || parseInt(ejercicio.answers);
+      isCorrect = parseInt(answer) === correctAnswer;
+    }
+
     onRespuesta(isCorrect);
     setAnswer("");
   };
 
-  // Si es ejercicio personalizado tipo "complex"
+   // Si es ejercicio personalizado tipo "complex"
   if (ejercicio.type === "complex") {
     return (
       <>
