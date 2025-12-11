@@ -1,4 +1,4 @@
-import { AuthProvider } from "@core/context/authContext.jsx";
+import { AuthProvider } from "@core/hooks/context";
 import AppRouter from "@core/routes/AppRouter.jsx";
 function App() {
   return (

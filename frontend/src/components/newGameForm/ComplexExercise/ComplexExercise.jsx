@@ -1,5 +1,5 @@
 // Validación para el texto del ejercicio complejo (no permite coma)
-import { useNewGame } from "@core/context/newGameContext";
+import { useNewGame } from "@core/hooks/context";
 import styles from "./ComplexExercise.module.css";
 
 const ComplexExercise = ({ containerStyles  }) => {

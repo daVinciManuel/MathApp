@@ -1,7 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 // Contexto para la creación de nuevos juegos
-import { NewGameProvider } from "@core/context/newGameContext.jsx";
+import { NewGameProvider } from "@core/hooks/context";
 // Páginas existentes
 import AppLayout from "@/AppLayout.jsx";
 import Dashboard from "@pages/protected/Dashboard.jsx";

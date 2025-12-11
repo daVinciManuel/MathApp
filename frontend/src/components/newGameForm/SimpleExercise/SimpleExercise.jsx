@@ -1,4 +1,4 @@
-import { useNewGame } from "@core/context/newGameContext";
+import { useNewGame } from "@core/hooks/context";
 import styles from "./SimpleExercise.module.css";
 
 const SimpleExercise = ({ containerStyles }) => {

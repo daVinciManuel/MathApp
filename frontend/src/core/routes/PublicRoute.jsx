@@ -1,5 +1,5 @@
 // components/routes/PublicRoute.jsx
-import { useAuth } from "@core/context/authContext.jsx";
+import { useAuth } from "@core/hooks/context";
 import { Navigate, Outlet } from "react-router-dom";
 
 export default function PublicRoute() {

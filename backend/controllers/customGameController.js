@@ -1,58 +1,71 @@
-
-
+import pkg from "../db/models/index.cjs";
+const { CustomGame, User } = pkg;
 // --------- Guardar juego customizado ------------
 export async function saveCustomGame(req, res) {
   try {
-    const { name, numEjercicios, ejercicios, createdBy } = req.body;
+    const { gameName, exercises } = req.body;
+    const userId = req.userId;
 
-    if (!name || !numEjercicios || !ejercicios || !createdBy) {
-      return res.status(400).json({ 
-        error: 'Faltan datos requeridos' 
+    if (!gameName || !exercises) {
+      return res.status(400).json({ error: "Faltan datos requeridos" });
+    }
+
+    if (gameName.trim().length === 0) {
+      return res.status(400).json({
+        error: "El nombre del juego no puede estar vacío",
       });
     }
 
-    if (name.trim().length === 0) {
-      return res.status(400).json({ 
-        error: 'El nombre del juego no puede estar vacío' 
+    if (!Array.isArray(exercises)) {
+      return res.status(400).json({
+        error: "Los ejercicios deben ser un array",
       });
     }
 
-    if (numEjercicios < 1 || numEjercicios > 15) {
-      return res.status(400).json({ 
-        error: 'El número de ejercicios debe estar entre 1 y 20' 
+    if (exercises.length < 1 || exercises.length > 20) {
+      return res.status(400).json({
+        error: "El número de ejercicios debe estar entre 1 y 20",
       });
     }
+    for (let i = 0; i < exercises.length; i++) {
+      const e = exercises[i];
 
-    if (!Array.isArray(ejercicios)) {
-      return res.status(400).json({ 
-        error: 'Los ejercicios deben ser un array' 
-      });
+      if (
+        typeof e !== "object" ||
+        !("type" in e) ||
+        !("num1" in e) ||
+        !("operation" in e) ||
+        !("num2" in e) ||
+        !("customExercise" in e) ||
+        !("answers" in e) ||
+        String(e.type).trim() === "" ||
+        String(e.answers).trim() === "" ||
+        (String(e.type).trim() !== "complex" &&
+          String(e.type).trim() !== "simple") ||
+        (e.type === "simple" &&
+          (isNaN(e.num1) ||
+            isNaN(e.num2) ||
+            String(e.operation).trim() === "")) ||
+        (e.type === "complex" && String(e.customExercise).trim() === "")
+      ) {
+        return res.status(400).json({
+          error: `Ejercicio inválido en el índice ${i}`,
+        });
+      }
     }
-
-    if (ejercicios.length !== numEjercicios) {
-      return res.status(400).json({ 
-        error: `Se esperaban ${numEjercicios} ejercicios, pero se recibieron ${ejercicios.length}` 
-      });
-    }
-
-
-    // Crear el juego
+    // Guardar el juego
     const newCustomGame = await CustomGame.create({
-      name,
-      numEjercicios,
-      ejercicios,
-      createdBy
+      userId,
+      gameName,
+      exercises,
     });
 
-    return res.status(201).json({ 
-      message: "Juego creado exitosamente", 
-      game: newCustomGame 
+    return res.status(201).json({
+      message: "Juego creado exitosamente",
+      data: newCustomGame,
     });
-
-
-  
   } catch (e) {
-    console.error('Error al crear juego:', e);
+    console.error("Error al crear juego:", e);
     return res.status(500).json({ error: e.message });
   }
 }
@@ -61,27 +74,34 @@ export async function saveCustomGame(req, res) {
 export async function showCustomGames(req, res) {
   try {
     const games = await CustomGame.findAll({
-      attributes: ['id', 'name', 'numEjercicios', 'createdAt'],
-      include: [{
-        model: User,
-        as: 'creator',
-        attributes: ['name', 'lastname']
-      }],
-      order: [['createdAt', 'DESC']]
+      attributes: [
+        "id",
+        "userId",
+        "gameName",
+        "exercises",
+        "createdAt",
+        "updatedAt",
+      ],
+      include: [
+        {
+          model: User,
+          attributes: ["name", "lastname"],
+        },
+      ],
+      order: [["createdAt", "DESC"]],
     });
 
     return res.status(200).json({
       success: true,
       message: "Juegos customizados obtenidos exitosamente",
       count: games.length,
-      games
+      games,
     });
-
   } catch (e) {
-    console.error('Error al obtener juegos customizados:', e);
-    return res.status(500).json({ 
-      error: 'Error al obtener juegos',
-      message: e.message 
+    console.error("Error al obtener juegos customizados:", e);
+    return res.status(500).json({
+      error: "Error al obtener juegos",
+      message: e.message,
     });
   }
 }
@@ -89,89 +109,30 @@ export async function showCustomGames(req, res) {
 // --------- Mostrar juegos customizados x Admin ------------
 export async function showMyCustomGames(req, res) {
   try {
-    const userId = req.user.id; 
+    console.log(`userId in showMyCustomGames: ${req.userId}`);
+    const userId = req.userId;
+    const userRole = req.userRole;
 
-    if (req.user.role !== 'admin') {
+    // Verificar que el usuario es profesor
+    if (userRole !== "teacher") {
       return res.status(403).json({
-        error: 'Solo los administradores pueden ver sus juegos'
+        error: "Solo los administradores pueden ver sus juegos",
       });
     }
 
+    // Query
     const games = await CustomGame.findAll({
-      where: { createdBy: userId }, 
-      attributes: ['id', 'name', 'numEjercicios', 'ejercicios', 'createdAt'],
-      order: [['createdAt', 'DESC']]
+      where: { userId: userId, active: true },
+      attributes: ["id", "gameName", "exercises", "createdAt", "updatedAt"],
+      order: [["updatedAt", "DESC"]],
     });
 
-    return res.status(200).json({
-      success: true,
-      message: "Mis juegos obtenidos exitosamente",
-      count: games.length,
-      games
-    });
-
+    return res.status(200).json(games);
   } catch (e) {
-    console.error('Error al obtener mis juegos:', e);
-    return res.status(500).json({ 
-      error: 'Error al obtener juegos',
-      message: e.message 
-    });
-  }
-}
-
-// --------- Generar ejercicios de un juego customizado ------------
-export async function generateCustomGame(req, res) {
-  try {
-    const { gameId } = req.params;
-
-    // Obtener el juego
-    const game = await CustomGame.findByPk(gameId);
-
-    if (!game) {
-      return res.status(404).json({ 
-        error: 'Juego no encontrado' 
-      });
-    }
-
-    // Generar los ejercicios aleatorios
-    const ejerciciosGenerados = game.ejercicios.map((ejercicioConfig, index) => {
-      // Generar términos aleatorios según la configuración
-      const terminos = ejercicioConfig.terminos.map(terminoConfig => {
-        const { min, max } = terminoConfig;
-        return randomInRange(min, max);
-      });
-
-      // Construir la operación completa
-      const operacion = construirOperacion(terminos, ejercicioConfig.operadores);
-      
-      // Calcular el resultado correcto
-      const resultado = calcularResultado(terminos, ejercicioConfig.operadores);
-
-      return {
-        ejercicioId: index + 1,
-        terminos,
-        operadores: ejercicioConfig.operadores,
-        operacion, // Ej: "5 + 3 - 2"
-        resultado
-      };
-    });
-
-    return res.status(200).json({
-      success: true,
-      message: "Ejercicios generados exitosamente",
-      gameInfo: {
-        id: game.id,
-        name: game.name,
-        numEjercicios: game.numEjercicios
-      },
-      ejercicios: ejerciciosGenerados
-    });
-
-  } catch (e) {
-    console.error('Error al generar ejercicios:', e);
-    return res.status(500).json({ 
-      error: 'Error al generar ejercicios',
-      message: e.message 
+    console.error("Error al obtener mis juegos:", e);
+    return res.status(500).json({
+      error: "Error al obtener juegos",
+      message: e.message,
     });
   }
 }
@@ -184,26 +145,26 @@ function randomInRange(min, max) {
 // --------- Helper: Construir string de operación ------------
 function construirOperacion(terminos, operadores) {
   let operacion = terminos[0].toString();
-  
+
   for (let i = 0; i < operadores.length; i++) {
-    const operador = operadores[i] === 'suma' ? '+' : '-';
+    const operador = operadores[i] === "suma" ? "+" : "-";
     operacion += ` ${operador} ${terminos[i + 1]}`;
   }
-  
+
   return operacion;
 }
 
 // --------- Helper: Calcular resultado ------------
 function calcularResultado(terminos, operadores) {
   let resultado = terminos[0];
-  
+
   for (let i = 0; i < operadores.length; i++) {
-    if (operadores[i] === 'suma') {
+    if (operadores[i] === "suma") {
       resultado += terminos[i + 1];
-    } else if (operadores[i] === 'resta') {
+    } else if (operadores[i] === "resta") {
       resultado -= terminos[i + 1];
     }
   }
-  
+
   return resultado;
 }

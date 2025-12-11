@@ -1,10 +1,11 @@
 import Modal from "@/components/Modal";
-import Card from "@/components/newGameForm/Card/Card.jsx";
-import { useNewGame } from "@/core/context/newGameContext";
+import Card from "@/components/newGameForm/Card";
+import { useNewGame } from "@/core/hooks/context";
 import styles from "../css/NewGame.module.css";
 
 const NewGame = () => {
-  const { updateName, onSave, showModal, setShowModal, message } = useNewGame();
+  const { updateName, onSave, showModal, setShowModal, message, payload } =
+    useNewGame();
 
   return (
     <>
@@ -19,7 +20,10 @@ const NewGame = () => {
           type="text"
           className={styles.inputName}
           placeholder="Nombre del juego"
-          onChange={(e) => updateName(e.target.value)}
+          onChange={(e) => {
+            updateName(e.target.value);
+          }}
+          value={(payload && payload.gameName) || ""}
         />
         
         <Card />

@@ -1,10 +1,8 @@
-
 import express from "express";
 import {
-  generateCustomGame,
   saveCustomGame,
   showCustomGames,
-  showMyCustomGames
+  showMyCustomGames,
 } from "../controllers/customGameController.js";
 import { verifyToken } from "../middleware/verifyToken.js";
 
@@ -14,12 +12,9 @@ const router = express.Router();
 router.post("/save", verifyToken, saveCustomGame);
 
 //Mostrar juego personalizado a alumnos
-router.post("/show", verifyToken, showCustomGames);
+router.get("/show", verifyToken, showCustomGames);
 
 //Mostrar mis juegos personalizados a profesores
-router.post("/show/myGames", verifyToken, showMyCustomGames);
-
-//Generar juego personalizado
-router.post("/generate", verifyToken, generateCustomGame);
+router.get("/showMyGames", verifyToken, showMyCustomGames);
 
 export default router;

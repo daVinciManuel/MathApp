@@ -10,7 +10,7 @@ import openaiRoutes from "./routes/openai.js";
 import resultsRoutes from "./routes/results.js";
 // ---------------- db ----------------
 import pkg from "./db/models/index.cjs";
-const { sequelize } = pkg
+const { sequelize } = pkg;
 // ------------------------------------
 dotenv.config();
 
@@ -20,9 +20,14 @@ const allowedOrigins = [
   "http://localhost:3000",
   "http://localhost:3001",
   "http://localhost:5173",
+  "http://localhost:4173",
   "http://127.0.0.1:5173",
+  "http://127.0.0.1:4173",
   "https://mathapp-ug8r.onrender.com",
-  'https://naomathalloween.netlify.app/'
+  "https://naomathalloween.netlify.app",
+  "https://naomat.netlify.app:4173",
+  "https://naomat.netlify.app:3000",
+  "https://naomat.netlify.app",
 ];
 
 app.use(
@@ -52,17 +57,16 @@ app.get("/", (req, res) => {
 async function startServer() {
   try {
     await sequelize.sync();
-    console.log('DB connected');
+    console.log("DB connected");
 
     app.listen(5000, () => {
       console.log("Server is running on http://localhost:5000");
     });
-
   } catch (err) {
-    console.log('DB connection error:', err)
+    console.log("DB connection error:", err);
   }
 }
-startServer()
+startServer();
 
 // conn
 //   .sync()
