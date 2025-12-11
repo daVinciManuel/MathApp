@@ -1,5 +1,5 @@
 import { useState } from "react";
-const Ejercicio = ({ ejercicio, onRespuesta, indiceActual, totalEjercicios }) => {
+const Ejercicio = ({ ejercicio, onRespuesta}) => {
   const [answer, setAnswer] = useState("");
 
   const handleSubmit = () => {
@@ -15,7 +15,6 @@ const Ejercicio = ({ ejercicio, onRespuesta, indiceActual, totalEjercicios }) =>
   if (ejercicio.type === "complex") {
     return (
       <>
-        <p className="exercise-counter">Ejercicio {indiceActual} de {totalEjercicios}</p>
         <div className="operation">{ejercicio.customExercise}</div>
         <p>Resultado:</p>
         <input
@@ -33,7 +32,6 @@ const Ejercicio = ({ ejercicio, onRespuesta, indiceActual, totalEjercicios }) =>
   if (ejercicio.type === "simple") {
     return (
       <>
-        <p className="exercise-counter">Ejercicio {indiceActual} de {totalEjercicios}</p>
         <div className="operation">
           {ejercicio.num1} {ejercicio.operation} {ejercicio.num2}
         </div>
@@ -60,7 +58,6 @@ const Ejercicio = ({ ejercicio, onRespuesta, indiceActual, totalEjercicios }) =>
       : "÷";
   return (
     <>
-      <p className="exercise-counter">Ejercicio {indiceActual} de {totalEjercicios}</p>
       <div className="operation">
         {ejercicio.num1} {signo}
         {ejercicio.num2 < 0

@@ -139,6 +139,7 @@ const Game = () => {
           </menu>
         ) : (
           <>
+            <p className="exercise-counter">Ejercicio {indice + 1} de {ejercicios.length}</p>
             <div className="progress-bar">
               <div
                 className="progress"
@@ -149,8 +150,6 @@ const Game = () => {
             <Ejercicio
               ejercicio={ejercicios[indice]}
               onRespuesta={handleRespuesta}
-              indiceActual={indice + 1}          
-              totalEjercicios={ejercicios.length} 
             />
           </>
         )}
