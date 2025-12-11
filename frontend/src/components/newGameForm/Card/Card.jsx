@@ -17,7 +17,7 @@ const Card = () => {
         <ComplexExercise className={styles.exerciseOption} />
       </div>
 
-      <h3>Respuestas:</h3>
+      <h3>Respuesta:</h3>
       <AnswersInput />
       <NavBar />
     </div>

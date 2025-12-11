@@ -11,7 +11,7 @@ const AnswersInput = () => {
         type="text"
         name="answers"
         id="answers"
-        placeholder="Respuestas separadas por comas"
+        placeholder="Introduce una respuesta"
         onChange={(e) => updateExercise("answers", e.target.value)}
         value={
           (payload.exercises[index] && payload.exercises[index].answers) || ""}
